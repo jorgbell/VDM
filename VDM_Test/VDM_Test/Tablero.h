@@ -12,7 +12,7 @@ public:
 private:
 	int size;
 	int N_CASILLAS;
-	vector<string> tablero;
+	vector<vector<char>> tablero;
 	void init();
 };
 
