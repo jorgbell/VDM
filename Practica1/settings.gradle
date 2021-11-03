@@ -1,8 +1,0 @@
-rootProject.name = "My Application"
-include ':app'
-include ':Engine'
-include ':EnginePC'
-include ':GameLogic'
-include ':GamePC'
-include ':GameAndroid'
-include ':EngineAndroid'
