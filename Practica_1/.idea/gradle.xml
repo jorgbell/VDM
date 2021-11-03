@@ -12,6 +12,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Engine" />
             <option value="$PROJECT_DIR$/EngineAndroid" />
+            <option value="$PROJECT_DIR$/EnginePC" />
+            <option value="$PROJECT_DIR$/GameAndroid" />
+            <option value="$PROJECT_DIR$/GameLogic" />
+            <option value="$PROJECT_DIR$/GamePC" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
