@@ -46,8 +46,12 @@ public class Graphics {
     public int getWidth(){ return _windowWidth;}
     public int getHeight(){ return _windowHeight;}
 
-    private int _windowWidth;
-    private int _windowHeight;
+    protected int _windowWidth;
+    protected int _windowHeight;
+
+    public boolean init() {
+        return true;
+    }
 
 
 

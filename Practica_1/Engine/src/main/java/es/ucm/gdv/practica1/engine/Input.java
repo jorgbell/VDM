@@ -4,6 +4,11 @@ import java.util.List;
 
 //TODO
 public class Input {
+
+    protected boolean init() {
+        return true;
+    }
+
     public class TouchEvent{
 
     }

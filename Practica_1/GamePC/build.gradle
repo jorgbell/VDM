@@ -9,5 +9,6 @@ java {
 
 dependencies {
     api project(path: ':GameLogic')
+    api project(path: ':Engine')
     implementation project(path: ':EnginePC')
 }

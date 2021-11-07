@@ -65,6 +65,7 @@ public class Paint extends JFrame {
         // grande y en negrita.
         _font = baseFont.deriveFont(Font.BOLD, 40);
 
+
         return true;
 
     } //  init
@@ -135,6 +136,8 @@ public class Paint extends JFrame {
      */
     public static void main(String[] args) {
 
+        //crea la ventana
+
         Paint ventana = new Paint("Paint");
         if (!ventana.init())
             // Ooops. Ha fallado la inicialización.
@@ -169,6 +172,10 @@ public class Paint extends JFrame {
         // Obtenemos el Buffer Strategy que se supone que acaba de crearse.
         java.awt.image.BufferStrategy strategy = ventana.getBufferStrategy();
 
+
+
+        //bucle principal
+
         // Vamos allá.
         long lastFrameTime = System.nanoTime();
 
@@ -176,10 +183,12 @@ public class Paint extends JFrame {
         int frames = 0;
         // Bucle principal
         while(true) {
+            //calcular el deltatime: engine.getDeltaTime??
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+            //update de la logica
             ventana.update(elapsedTime);
             // Informe de FPS
             if (currentTime - informePrevio > 1000000000l) {
