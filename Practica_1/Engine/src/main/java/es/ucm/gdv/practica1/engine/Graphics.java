@@ -7,15 +7,15 @@ public class Graphics {
     public Graphics(){};
     public Image newImage(String name){
         //carga una imagen almacenada en el contenedor de recursos de la aplicacion a partir de su nombre
-        Image i = new Image();
+        Image i = new Image(name);
         return i;
     };
     public Font newFont(String filename, int size, boolean isBold){
         //crea una nueva fuente del tamaño especificado a partir de un fichero .ttf. Se indica si se desea o no fuente en negrita.
-        Font f = new Font();
+        Font f = new Font(filename, size, isBold);
         return f;
     }
-    public void clear(int color){
+    public void clear(Color color){
         //borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro.
     };
 
@@ -25,34 +25,40 @@ public class Graphics {
     void save(){};
     void restore(){};
 
-    void drawImage(Image image //, ...
+    public void drawImage(Image image //, ...
                     ){
         //recibe una imagen y la muestra en la pantalla. Se pueden necesitar diferentes versiones de este método dependiendo
         //de si se permite o no escalar la imagen, si se permite elegir qué porción de la
         //imagen original se muestra, etcétera.
     }
-    /*void setColor(color){
+    public void setColor(Color color){
         //establece el color a utilizar en las operaciones de
         //dibujado posteriores.
     }
-    void fillCircle(cx,cy,r){
+    public void setFont(Font f){
+        //establece el color a utilizar en las operaciones de
+        //dibujado posteriores.
+    }
+    public void fillCircle(int cx,int cy,int r){
         // dibuja un círculo relleno del color activo
     }
-    void drawText(text,x,y){
+    public void drawText(String text,int x,int y){
         //escribe el texto con la fuente y color activos.
     }
-     */
 
-    public int getWidth(){ return _windowWidth;}
-    public int getHeight(){ return _windowHeight;}
+
+    public int getWindowWidth(){ return _windowWidth;}
+    public int getWindowHeight(){ return _windowHeight;}
 
     protected int _windowWidth;
     protected int _windowHeight;
+    protected Font _actualFont;
+    protected Color _actualColor;
 
     public boolean init() {
         return true;
     }
 
-
-
 }
+
+

@@ -1,6 +1,7 @@
 package es.ucm.gdv.practica1.engine;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Input;
+import es.ucm.gdv.practica1.gamelogic.GameLogic;
 
 //Clase que guardará las instancias de Graphics e Input
 
@@ -12,9 +13,11 @@ public class Engine{
 
     protected Graphics _myGraphics;
     protected Input _myInput;
+    protected GameLogic _myGame;
+    private long _lastFrameTime;
 
-    public boolean init() {
-
+    protected boolean init() {
+        _lastFrameTime = System.nanoTime();
         return true; //devolver true solo si inicializa todo bien
     }
 
@@ -24,11 +27,16 @@ public class Engine{
 
     }
 
+    public void run(){
+
+    }
 
     //TODO
     public double getDeltaTime() {
-        //calculo del deltatime, comun para android y pc
-        double elapsedTime = 0;
+        long currentTime = System.nanoTime();
+        long nanoElapsedTime = currentTime - _lastFrameTime;
+        _lastFrameTime = currentTime;
+        double elapsedTime = (double) nanoElapsedTime / 1.0E9;
         return elapsedTime;
     }
 }

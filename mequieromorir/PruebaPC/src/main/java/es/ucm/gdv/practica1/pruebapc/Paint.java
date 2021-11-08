@@ -109,7 +109,7 @@ public class Paint extends JFrame {
     public void render(Graphics g) {
 
         // Borramos el fondo.
-        g.setColor(Color.yellow.darker());
+        g.setColor(Color.yellow);
         g.fillRect(0, 0, getWidth(), getHeight());
 
         // Ponemos el rótulo (si conseguimos cargar la fuente)

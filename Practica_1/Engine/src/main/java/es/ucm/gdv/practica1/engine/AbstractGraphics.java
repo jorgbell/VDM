@@ -15,4 +15,5 @@ public class AbstractGraphics extends Graphics{
         return true;
     }
 
+
 }

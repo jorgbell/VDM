@@ -5,7 +5,7 @@ import java.util.List;
 //TODO
 public class Input {
 
-    protected boolean init() {
+    public boolean init() {
         return true;
     }
 
