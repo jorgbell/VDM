@@ -5,9 +5,9 @@
 #include "Tablero.h"
 int main()
 {
-    Tablero* t = new Tablero(4);
+    Tablero* t = new Tablero(10);
 
-    t->print();
+    //t->print();
 
     delete t; t = nullptr;
 }
