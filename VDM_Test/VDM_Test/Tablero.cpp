@@ -7,7 +7,7 @@ void Tablero::print()
 {
 	string bar;
 
-	//for (int i = 0; i < size * 3; i++) cout << "\n";
+	for (int i = 0; i < size * 2; i++) cout << "\n";
 
 	for (int i = 0; i < size; i++)
 	{
@@ -35,96 +35,75 @@ void Tablero::init()
 {
 	srand((unsigned int)time(NULL));
 
-	// numero de paredes rojas aleatorias
-	//paredes inamovibles se marcan con una X
+	//Las barreras se marcan con una X
+	generateBarriers();
+	print();
 
-	//inicializamos un tablero vacío
+	//Llenamos con barreras las casillas cercadas
+	fillGaps();
+	print();
 
-	vector<char> v1;
+	//Generamos casillas azules numeradas de forma aleatoria, siendo el maximo del numero el espacio disponible
+	generateBlues();
+	print();
+}
 
+void Tablero::generateBarriers()
+{
+	//Generamos el limite horizontal superior del tablero
+	vector<string> v1;
 	tablero.push_back(v1);
+	for (int j = 0; j < size + 2; j++) tablero[0].push_back("X");
 
-	for (int j = 0; j < size + 2; j++) tablero[0].push_back('X');
-
-	for (int i = 1; i < size + 1; i++) 
+	//Generamos barreras de forma aleatoria
+	for (int i = 1; i < size + 1; i++)
 	{
-		vector<char> v2;
+		vector<string> v2;
 		tablero.push_back(v2);
 
-		tablero[i].push_back('X');
+		tablero[i].push_back("X");
 
 		for (int j = 1; j < size + 1; j++)
 		{
-			if (rand() % 2 == 0)
+			if (rand() % (size / 2) == 0)
 			{
-				tablero[i].push_back('X');
+				tablero[i].push_back("X");
 			}
 
 			else
 			{
-				tablero[i].push_back(' ');
+				tablero[i].push_back(" ");
 				freeSpace.push_back({ j, i });
 			}
 		}
 
-		tablero[i].push_back('X');
+		tablero[i].push_back("X");
 	}
 
+	//Generamos el limite horizontal inferior del tablero
 	tablero.push_back(v1);
-
-	for (int j = 0; j < size + 2; j++) tablero[size + 1].push_back('X');
-
-
-	print();
-	fillGaps();
-	print();
+	for (int j = 0; j < size + 2; j++) tablero[size + 1].push_back("X");
 }
 
-//Comprobacion del espacio disponible
-int Tablero::checkSpace(int x, int y)
+void Tablero::generateBlues()
 {
-	int space = 0;
-	int sign, j;
-	bool barrier = false;
+	std::vector<POS>::iterator it = freeSpace.begin();
 
-	for(int i = 0; i < 2; i++)
+	while (it != freeSpace.end())
 	{
-		j = 1;
-		sign = -1 + 2 * (i % 2);
-		
-		while (!barrier)
+		int y = (*it).y;
+		int x = (*it).x;
+		int space = checkSpace(x, y);
+
+		if (space > 0 && rand() % size == 0)
 		{
-			if (tablero[y + j * sign][x] == 'X') barrier = true;
-			else
-			{
-				space++;
-				j++;
-			}
+			tablero[y][x] = std::to_string(1 + rand() % space);
+			numberedBlues.push_back({x, y});
+			it = freeSpace.erase(it);
 		}
 
-		barrier = false;
+		else it++;
 	}
-
-	for (int i = 0; i < 2; i++)
-	{
-		j = 1;
-		sign = -1 + 2 * (i % 2);
-
-		while (!barrier)
-		{
-			if (tablero[y][x + j * sign] == 'X') barrier = true;
-			else
-			{
-				space++;
-				j++;
-			}
-		}
-
-		barrier = false;
-		j = 0;
-	}
-
-	return space;
 }
 
 //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
@@ -145,4 +124,51 @@ void Tablero::fillGaps()
 
 		else it++;
 	}
+}
+
+//Comprobacion del espacio disponible
+int Tablero::checkSpace(int x, int y)
+{
+	int space = 0;
+	int sign, j;
+	bool barrier = false;
+
+	for(int i = 0; i < 2; i++)
+	{
+		j = 1;
+		sign = -1 + 2 * (i % 2);
+		
+		while (!barrier)
+		{
+			if (tablero[y + j * sign][x] == "X") barrier = true;
+			else
+			{
+				space++;
+				j++;
+			}
+		}
+
+		barrier = false;
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		j = 1;
+		sign = -1 + 2 * (i % 2);
+
+		while (!barrier)
+		{
+			if (tablero[y][x + j * sign] == "X") barrier = true;
+			else
+			{
+				space++;
+				j++;
+			}
+		}
+
+		barrier = false;
+		j = 0;
+	}
+
+	return space;
 }

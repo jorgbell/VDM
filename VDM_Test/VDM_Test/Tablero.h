@@ -18,9 +18,12 @@ public:
 private:
 	int size;
 	int N_CASILLAS;
-	vector<vector<char>> tablero;
+	vector<vector<string>> tablero;
 	vector<POS>freeSpace;
+	vector<POS>numberedBlues;
 	void init();
+	void generateBarriers();
+	void generateBlues();
 	void fillGaps();
 	int checkSpace(int x, int y);
 };

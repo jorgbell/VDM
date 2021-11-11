@@ -5,7 +5,7 @@
 #include "Tablero.h"
 int main()
 {
-    Tablero* t = new Tablero(10);
+    Tablero* t = new Tablero(20);
 
     //t->print();
 
