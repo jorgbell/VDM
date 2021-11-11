@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
 
 android {
@@ -7,13 +7,13 @@ android {
     buildToolsVersion "31.0.0"
 
     defaultConfig {
-        applicationId "es.ucm.gdv.practica1.engineandroid"
         minSdkVersion 16
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {

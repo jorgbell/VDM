@@ -1,12 +1,8 @@
 package es.ucm.gdv.practica1.engine;
 
-public class Image {
+public interface Image {
     //TODO
-    public Image(String n){ _name = n;};
-    public int getWidth(){return _width;}
-    public int getHeight(){return _height;}
+    public int getWidth();
+    public int getHeight();
 
-    private int _width;
-    private int _height;
-    private String _name;
 }

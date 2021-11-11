@@ -2,52 +2,73 @@ package es.ucm.gdv.practica1.enginepc;
 import java.awt.Graphics;
 
 import es.ucm.gdv.practica1.engine.Engine;
+import es.ucm.gdv.practica1.engine.Game;
+import es.ucm.gdv.practica1.engine.Input;
 import es.ucm.gdv.practica1.enginepc.GraphicsPC;
 import es.ucm.gdv.practica1.enginepc.InputPC;
-import es.ucm.gdv.practica1.gamelogic.GameLogic;
 
 
 //clase que tendrá los métodos de ciclo de vida de java
-public class EnginePC extends Engine {
-    public EnginePC(){
-        super();
+public class EnginePC implements Engine {
+    public EnginePC(Game g){
+        _myPCGame = g;
+        _myPCGame.setEngine(this);
         init();
     }
+    @Override
+    public es.ucm.gdv.practica1.engine.Graphics getGraphics() {
+        return _myPCGraphics;
+    }
 
-    protected boolean init(){
-        if(!super.init())
-            return false;
-        _myGraphics = new GraphicsPC("ventana");
-        _myInput = new InputPC();
-        _myGame = new GameLogic((EnginePC)this);
-        if(!_myGraphics.init() || !_myInput.init() || !_myGame.init())
+    @Override
+    public Input getInput() {
+        return _myPCInput;
+    }
+
+    public boolean init(){
+        _lastFrameTime = System.nanoTime();
+        _myPCGraphics = new GraphicsPC("ventana", 400,400);
+        _myPCInput = new InputPC();
+        if(!_myPCGraphics.init() || !_myPCInput.init() || !_myPCGame.init())
             return false;
 
         return true;
     }
 
     @Override
-    public void run(){
-        super.run();
+    public void runEngine(){
         while(true){
-            _myGame.update(getDeltaTime()); //actualiza la logica del juego
+            _myPCGame.update(getDeltaTime()); //actualiza la logica del juego
             do {
                 do {
-                    java.awt.Graphics g = _myGraphics.getDrawGraphics();
+                    java.awt.Graphics g = _myPCGraphics.getDrawGraphics();
                     try {
-                        _myGame.render(); //pinta lo que el juego vaya a pintar en ese frame
+                        _myPCGame.render(); //pinta lo que el juego vaya a pintar en ese frame
                     }
                     finally {
                         g.dispose();
                     }
-                } while(_myGraphics.getStrategy().contentsRestored());
-                _myGraphics.getStrategy().show();
-            } while(_myGraphics.getStrategy().contentsLost());
+                } while(_myPCGraphics.getStrategy().contentsRestored());
+                _myPCGraphics.getStrategy().show();
+            } while(_myPCGraphics.getStrategy().contentsLost());
 
 
             //pillar input, npi de como es
         }
     }
 
+    @Override
+    public double getDeltaTime() {
+        long currentTime = System.nanoTime();
+        long nanoElapsedTime = currentTime - _lastFrameTime;
+        _lastFrameTime = currentTime;
+        double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+        return elapsedTime;
+    }
+
+    private GraphicsPC _myPCGraphics;
+    private InputPC _myPCInput;
+    private Game _myPCGame;
+    private long _lastFrameTime;
 
 }

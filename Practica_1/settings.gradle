@@ -1,8 +1,8 @@
 rootProject.name = "OhnO"
 include ':app'
 include ':Engine'
-include ':EngineAndroid'
 include ':EnginePC'
 include ':GameLogic'
 include ':GamePC'
 include ':GameAndroid'
+include ':EngineAndroid'

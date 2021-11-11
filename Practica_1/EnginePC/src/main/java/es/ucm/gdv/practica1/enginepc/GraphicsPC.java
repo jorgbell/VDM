@@ -1,7 +1,7 @@
 package es.ucm.gdv.practica1.enginepc;
-import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
@@ -11,20 +11,21 @@ import es.ucm.gdv.practica1.engine.Image;
 
 import javax.swing.JFrame;
 
-public class GraphicsPC extends AbstractGraphics {
-    public GraphicsPC(String title){
+public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1.engine.Graphics {
+    public GraphicsPC(String title, int width, int height){
         super();
         _windowName = title;
+        _windowHeight = height;
+        _windowWidth = width;
     }
 
     @Override
     public boolean init() {
         super.init();
-        //inicializa JFrame
+        //inicializa JFrame y crea la ventana
         _window = new JFrame(_windowName);
         _window.setSize(_windowWidth,_windowHeight);
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //crea la ventana
 
         // Vamos a usar renderizado activo. No queremos que Swing llame al
         // método repaint() porque el repintado es continuo en cualquier caso.
@@ -53,84 +54,137 @@ public class GraphicsPC extends AbstractGraphics {
         }
         // Obtenemos el Buffer Strategy que se supone que acaba de crearse.
         _strategy = _window.getBufferStrategy();
-        _drawGraphics = _strategy.getDrawGraphics();
 
         return true;
     }
 
     @Override
     public Image newImage(String name) {
-        Image i =super.newImage(name);
+
         //crea la imagen según la libreria de Java
+        ImagePC i;
+        try {
+            java.awt.Image pci = javax.imageio.ImageIO.read(new java.io.File(name));
+            i = new ImagePC(name,pci);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return i;
     }
 
     @Override
     public Font newFont(String filename, int size, boolean isBold) {
-        FontPC f = (FontPC)super.newFont(filename, size, isBold);
         java.awt.Font baseFont;
-        //if f!= null???
-        try (InputStream is = new FileInputStream(f.getFileName())) {
+        Font f;
+        try (InputStream is = new FileInputStream(filename)) {
             baseFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
+            f = new FontPC(filename,size,isBold,
+                    // baseFont contiene el tipo de letra base en tamaño 1. La
+                    // usamos como punto de partida para crear la nuestra, más
+                    // grande y en negrita.
+                    baseFont.deriveFont(java.awt.Font.BOLD, 40));
         }
         catch (Exception e) {
             // Ouch. No está.
             System.err.println("Error cargando la fuente: " + e);
             return null;
         }
-        // baseFont contiene el tipo de letra base en tamaño 1. La
-        // usamos como punto de partida para crear la nuestra, más
-        // grande y en negrita.
-        f.setPCFont(baseFont.deriveFont(java.awt.Font.BOLD, 40)); //guardamos la fuente bien hecha para ciclarla más tarde
+
         return f;
     }
 
     @Override
     public void clear(Color c) {
         setColor(c);
-        _drawGraphics.fillRect(0,0,getWindowWidth(), getWindowHeight());
+        getDrawGraphics().fillRect(0,0,getWindowWidth(), getWindowHeight());
     }
 
     @Override
     public void drawText(String text, int x, int y) {
-        _drawGraphics.drawString(text,x,y);
+        getDrawGraphics().drawString(text,x,y);
     }
 
     @Override
     public void setColor(Color c) {
-        _drawGraphics.setColor(new java.awt.Color(c._r,c._g, c._a, c._a));
+        getDrawGraphics().setColor(new java.awt.Color(c._r,c._g, c._b, c._a));
+        _actualColor = c;
     }
 
-    //TODO DE AQUÍ PARA ABAJO
 
+    //TODO las diferentes versiones de este método, mirar referencia de java.awt.drawImage()
     @Override
-    public void drawImage(Image image) {
-        super.drawImage(image);
+    public void drawImage(Image image, int x, int y) {
+        ImagePC ipc = (ImagePC)image;
+        if (ipc.getPCImage()!=null)
+            getDrawGraphics().drawImage(ipc.getPCImage(),x,y,null);
     }
 
     @Override
     public void setFont(Font f) {
-        super.setFont(f);
+        FontPC fpc = (FontPC)f;
+        if(fpc.getPCFont()!=null){
+            getDrawGraphics().setFont(fpc.getPCFont());
+            _actualFont = fpc;
+        }
+    }
+
+    //TODO
+    @Override
+    public void fillCircle(int cx, int cy, int r) {
+
     }
 
     @Override
-    public void fillCircle(int cx, int cy, int r) {
-        super.fillCircle(cx, cy, r);
+    public void translate(int x, int y) {
+
     }
 
+    @Override
+    public void scale(int x, int y) {
 
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void restore() {
+
+    }
+
+    @Override
+    public int getWindowWidth() {
+        return _windowWidth;
+    }
+
+    @Override
+    public int getWindowHeight() {
+        return _windowHeight;
+    }
 
     public java.awt.Graphics getDrawGraphics(){
-        return _drawGraphics;
+        return _strategy.getDrawGraphics();
     }
 
 
 
     public BufferStrategy getStrategy() { return _strategy; }
 
+
+
+
+    protected int _windowWidth;
+    protected int _windowHeight;
+    protected Font _actualFont;
+    protected Color _actualColor;
+
     private String _windowName;
     private JFrame _window;
     private java.awt.image.BufferStrategy _strategy;
-    private java.awt.Graphics _drawGraphics;
 
 
 }

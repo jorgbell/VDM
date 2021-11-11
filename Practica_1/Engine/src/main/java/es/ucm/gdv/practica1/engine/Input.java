@@ -1,22 +1,15 @@
 package es.ucm.gdv.practica1.engine;
 
 import java.util.List;
+import es.ucm.gdv.practica1.engine.TouchEvent;
 
 //TODO
-public class Input {
+public interface Input {
 
-    public boolean init() {
-        return true;
-    }
+    public boolean init();
 
-    public class TouchEvent{
+    public List<TouchEvent> getTouchEvents();
 
-    }
-
-    public Input(){};
-    public List<TouchEvent> getTouchEvents(){return _myTouchEvents;}
-
-    private List<TouchEvent> _myTouchEvents;
 
 }
 
