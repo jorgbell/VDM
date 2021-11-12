@@ -24,10 +24,7 @@ public class GameAndroid extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameLogic g = new GameLogic();
-        _myEngine = new EngineAndroid(this, g); //?? igual no hay que inicializar así
-        GraphicsAndroid gA = (GraphicsAndroid)_myEngine.getGraphics();
-        setContentView(gA.getSurfaceView());
-
+        _myEngine = new EngineAndroid(this, g);
     }
 
     /**

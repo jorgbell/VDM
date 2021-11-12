@@ -9,12 +9,7 @@ public interface Engine{
 
     public Graphics getGraphics();
     public Input getInput();
-
     public boolean init();
-
-    //TODO pasar a AbstractEngine
-    public void runEngine();
-
     public double getDeltaTime();
 
 

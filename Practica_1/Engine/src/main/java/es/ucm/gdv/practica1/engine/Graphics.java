@@ -3,6 +3,7 @@ package es.ucm.gdv.practica1.engine;
 
 public interface Graphics {
     public boolean init();
+    public void render(Game myGame);
     public Image newImage(String name);
     public Font newFont(String filename, int size, boolean isBold);
     //borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro.

@@ -1,5 +1,7 @@
 package es.ucm.gdv.practica1.enginepc;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         }
         // Obtenemos el Buffer Strategy que se supone que acaba de crearse.
         _strategy = _window.getBufferStrategy();
-
+        _graphics = _strategy.getDrawGraphics();
         return true;
     }
 
@@ -137,27 +139,29 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     //TODO
     @Override
     public void fillCircle(int cx, int cy, int r) {
-
+        _graphics.drawOval(cx,cy,r,r);
+        _graphics.fillOval(cx,cy,r,r);
     }
 
     @Override
     public void translate(int x, int y) {
-
+        _graphics.translate(x,y);
     }
 
     @Override
     public void scale(int x, int y) {
-
+        ((Graphics2D)_graphics).scale(x,y);
     }
 
     @Override
     public void save() {
-
+        _save = ((Graphics2D)_graphics).getTransform();
     }
 
     @Override
     public void restore() {
-
+        if(_save!=null)
+            ((Graphics2D)_graphics).setTransform(_save);
     }
 
     @Override
@@ -170,23 +174,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         return _windowHeight;
     }
 
-    public BufferStrategy getStrategy() { return _strategy; }
-
-    public JFrame getWindow(){return _window;}
-
-
-
-    protected int _windowWidth;
-    protected int _windowHeight;
-    protected Font _actualFont;
-    protected Color _actualColor;
-
-    private String _windowName;
-    private JFrame _window;
-    private java.awt.image.BufferStrategy _strategy;
-    private java.awt.Graphics _graphics;
-
-
+    @Override
     public void render(Game myPCGame) {
         do {
             do {
@@ -202,4 +190,19 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
             _strategy.show();
         } while(_strategy.contentsLost());
     }
+
+    public BufferStrategy getStrategy() { return _strategy; }
+    public JFrame getWindow(){return _window;}
+    protected int _windowWidth;
+    protected int _windowHeight;
+    protected Font _actualFont;
+    protected Color _actualColor;
+    private String _windowName;
+    private JFrame _window;
+    private java.awt.image.BufferStrategy _strategy;
+    private java.awt.Graphics _graphics;
+    private AffineTransform _save;
+
+
+
 }

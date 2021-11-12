@@ -5,6 +5,8 @@ package es.ucm.gdv.practica1.engineandroid;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import es.ucm.gdv.practica1.engine.Engine;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
@@ -12,10 +14,10 @@ import es.ucm.gdv.practica1.engine.Input;
 
 public class EngineAndroid implements Engine, Runnable {
 
-    public EngineAndroid(Context context, Game game){
+    public EngineAndroid(AppCompatActivity context, Game game){
         _myAndroidGame = game;
         _myAndroidGame.setEngine(this);
-        _myContext = context;
+        _myAppCompactActivity = context;
         init();
     };
 
@@ -43,18 +45,13 @@ public class EngineAndroid implements Engine, Runnable {
     @Override
     public boolean init() {
         _lastFrameTime = System.nanoTime();
-        _myAndroidGraphics = new GraphicsAndroid(_myContext);
-        _myAndroidInput = new InputAndroid();
-        if(!_myAndroidGraphics.init() || !_myAndroidInput.init() || !_myAndroidGame.init())
+        _myAndroidGraphics = new GraphicsAndroid(_myAppCompactActivity);
+        if(!_myAndroidGraphics.init() || !_myAndroidGame.init())
             return false;
-
+        //_myAndroidInput = new InputAndroid(_myAndroidGraphics);
         return true;
     }
 
-    @Override
-    public void runEngine() {
-
-    }
 
     /**
      * Método llamado cuando el active rendering debe ser detenido.
@@ -119,13 +116,7 @@ public class EngineAndroid implements Engine, Runnable {
 
         while(_running){
             _myAndroidGame.update(getDeltaTime());
-
-            // Pintamos el frame TODO
-            while (!_myAndroidGraphics.getHolder().getSurface().isValid())
-                ;
-            _myAndroidGraphics.lockCanvas();
-            _myAndroidGame.render();
-            _myAndroidGraphics.unlockCanvasAndPost();
+            _myAndroidGraphics.render(_myAndroidGame);
             //INPUT
             /*
                 // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...
@@ -144,7 +135,7 @@ public class EngineAndroid implements Engine, Runnable {
     private GraphicsAndroid _myAndroidGraphics;
     private InputAndroid _myAndroidInput;
     private Game _myAndroidGame;
-    private Context _myContext;
+    private AppCompatActivity _myAppCompactActivity;
     private long _lastFrameTime;
     /**
      * Bandera que indica si está o no en marcha la hebra de

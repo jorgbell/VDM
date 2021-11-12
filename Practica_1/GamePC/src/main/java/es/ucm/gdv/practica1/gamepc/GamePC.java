@@ -14,7 +14,7 @@ public class GamePC {
     //métodos estáticos
     public static void main(String[] args) {
         GamePC game = new GamePC();
-        game._engine.runEngine();
+        game._engine.run();
     }
     private final EnginePC _engine;
 

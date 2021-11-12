@@ -34,8 +34,7 @@ public class EnginePC implements Engine {
         return true;
     }
 
-    @Override
-    public void runEngine(){
+    public void run(){
         while(true){
             _myPCGame.getInput();
             _myPCGame.update(getDeltaTime()); //actualiza la logica del juego

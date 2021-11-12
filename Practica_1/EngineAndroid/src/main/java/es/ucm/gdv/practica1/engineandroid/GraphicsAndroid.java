@@ -5,13 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import es.ucm.gdv.practica1.engine.Font;
+import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Image;
 
 public class GraphicsAndroid extends AbstractGraphics implements Graphics {
-    GraphicsAndroid(Context context){
+    GraphicsAndroid(AppCompatActivity context){
         super();
         _context = context;
         init();
@@ -23,7 +27,17 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
         _paint = new Paint();
         _surfaceView = new SurfaceView(_context);
         _holder = _surfaceView.getHolder();
+        _context.setContentView(_surfaceView);
         return true;
+    }
+
+    @Override
+    public void render(Game myGame){
+        while (!_holder.getSurface().isValid())
+            ;
+        _canvas = _holder.lockCanvas();
+        myGame.render();
+        _holder.unlockCanvasAndPost(_canvas);
     }
 
     @Override
@@ -48,7 +62,7 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
 
     @Override
     public void fillCircle(int cx, int cy, int r) {
-
+        _canvas.drawCircle(cx,cy,r,_paint);
     }
 
     @Override
@@ -75,18 +89,14 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
 
     @Override
     public void restore() {
-
+        _canvas.restore();
     }
 
     @Override
     public void save() {
-
+        _canvas.save();
     }
 
-    @Override
-    public void scale(int x, int y) {
-
-    }
 
     @Override
     public void setColor(int color) {
@@ -103,35 +113,27 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
             _paint.setTextSize(fa.getSize());
             _actualFont = fa;
         }
-
     }
 
     @Override
     public void translate(int x, int y) {
-
+        _canvas.translate(x,y);
     }
+    @Override
+    public void scale(int x, int y) {
+        _canvas.scale(x,y);
+    }
+
 
     public SurfaceView getSurfaceView(){
         return _surfaceView;
-    }
-
-    public SurfaceHolder getHolder(){
-        return _holder;
-    }
-
-    public void lockCanvas(){
-        _canvas = _holder.lockCanvas();
-    }
-
-    public void unlockCanvasAndPost(){
-        _holder.unlockCanvasAndPost(_canvas);
     }
 
     //------------------------------------------------
     //VARIABLES PRIVADAS
     private SurfaceView _surfaceView;
     private SurfaceHolder _holder;
-    private Context _context;
+    private AppCompatActivity _context;
     private Paint _paint;
     private Canvas _canvas;
     private FontAndroid _actualFont;
