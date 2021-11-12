@@ -4,5 +4,6 @@ public interface Game {
     public boolean init();
     public void update(double deltaTime);
     public void render();
+    public void getInput();
     public void setEngine(Engine e);
 }

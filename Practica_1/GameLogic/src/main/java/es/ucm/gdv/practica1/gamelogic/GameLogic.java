@@ -1,16 +1,22 @@
 package es.ucm.gdv.practica1.gamelogic;
 
 
+import java.util.List;
+
 import es.ucm.gdv.practica1.engine.Engine;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
+import es.ucm.gdv.practica1.engine.TouchEvent;
 
 
 public class GameLogic implements Game {
     public GameLogic(){}
+
+    @Override
     public void setEngine(Engine e){_myEngine = e;}
 
+    @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
         // Cargamos la fuente del fichero .ttf.
@@ -19,6 +25,7 @@ public class GameLogic implements Game {
     }
 
 
+    @Override
     public void update(double deltaTime) {
         int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
 
@@ -38,6 +45,7 @@ public class GameLogic implements Game {
         } // while
     }
 
+    @Override
     public void render() {
         // Borramos el fondo.
         _myGraphics.clear(0XFF806A00); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
@@ -45,11 +53,48 @@ public class GameLogic implements Game {
         if(_babababangers != null){
             _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
-            _myGraphics.drawText("RENDERIZADO ACTIVO", (int)_x, 100);
+            _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
         }
 
     }
 
+    @Override
+    public void getInput() {
+        List<TouchEvent> inputList = _myEngine.getInput().getTouchEvents();
+        while(inputList.size()>0){//mientras haya input que procesar
+            TouchEvent aux = inputList.get(0); //cogemos el primero a procesar
+            inputList.remove(0); //lo borramos de la lista
+            processInput(aux); //lo procesamos
+        }
+    }
+
+    //Método para implementar la lógica del input
+    private void processInput(TouchEvent input){
+        //switch input.type.... etc hacer cosas en general
+        switch (input.get_type()){
+            case PULSAR:
+                //PROBLEMA: Pulsar nunca lo detecta porque por usar Arrastrar, arrastrar lo pisa.
+                //Al igual habria que quitar la libreria que usa arrastrar porque no nos interesa en este juego creo y es opcional
+                //en caso de que nos de problemas esto
+                if(!input.isRightClick())
+                    System.out.print("Pulsaste click izquierdo\n");
+                else
+                    System.out.print("Pulsaste click derecho\n");
+                break;
+            case SOLTAR:
+                if(!input.isRightClick())
+                    System.out.print("Soltaste el click izquierdo\n");
+                else
+                    System.out.print("Soltaste el click derecho\n");
+                break;
+            case ARRASTRAR:
+                if(!input.isRightClick())
+                    System.out.print("Arrastraste con el click izquierdo\n");
+                else
+                    System.out.print("Arrastraste con el click derecho\n");
+                break;
+        }
+    }
 
     private Engine _myEngine; //podrá ser de tipo Android o PC.
     private Graphics _myGraphics;

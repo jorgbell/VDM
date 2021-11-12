@@ -28,16 +28,16 @@ public class EnginePC implements Engine {
     public boolean init(){
         _lastFrameTime = System.nanoTime();
         _myPCGraphics = new GraphicsPC("ventana", 400,400);
-        //_myPCInput = new InputPC(_myPCGraphics);
         if(!_myPCGraphics.init() || !_myPCGame.init())
             return false;
-
+        _myPCInput = new InputPC(_myPCGraphics);
         return true;
     }
 
     @Override
     public void runEngine(){
         while(true){
+            _myPCGame.getInput();
             _myPCGame.update(getDeltaTime()); //actualiza la logica del juego
             _myPCGraphics.render(_myPCGame);
         }

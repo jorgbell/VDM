@@ -31,6 +31,10 @@ public class InputPC implements Input, MouseListener, MouseMotionListener {
             _myTouchEvents.add(tE);
         }
     }
+
+    //PROBLEMA: MopusePressed nunca lo detecta porque por usar Arrastrar, arrastrar lo pisa.
+    //Al igual habria que quitar la libreria que usa arrastrar porque no nos interesa en este juego creo y es opcional
+    //en caso de que nos de problemas esto
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         newEvent(mouseEvent, TouchEvent.InputType.ARRASTRAR);
