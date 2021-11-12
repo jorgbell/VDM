@@ -12,6 +12,4 @@ public abstract class AbstractGraphics implements Graphics{
     public boolean init() {
         return true;
     }
-
-
 }

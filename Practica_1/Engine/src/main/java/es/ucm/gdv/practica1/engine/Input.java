@@ -5,11 +5,6 @@ import es.ucm.gdv.practica1.engine.TouchEvent;
 
 //TODO
 public interface Input {
-
-    public boolean init();
-
     public List<TouchEvent> getTouchEvents();
-
-
 }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import es.ucm.gdv.practica1.engineandroid.EngineAndroid;
+import es.ucm.gdv.practica1.engineandroid.GraphicsAndroid;
 import es.ucm.gdv.practica1.gamelogic.GameLogic;
 
 public class GameAndroid extends AppCompatActivity {
@@ -24,8 +25,8 @@ public class GameAndroid extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         GameLogic g = new GameLogic();
         _myEngine = new EngineAndroid(this, g); //?? igual no hay que inicializar así
-
-        setContentView(_myEngine.getGraphics().getSurfaceView());
+        GraphicsAndroid gA = (GraphicsAndroid)_myEngine.getGraphics();
+        setContentView(gA.getSurfaceView());
 
     }
 
@@ -55,7 +56,6 @@ public class GameAndroid extends AppCompatActivity {
     protected void onResume() {
         // Avisamos a la vista (que es la encargada del active render)
         // de lo que está pasando.
-        super.onResume();
         super.onResume();
         _myEngine.resume();
     }

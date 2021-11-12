@@ -1,12 +1,14 @@
 package es.ucm.gdv.practica1.enginepc;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
-import es.ucm.gdv.practica1.engine.Color;
+import java.awt.Color;
 import es.ucm.gdv.practica1.engine.Font;
+import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Image;
 
 import javax.swing.JFrame;
@@ -96,20 +98,22 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     }
 
     @Override
-    public void clear(Color c) {
+    public void clear(int c) {
         setColor(c);
-        getDrawGraphics().fillRect(0,0,getWindowWidth(), getWindowHeight());
+        _graphics.fillRect(0,0,getWindowWidth(), getWindowHeight());
+        _graphics.translate(0,0);
     }
 
     @Override
     public void drawText(String text, int x, int y) {
-        getDrawGraphics().drawString(text,x,y);
+        _graphics.drawString(text,x,y);
     }
 
     @Override
-    public void setColor(Color c) {
-        getDrawGraphics().setColor(new java.awt.Color(c._r,c._g, c._b, c._a));
-        _actualColor = c;
+    public void setColor(int c) {
+        Color jc = new Color(c);
+        _graphics.setColor(jc);
+        _actualColor = jc;
     }
 
 
@@ -118,14 +122,14 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     public void drawImage(Image image, int x, int y) {
         ImagePC ipc = (ImagePC)image;
         if (ipc.getPCImage()!=null)
-            getDrawGraphics().drawImage(ipc.getPCImage(),x,y,null);
+            _graphics.drawImage(ipc.getPCImage(),x,y,null);
     }
 
     @Override
     public void setFont(Font f) {
         FontPC fpc = (FontPC)f;
         if(fpc.getPCFont()!=null){
-            getDrawGraphics().setFont(fpc.getPCFont());
+            _graphics.setFont(fpc.getPCFont());
             _actualFont = fpc;
         }
     }
@@ -166,14 +170,9 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         return _windowHeight;
     }
 
-    public java.awt.Graphics getDrawGraphics(){
-        return _strategy.getDrawGraphics();
-    }
-
-
-
     public BufferStrategy getStrategy() { return _strategy; }
 
+    public JFrame getWindow(){return _window;}
 
 
 
@@ -185,6 +184,22 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     private String _windowName;
     private JFrame _window;
     private java.awt.image.BufferStrategy _strategy;
+    private java.awt.Graphics _graphics;
 
 
+    public void render(Game myPCGame) {
+        do {
+            do {
+                Graphics g = _strategy.getDrawGraphics();
+                _graphics = g;
+                try {
+                    myPCGame.render(); //pinta lo que el juego vaya a pintar en ese frame
+                }
+                finally {
+                    g.dispose();
+                }
+            } while(_strategy.contentsRestored());
+            _strategy.show();
+        } while(_strategy.contentsLost());
+    }
 }

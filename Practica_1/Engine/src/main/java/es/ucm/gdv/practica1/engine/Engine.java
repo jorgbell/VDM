@@ -12,6 +12,7 @@ public interface Engine{
 
     public boolean init();
 
+    //TODO pasar a AbstractEngine
     public void runEngine();
 
     public double getDeltaTime();

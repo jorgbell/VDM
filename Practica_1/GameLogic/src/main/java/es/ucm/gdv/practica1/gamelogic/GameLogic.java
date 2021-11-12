@@ -5,8 +5,7 @@ import es.ucm.gdv.practica1.engine.Engine;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
-import es.ucm.gdv.practica1.engine.Color;
-import es.ucm.gdv.practica1.engine.Image;
+
 
 public class GameLogic implements Game {
     public GameLogic(){}
@@ -41,9 +40,10 @@ public class GameLogic implements Game {
 
     public void render() {
         // Borramos el fondo.
-        _myGraphics.clear(new Color(128,128,0)); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
+        _myGraphics.clear(0XFF806A00); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
+
         if(_babababangers != null){
-            _myGraphics.setColor(new Color(255,255,255));
+            _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("RENDERIZADO ACTIVO", (int)_x, 100);
         }

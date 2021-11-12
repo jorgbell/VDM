@@ -3,12 +3,9 @@ package es.ucm.gdv.practica1.engineandroid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
-import es.ucm.gdv.practica1.engine.Color;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Image;
@@ -30,13 +27,18 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void clear(Color color) {
-        _canvas.drawColor(0XFF0000FF); //ARGB
+    public void clear(int color) {
+        _canvas.drawColor(color);
     }
 
     @Override
     public void drawImage(Image image, int x, int y) {
-
+        if(image !=null){
+            ImageAndroid aI = (ImageAndroid)image;
+            if(aI.getAndroidImage()!=null){
+                _canvas.drawBitmap(aI.getAndroidImage(),x,y,_paint);
+            }
+        }
     }
 
     @Override
@@ -61,20 +63,14 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
 
     @Override
     public Font newFont(String filename, int size, boolean isBold) {
-        Typeface tf = Typeface.createFromFile(filename);
-        Font f;
-        if(tf!=null){
-            f = new FontAndroid(filename, size, isBold, tf);
-        }
-        else{
-            f = null;
-        }
+        FontAndroid f = new FontAndroid(filename,size,isBold, _context.getAssets());
         return f;
     }
 
     @Override
     public Image newImage(String name) {
-        return null;
+        ImageAndroid i = new ImageAndroid(name, _context.getAssets());
+        return i;
     }
 
     @Override
@@ -93,8 +89,8 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void setColor(Color color) {
-        _paint.setColor(android.graphics.Color.argb(color._a,color._r,color._g, color._b));
+    public void setColor(int color) {
+        _paint.setColor(color);
         _actualColor = color;
     }
 
@@ -139,5 +135,5 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     private Paint _paint;
     private Canvas _canvas;
     private FontAndroid _actualFont;
-    private Color _actualColor;
+    private int _actualColor;
 }

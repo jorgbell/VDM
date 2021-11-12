@@ -1,6 +1,4 @@
 package es.ucm.gdv.practica1.engine;
-import es.ucm.gdv.practica1.engine.Image;
-import es.ucm.gdv.practica1.engine.Font;
 
 
 public interface Graphics {
@@ -8,7 +6,7 @@ public interface Graphics {
     public Image newImage(String name);
     public Font newFont(String filename, int size, boolean isBold);
     //borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro.
-    public void clear(Color color);
+    public void clear(int color);
 
     //MÉTODOS DE CONTROL DE TRANSFORMACIÓN SOBRE EL CANVAS
     void translate(int x, int y);
@@ -23,7 +21,7 @@ public interface Graphics {
 
     //establece el color a utilizar en las operaciones de
     //dibujado posteriores.
-    public void setColor(Color color);
+    public void setColor(int color);
     //establece el color a utilizar en las operaciones de
     //dibujado posteriores.
     public void setFont(Font f);
@@ -32,6 +30,7 @@ public interface Graphics {
     //escribe el texto con la fuente y color activos.
     public void drawText(String text,int x,int y);
     //TODO fillrect()?
+
 
 
     public int getWindowWidth();
