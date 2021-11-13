@@ -10,15 +10,12 @@ public class Tablero
 
         //Las barreras se marcan con una X
         generateBarriers();
-        // print();
 
         //Llenamos con barreras las casillas cercadas
         fillGaps();
-        // print();
 
         //Generamos casillas azules numeradas de forma aleatoria, siendo el maximo del numero el espacio disponible
         generateBlues();
-        // print();
     }
 
     public void generateBarriers()
@@ -58,19 +55,25 @@ public class Tablero
         for (int j = 0; j < size + 2; j++) tablero[size + 1].push_back("X");
     }
 
+    //Genera casillas azules numeradas en casillas vacias con espacio suficiente
+    //El valor (Numero de casillas azules que tiene que ver) de la casila es un numero entre 1 y el menor de los valores entre
+    //el espacio disponible y el tamaño del tablero. 
     private void generateBlues()
     {
         Vector<POS>::Iterator it = freeSpace.begin();
 
+        //Recorremos las casillas que no tienen barreras
         while (it != freeSpace.end())
         {
             int y = (*it).y;
             int x = (*it).x;
             Vector<int> space = checkSpace(x, y);
 
+            //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
             if (space[0] > 0 && rand() % size == 0)
             {
-                tablero[y][x] = std::to_string(1 + rand() % (min(size, space)));
+                //El valor maximo es el menor entre el espacio y el tamaño del tablero
+                tablero[y][x] = std::to_string(1 + rand() % (min(size, space))); 
                 numberedBlues.push_back({x, y, space});
                 it = freeSpace.erase(it);
             }
@@ -84,11 +87,13 @@ public class Tablero
     {
         Vector<POS>::Iterator it = freeSpace.begin();
 
+        //Recorremos las casillas que no tienen barreras
         while (it != freeSpace.end())
         {
             int y = (*it).y;
             int x = (*it).x;
 
+            //Si no hay espacio significa que estan encerradas y que deben ser barreras
             if (checkSpace(x, y)[0] == 0)
             {
                 tablero[y][x] = 'X';
@@ -99,7 +104,8 @@ public class Tablero
         }
     }
 
-    //Comprobacion del espacio disponible
+    //Comprueba el espacio disponible desde esta posicion, tanto el numero total como en cada direccion
+    //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
     private Vector<int> checkSpace(int x, int y)
     {
         Vector<int> space;
@@ -110,6 +116,7 @@ public class Tablero
 
         space.push_back(0);
 
+        //Recorremos las dos direcciones verticales
         for (int i = 0; i < 2; i++)
         {
             directionSpace = 0;
@@ -132,6 +139,7 @@ public class Tablero
             totalSpace += directionSpace;
         }
 
+        //Recorremos las dos direcciones horizontales
         for (int i = 0; i < 2; i++)
         {
             directionSpace = 0;
@@ -157,7 +165,8 @@ public class Tablero
         return space;
     }
 
-    //Comprobacion del numero de azules visible disponible
+    //Comprueba el numero de casillas azules que se ven desde esta posicion, tanto el numero total como en cada direccion
+    //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
     private Vector<int> checkBlues(int x, int y)
     {
         Vector<int> blues;
@@ -168,6 +177,7 @@ public class Tablero
 
         blues.push_back(0);
 
+        //Recorremos las dos direcciones verticales
         for (int i = 0; i < 2; i++)
         {
             directionBlues = 0;
@@ -191,6 +201,7 @@ public class Tablero
             barrier = false;
         }
 
+        //Recorremos las dos direcciones horizontales
         for (int i = 0; i < 2; i++)
         {
             directionBlues = 0;
@@ -217,6 +228,7 @@ public class Tablero
         return blues;
     }
 
+    //Devuelve el valor de una casilla numerada (El numero de casillas azules que tiene que ver)
     public int getValue(int x, int y)
     {
         return tablero[y][x];
@@ -228,10 +240,14 @@ public class Tablero
 	Vector<POS> freeSpace;
 	Vector<NBLUE> numberedBlues;
 
+    //Struct posicion que guarda la posicion de una casilla en el array tablero
     private Struct POS
     {
         int x, y;
     };
+
+    //Informacion de las casillas azules numeradas, con la posicion, el espacio libre y el numero de casillas azules visibles
+    //(Tanto total como en cada direccion)
 
     private Struct NBLUE
     {
