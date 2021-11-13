@@ -93,11 +93,11 @@ void Tablero::generateBlues()
 	{
 		int y = (*it).y;
 		int x = (*it).x;
-		int space = checkSpace(x, y);
+		int space = checkSpace(x, y)[0];
 
 		if (space > 0 && rand() % size == 0)
 		{
-			tablero[y][x] = std::to_string(1 + rand() % space);
+			tablero[y][x] = std::to_string(1 + rand() % (min(size, space)));
 			numberedBlues.push_back({x, y});
 			it = freeSpace.erase(it);
 		}
@@ -109,14 +109,16 @@ void Tablero::generateBlues()
 //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
 void Tablero::fillGaps()
 {
-	std::vector<POS>::iterator it = freeSpace.begin();
+	vector<POS>::iterator it = freeSpace.begin();
 
 	while (it != freeSpace.end())
 	{
 		int y = (*it).y;
 		int x = (*it).x;
 
-		if (checkSpace(x, y) == 0)
+
+
+		if (checkSpace(x, y)[0] == 0)
 		{
 			tablero[y][x] = 'X';
 			it = freeSpace.erase(it);
@@ -127,25 +129,82 @@ void Tablero::fillGaps()
 }
 
 //Comprobacion del espacio disponible
-int Tablero::checkSpace(int x, int y)
+vector<int> Tablero::checkSpace(int x, int y)
 {
-	int space = 0;
+	vector<int> space;
+	int directionSpace;
+	int totalSpace = 0;
 	int sign, j;
 	bool barrier = false;
 
-	for(int i = 0; i < 2; i++)
+	space.push_back(0);
+
+	for (int i = 0; i < 2; i++)
 	{
+		directionSpace = 0;
 		j = 1;
 		sign = -1 + 2 * (i % 2);
-		
+
 		while (!barrier)
 		{
 			if (tablero[y + j * sign][x] == "X") barrier = true;
 			else
 			{
-				space++;
+				directionSpace++;
 				j++;
 			}
+		}
+
+		barrier = false;
+
+		space.push_back(directionSpace);
+		totalSpace += directionSpace;
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		directionSpace = 0;
+		j = 1;
+		sign = -1 + 2 * (i % 2);
+
+		while (!barrier)
+		{
+			if (tablero[y][x + j * sign] == "X") barrier = true;
+			else
+			{
+				directionSpace++;
+				j++;
+			}
+		}
+
+		barrier = false;
+		space.push_back(directionSpace);
+		totalSpace += directionSpace;
+	}
+
+	space[0] = totalSpace;
+	return space;
+}
+
+//Comprobacion del numero de azules visible disponible
+int Tablero::checkBlues(int x, int y)
+{
+	int blues = 0;
+	int sign, j;
+	bool barrier = false;
+
+	for (int i = 0; i < 2; i++)
+	{
+		j = 1;
+		sign = -1 + 2 * (i % 2);
+
+		while (!barrier)
+		{
+			if (tablero[y + j * sign][x] == "X") barrier = true;
+
+			else if (tablero[y + j * sign][x] != " ") blues++;
+
+			j++;
 		}
 
 		barrier = false;
@@ -159,16 +218,14 @@ int Tablero::checkSpace(int x, int y)
 		while (!barrier)
 		{
 			if (tablero[y][x + j * sign] == "X") barrier = true;
-			else
-			{
-				space++;
-				j++;
-			}
+
+			else if (tablero[y][x + j * sign] != " ") blues++;
+
+			j++;
 		}
 
 		barrier = false;
-		j = 0;
 	}
 
-	return space;
+	return blues;
 }
