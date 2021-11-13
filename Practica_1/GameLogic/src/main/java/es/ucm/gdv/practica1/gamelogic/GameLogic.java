@@ -20,11 +20,11 @@ public class GameLogic implements Game {
     @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
-        /*
-        // Cargamos la fuente del fichero .ttf.
-        _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",40,true);
 
-         */
+        // Cargamos la fuente del fichero .ttf.
+        _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",90,true);
+
+
         return true;
     }
 
@@ -36,7 +36,7 @@ public class GameLogic implements Game {
 
 
         //EJEMPLO
-        /*int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
+        int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
 
         _x += _incX * deltaTime;
         while(_x < 0 || _x > maxX) {
@@ -51,7 +51,7 @@ public class GameLogic implements Game {
                 _x = 2*maxX - _x;
                 _incX *= -1;
             }
-        } // while*/
+        } // while
     }
 
     @Override
@@ -61,11 +61,11 @@ public class GameLogic implements Game {
 
 
         //EJEMPLO
-        /*if(_babababangers != null){
+        if(_babababangers != null){
             _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
-        }*/
+        }
 
     }
 

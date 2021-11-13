@@ -48,7 +48,7 @@ public class EngineAndroid implements Engine, Runnable {
         _myAndroidGraphics = new GraphicsAndroid(_myAppCompactActivity);
         if(!_myAndroidGraphics.init() || !_myAndroidGame.init())
             return false;
-        //_myAndroidInput = new InputAndroid(_myAndroidGraphics);
+        _myAndroidInput = new InputAndroid(_myAndroidGraphics);
         return true;
     }
 
