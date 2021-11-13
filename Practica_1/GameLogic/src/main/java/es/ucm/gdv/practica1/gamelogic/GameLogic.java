@@ -10,6 +10,7 @@ import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.TouchEvent;
 
 
+
 public class GameLogic implements Game {
     public GameLogic(){}
 
@@ -19,15 +20,23 @@ public class GameLogic implements Game {
     @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
+        /*
         // Cargamos la fuente del fichero .ttf.
         _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",40,true);
+
+         */
         return true;
     }
 
 
     @Override
     public void update(double deltaTime) {
-        int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
+
+
+
+
+        //EJEMPLO
+        /*int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
 
         _x += _incX * deltaTime;
         while(_x < 0 || _x > maxX) {
@@ -42,7 +51,7 @@ public class GameLogic implements Game {
                 _x = 2*maxX - _x;
                 _incX *= -1;
             }
-        } // while
+        } // while*/
     }
 
     @Override
@@ -50,11 +59,13 @@ public class GameLogic implements Game {
         // Borramos el fondo.
         _myGraphics.clear(0XFF806A00); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
 
-        if(_babababangers != null){
+
+        //EJEMPLO
+        /*if(_babababangers != null){
             _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
-        }
+        }*/
 
     }
 

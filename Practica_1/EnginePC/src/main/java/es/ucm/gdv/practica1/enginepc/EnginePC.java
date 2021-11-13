@@ -39,6 +39,7 @@ public class EnginePC implements Engine {
             _myPCGame.getInput();
             _myPCGame.update(getDeltaTime()); //actualiza la logica del juego
             _myPCGraphics.render(_myPCGame);
+
         }
     }
 
