@@ -10,6 +10,12 @@ struct POS
 	int x, y;
 };
 
+struct NBLUE
+{
+	POS pos;
+	int visibleBlues = 0;
+};
+
 class Tablero
 {
 public:
@@ -20,11 +26,12 @@ private:
 	int N_CASILLAS;
 	vector<vector<string>> tablero;
 	vector<POS>freeSpace;
-	vector<POS>numberedBlues;
+	vector<NBLUE>numberedBlues;
 	void init();
 	void generateBarriers();
 	void generateBlues();
 	void fillGaps();
-	int checkSpace(int x, int y);
+	vector<int> checkSpace(int x, int y);
+	int checkBlues(int x, int y);
 };
 
