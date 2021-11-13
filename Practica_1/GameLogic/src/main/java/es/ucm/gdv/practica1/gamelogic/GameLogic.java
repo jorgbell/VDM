@@ -20,6 +20,7 @@ public class GameLogic implements Game {
     @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
+        _tablero = new Tablero(5);
         /*
         // Cargamos la fuente del fichero .ttf.
         _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",40,true);
@@ -111,6 +112,7 @@ public class GameLogic implements Game {
     private Graphics _myGraphics;
     //cosas del juego
     private Font _babababangers;
+    private Tablero _tablero;
     /**
      * Posición x actual del texto (lado izquierdo). Es importante
      * que sea un número real, para acumular cambios por debajo del píxel si
