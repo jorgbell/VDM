@@ -83,7 +83,7 @@ public class Tablero
     }
 
     //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
-    void fillGaps()
+    private void fillGaps()
     {
         Vector<POS>::Iterator it = freeSpace.begin();
 
@@ -117,7 +117,7 @@ public class Tablero
         space.push_back(0);
 
         //Recorremos las dos direcciones verticales
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
         {
             directionSpace = 0;
             j = 1;
@@ -125,7 +125,10 @@ public class Tablero
 
             while (!barrier)
             {
-                if (tablero[y + j * sign][x] == "X") barrier = true;
+                if (i < 2) String value = tablero[y + j * sign][x];
+                else String value = tablero[y][x + j * sign];
+
+                if (value == "X") barrier = true;
                 else
                 {
                     directionSpace++;
@@ -135,28 +138,6 @@ public class Tablero
 
             barrier = false;
 
-            space.push_back(directionSpace);
-            totalSpace += directionSpace;
-        }
-
-        //Recorremos las dos direcciones horizontales
-        for (int i = 0; i < 2; i++)
-        {
-            directionSpace = 0;
-            j = 1;
-            sign = -1 + 2 * (i % 2);
-
-            while (!barrier)
-            {
-                if (tablero[y][x + j * sign] == "X") barrier = true;
-                else
-                {
-                    directionSpace++;
-                    j++;
-                }
-            }
-
-            barrier = false;
             space.push_back(directionSpace);
             totalSpace += directionSpace;
         }
@@ -177,8 +158,8 @@ public class Tablero
 
         blues.push_back(0);
 
-        //Recorremos las dos direcciones verticales
-        for (int i = 0; i < 2; i++)
+        //Recorremos las cuatro direcciones
+        for (int i = 0; i < 4; i++)
         {
             directionBlues = 0;
             j = 1;
@@ -186,9 +167,12 @@ public class Tablero
 
             while (!barrier)
             {
-                if (tablero[y + j * sign][x] == "X") barrier = true;
+                if (i < 2) String value = tablero[y + j * sign][x];
+                else String value = tablero[y][x + j * sign];
 
-                else if (tablero[y + j * sign][x] != " ")
+                if (value == "X") barrier = true;
+
+                else if (value != " ")
                 {
                     directionBlues++;
                     totalBlues++;
@@ -201,37 +185,54 @@ public class Tablero
             barrier = false;
         }
 
-        //Recorremos las dos direcciones horizontales
-        for (int i = 0; i < 2; i++)
+        blues[0] = totalBlues;
+        return blues;
+    }
+
+    //Utilizado en la pista dos, cuenta el numero de azules posibles si la primera casilla vacia en una dirección fuera azul
+    public int countPossibleBlues(int direction)
+    {
+        int empties = 0;
+        int blues = 0;
+        int sign = -1 + 2 * (direction % 2);
+        Bool barrier = false;
+
+        while(empties < 2 && !barrier)
         {
-            directionBlues = 0;
-            j = 1;
-            sign = -1 + 2 * (i % 2);
-
-            while (!barrier)
-            {
-                if (tablero[y][x + j * sign] == "X") barrier = true;
-
-                else if (tablero[y + j * sign][x] != " ")
-                {
-                    directionBlues++;
-                    totalBlues++;
-                }
-
-                j++;
-            }
-
-            blues.push_back(directionBlues);
-            barrier = false;
+                if (direction < 2) String value = tablero[y + blues * sign][x];
+                else String value = tablero[y][x + blues * sign];
+                if(value == "X") barrier = true;
+                else if(value == " ") empties++;
+                blues++;
         }
 
         return blues;
     }
 
-    //Devuelve el valor de una casilla numerada (El numero de casillas azules que tiene que ver)
-    public int getValue(int x, int y)
+    //Comprueba si una casilla forma parte del vector de casillas interactuables
+    public Bool isFreeSpace(int x, int y)
+    {
+        Bool found = false;
+        int i = 0;
+        while (i < freeSpace.size() && !found) 
+        {
+            if(freeSpace[i].x == x && freeSpace[i].y == y) found = true;
+            else i++;
+        }
+
+        return found;
+    }
+
+    //Devuelve el valor de una casilla
+    public String getValue(int x, int y)
     {
         return tablero[y][x];
+    }
+
+    //Cambia el valor de una casilla
+    public void setValue(int x, int y, String s)
+    {
+        tablero[y][x] = s;
     }
 
     private int size;

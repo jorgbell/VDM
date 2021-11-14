@@ -11,12 +11,18 @@ public class Pistas
     //del número, y por tanto, debe ser una pared.
     int PistaDos()
     {
-        if(seenBlues[0] > value) 
-        {
+        Bool found = false;
+            int i = 1;
 
-        }
+            while(i <= 4 && !found)
+            {
+                if(countPossibleBlues(i) > value) found = true;
 
-        else return false;
+                else i++;
+            }
+
+            if (found) return i;
+            else return 0;
     }
 
     //Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el número.
