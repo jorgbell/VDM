@@ -42,8 +42,9 @@ public class ImageAndroid implements Image {
     }
 
     public void resizeAndroidImage(FloatPair scale){
-        if(_actualScale == scale) //no hace falta reescalar, salimos para ahorrar tiempo
+        if(_actualScale._x == scale._x && _actualScale._y == scale._y ) //no hace falta reescalar, salimos para ahorrar tiempo
             return;
+        _actualScale = scale;
         // CREATE A MATRIX FOR THE MANIPULATION
         Matrix matrix = new Matrix();
         // RESIZE THE BIT MAP
@@ -56,7 +57,7 @@ public class ImageAndroid implements Image {
     public Bitmap getAndroidImage(){
         return _androidImage;
     }
-
+    public FloatPair getActualScale(){return _actualScale;}
 
     //VARIABLES PRIVADAS
     Bitmap _androidImage;
