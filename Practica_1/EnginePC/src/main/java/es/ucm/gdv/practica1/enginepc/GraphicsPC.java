@@ -101,10 +101,14 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     }
 
     @Override
-    public void clear(int c) {
+    public void clearGame(int c) {
         setColor(c);
+        _graphics.fillRect(0,0,getGameWidth(), getGameHeight());
+    }
+    @Override
+    public void clearWindow(){
+        setColor(_bgColor);
         _graphics.fillRect(0,0,getWindowWidth(), getWindowHeight());
-        //_graphics.translate(0,0);
     }
 
     @Override
@@ -180,8 +184,6 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         return _window.getHeight();
     }
 
-    //TODO Componentlistener: cuando detecte movimiento, cambiar el valor de _windowSize y recalcular en abstractGraphics
-
 
     @Override
     public void render(Game myPCGame) {
@@ -190,7 +192,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
                 Graphics g = _strategy.getDrawGraphics();
                 _graphics = g;
                 try {
-                    clear(_bgColor);
+                    clearWindow();
                     reScale(); //hace clear para crear las bandas del color bg
                     myPCGame.render(); //pinta lo que el juego vaya a pintar en ese frame
                 }

@@ -2,53 +2,28 @@ package es.ucm.gdv.practica1.engine;
 
 
 public abstract class AbstractGraphics implements Graphics{
-    //esta clase tendrá los métodos relacionados con el reescalado y las bandas blancas
-    public enum WindowAdjustement{
-        NONE,
-        VERTICAL,
-        HORIZONTAL
-    }
 
     public void reScale(){
         FloatPair gameAspectRatio = new FloatPair(getWindowWidth()/_gameSize._x,
                                                 getWindowHeight() / _gameSize._y);
         //Comprobamos hacia dónde debemos hacer las bandas para compensar el tamano, en caso de que sea necesario
         //Si hay que meter bandas, el ancho o alto del juego no será el indicado, sino uno reescalado, dependiendo de por donde haya que reescalar
-        if(_gameSize._x*gameAspectRatio._y > getWindowWidth()){
-            _adjustement = WindowAdjustement.VERTICAL; //Las bandas debemos meterlas por arriba, por lo tanto,
+        if(gameAspectRatio._x <= gameAspectRatio._y){
             _scaleFactor = gameAspectRatio._x; //calculamos el factor de reescalado con el ANCHO
         }
-        else if (_gameSize._x*gameAspectRatio._y < getWindowWidth()){
-            _adjustement = WindowAdjustement.HORIZONTAL; //Las bandas debemos meterlas por los lados, por lo tanto,
+        else{
             _scaleFactor = gameAspectRatio._y; //calculamos el factor de reescalado con el ALTO
         }
-        else{
-            _adjustement = WindowAdjustement.NONE;
-            _scaleFactor = 1.0f;
-        }
-        createWindowAdjustments();
-    }
 
-
-    //rellena los bordes del color indicado por parámetro
-    public void createWindowAdjustments(){
         FloatPair offset= new FloatPair(0,0); //default
-        switch (_adjustement){
-            case NONE:
-                break;
-            case VERTICAL:
-                //Arriba/Abajo
-                offset._y = (getWindowHeight() - (int)(_gameSize._y*_scaleFactor))/2;
-                break;
-            case HORIZONTAL:
-                //Izquierda/Derecha
-                offset._x = (getWindowWidth() - (int)(_gameSize._x*_scaleFactor))/2;
+        offset._x = (getWindowWidth() - (int)(_gameSize._x*_scaleFactor))/2;
+        offset._y = (getWindowHeight() - (int)(_gameSize._y*_scaleFactor))/2;
 
-        }
+        scale(1,1); //resetear el escalado para que al trasladar no utilice el que había guardado anteriormente
         translate(offset._x, offset._y);
         scale(_scaleFactor,_scaleFactor);
-
     }
+
     //CÁLCULOS DE POSICIONES REALES Y VIRTUALES
 
     /*
@@ -91,9 +66,9 @@ public abstract class AbstractGraphics implements Graphics{
         _bgColor = c;
     }
 
-
-
+    @Override
     public int getGameWidth(){return (int)_gameSize._x;}
+    @Override
     public int getGameHeight(){return (int)_gameSize._y;}
 
     //VARIABLES PRIVADAS
@@ -103,6 +78,5 @@ public abstract class AbstractGraphics implements Graphics{
 
     //valores para el calculo del escalado y transformaciones varias
     protected float _scaleFactor = 1.0f;
-    protected WindowAdjustement _adjustement = WindowAdjustement.NONE; //inicialmente indicamos que no habrá que ajustar la ventana
     protected int _bgColor = 0xFFFFFFFF;
 }

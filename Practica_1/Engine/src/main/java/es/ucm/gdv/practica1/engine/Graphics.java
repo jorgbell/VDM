@@ -7,7 +7,8 @@ public interface Graphics {
     public Image newImage(String name);
     public Font newFont(String filename, int size, boolean isBold);
     //borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro.
-    public void clear(int color);
+    public void clearGame(int color);
+    public void clearWindow();
 
     //MÉTODOS DE CONTROL DE TRANSFORMACIÓN SOBRE EL CANVAS
     void translate(float x, float y);
@@ -37,6 +38,8 @@ public interface Graphics {
 
     public int getWindowWidth();
     public int getWindowHeight();
+    public int getGameWidth();
+    public int getGameHeight();
 
 
 

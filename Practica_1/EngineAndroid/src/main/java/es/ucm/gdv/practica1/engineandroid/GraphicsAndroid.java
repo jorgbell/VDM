@@ -34,13 +34,17 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
         while (!_holder.getSurface().isValid())
             ;
         _canvas = _holder.lockCanvas();
+        clearWindow();
         myGame.render();
         _holder.unlockCanvasAndPost(_canvas);
     }
 
     @Override
-    public void clear(int color) {
+    public void clearGame(int color) {
         _canvas.drawColor(color);
+    }
+    public void clearWindow(){
+        _canvas.drawColor(_bgColor);
     }
 
     @Override

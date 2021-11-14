@@ -32,7 +32,7 @@ public class GameLogic implements Game {
     @Override
     public void update(double deltaTime) {
         //EJEMPLO
-        int maxX = _myGraphics.getWindowHeight()-40; // 300 : longitud estimada en píxeles del rótulo
+        int maxX = _myGraphics.getGameWidth()-300; // 300 : longitud estimada en píxeles del rótulo
 
         _x += _incX * deltaTime;
         while(_x < 0 || _x > maxX) {
@@ -53,7 +53,7 @@ public class GameLogic implements Game {
     @Override
     public void render() {
         // Borramos el fondo.
-        _myGraphics.clear(0XFF806A00); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
+        _myGraphics.clearGame(0XFF806A00);
 
 
         //EJEMPLO
