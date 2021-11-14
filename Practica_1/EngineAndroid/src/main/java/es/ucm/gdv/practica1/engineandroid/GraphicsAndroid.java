@@ -3,28 +3,30 @@ package es.ucm.gdv.practica1.engineandroid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Image;
 
 public class GraphicsAndroid extends AbstractGraphics implements Graphics {
-    GraphicsAndroid(AppCompatActivity context){
-        super();
+    GraphicsAndroid(AppCompatActivity context, FloatPair gameSize){
         _context = context;
+        _gameSize = gameSize;
         init();
     };
 
     @Override
     public boolean init() {
-        super.init();
         _paint = new Paint();
+        _paint.setTextAlign(Paint.Align.LEFT);
         _surfaceView = new SurfaceView(_context);
         _holder = _surfaceView.getHolder();
         _context.setContentView(_surfaceView);
@@ -36,20 +38,27 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
         while (!_holder.getSurface().isValid())
             ;
         _canvas = _holder.lockCanvas();
+        clearWindow();
+        reScale();
         myGame.render();
         _holder.unlockCanvasAndPost(_canvas);
     }
 
     @Override
-    public void clear(int color) {
-        _canvas.drawColor(color);
+    public void clearGame(int color) {
+        setColor(color);
+        _canvas.drawRect(0,0,getWindowWidth(),getWindowHeight(), _paint);
+    }
+    public void clearWindow(){
+        _canvas.drawColor(_bgColor);
     }
 
     @Override
-    public void drawImage(Image image, int x, int y) {
+    public void drawImage(Image image, int x, int y, FloatPair scale) {
         if(image !=null){
             ImageAndroid aI = (ImageAndroid)image;
             if(aI.getAndroidImage()!=null){
+                aI.resizeAndroidImage(scale);
                 _canvas.drawBitmap(aI.getAndroidImage(),x,y,_paint);
             }
         }
@@ -66,13 +75,18 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
+    public void fillRect(int x, int y, int w, int h) {
+        _canvas.drawRect(x,y,w,h, _paint);
+    }
+
+    @Override
     public int getWindowHeight() {
-        return _surfaceView.getWidth();
+        return _surfaceView.getHeight();
     }
 
     @Override
     public int getWindowWidth() {
-        return _surfaceView.getHeight();
+        return _surfaceView.getWidth();
     }
 
     @Override
@@ -116,11 +130,11 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void translate(int x, int y) {
+    public void translate(float x, float y) {
         _canvas.translate(x,y);
     }
     @Override
-    public void scale(int x, int y) {
+    public void scale(float x, float y) {
         _canvas.scale(x,y);
     }
 

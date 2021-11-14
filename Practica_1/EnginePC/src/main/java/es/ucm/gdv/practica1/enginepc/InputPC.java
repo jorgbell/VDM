@@ -24,9 +24,8 @@ public class InputPC implements Input, MouseListener, MouseMotionListener {
         return _myTouchEvents;
     }
 
-    //TODO cambiar lo de las posiciones segun el reescalado
     private void newEvent(MouseEvent e, TouchEvent.InputType ty){
-        TouchEvent tE = new TouchEvent(ty,(e.getButton()==MouseEvent.BUTTON1),e.getX(),e.getY(), e.getID());
+        TouchEvent tE = new TouchEvent(ty,(e.getButton()!=MouseEvent.BUTTON1),e.getX(),e.getY(), e.getID());
         synchronized (this){
             _myTouchEvents.add(tE);
         }

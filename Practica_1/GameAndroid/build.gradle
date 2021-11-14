@@ -1,15 +1,24 @@
 plugins {
     id 'com.android.application'
 }
+task copyData(type: Copy) {
+    description = 'Copying game data into assets folder...'
+    def fromDir = rootDir.getAbsolutePath() + '/data'
+    from(fromDir) {
+        include "**"
+    }
+    into 'src/main/assets'
+}
 
+preBuild.dependsOn copyData
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "es.ucm.gdv.practica1.gameandroid"
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 

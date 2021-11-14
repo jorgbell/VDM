@@ -60,7 +60,7 @@ public class InputAndroid implements Input, View.OnTouchListener {
 
     public void newEvent(MotionEvent e, TouchEvent.InputType ty){
         int index = e.getActionIndex();
-        TouchEvent tE = new TouchEvent(ty,true,e.getX(),e.getY(), e.getPointerId(index));
+        TouchEvent tE = new TouchEvent(ty,false,e.getX(),e.getY(), e.getPointerId(index));
         synchronized (this){
             _myTouchEvents.add(tE);
         }

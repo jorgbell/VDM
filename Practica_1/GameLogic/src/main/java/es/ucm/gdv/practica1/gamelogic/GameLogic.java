@@ -4,9 +4,11 @@ package es.ucm.gdv.practica1.gamelogic;
 import java.util.List;
 
 import es.ucm.gdv.practica1.engine.Engine;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
+import es.ucm.gdv.practica1.engine.Image;
 import es.ucm.gdv.practica1.engine.TouchEvent;
 
 
@@ -20,24 +22,20 @@ public class GameLogic implements Game {
     @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
-        _tablero = new Tablero(5);
-        /*
-        // Cargamos la fuente del fichero .ttf.
-        _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",40,true);
 
-         */
+        // Cargamos la fuente del fichero .ttf.
+        _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",90,true);
+        b = false;
+        _aznar = _myGraphics.newImage("aznar.jpg");
+
         return true;
     }
 
 
     @Override
     public void update(double deltaTime) {
-
-
-
-
         //EJEMPLO
-        /*int maxX = _myGraphics.getWindowHeight() - 300; // 300 : longitud estimada en píxeles del rótulo
+        int maxX = _myGraphics.getGameWidth()-200; // 300 : longitud estimada en píxeles del rótulo
 
         _x += _incX * deltaTime;
         while(_x < 0 || _x > maxX) {
@@ -52,21 +50,24 @@ public class GameLogic implements Game {
                 _x = 2*maxX - _x;
                 _incX *= -1;
             }
-        } // while*/
+        } // while
     }
 
     @Override
     public void render() {
         // Borramos el fondo.
-        _myGraphics.clear(0XFF806A00); //esto es horrible ya cambiaremos el color cuando sepa como es exactamente
+        _myGraphics.clearGame(0XFF806A00);
 
 
         //EJEMPLO
-        /*if(_babababangers != null){
+        if(_babababangers != null && !b){
             _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
-        }*/
+        }
+        if(_aznar !=null && b){
+            _myGraphics.drawImage(_aznar,(int)_x,0, new FloatPair(0.3f,0.3f));
+        }
 
     }
 
@@ -88,8 +89,10 @@ public class GameLogic implements Game {
                 //PROBLEMA: Pulsar nunca lo detecta porque por usar Arrastrar, arrastrar lo pisa.
                 //Al igual habria que quitar la libreria que usa arrastrar porque no nos interesa en este juego creo y es opcional
                 //en caso de que nos de problemas esto
-                if(!input.isRightClick())
+                if(!input.isRightClick()){
+                    b = !b;
                     System.out.print("Pulsaste click izquierdo\n");
+                }
                 else
                     System.out.print("Pulsaste click derecho\n");
                 break;
@@ -100,8 +103,10 @@ public class GameLogic implements Game {
                     System.out.print("Soltaste el click derecho\n");
                 break;
             case ARRASTRAR:
-                if(!input.isRightClick())
+                if(!input.isRightClick()){
                     System.out.print("Arrastraste con el click izquierdo\n");
+                    b = !b;
+                }
                 else
                     System.out.print("Arrastraste con el click derecho\n");
                 break;
@@ -112,7 +117,7 @@ public class GameLogic implements Game {
     private Graphics _myGraphics;
     //cosas del juego
     private Font _babababangers;
-    private Tablero _tablero;
+    private Image _aznar;
     /**
      * Posición x actual del texto (lado izquierdo). Es importante
      * que sea un número real, para acumular cambios por debajo del píxel si
@@ -124,5 +129,6 @@ public class GameLogic implements Game {
      * Velocidad de desplazamiento en píxeles por segundo.
      */
     protected int _incX = 50;
+    boolean b;
 
 }

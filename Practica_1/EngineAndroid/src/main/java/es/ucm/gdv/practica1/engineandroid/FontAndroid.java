@@ -40,7 +40,8 @@ public class FontAndroid implements Font {
         _size=s;
     }
 
-    private void load(){
+    @Override
+    public void load(){
         try{
             _androidFont = Typeface.createFromAsset(_assetManager, _filename);
         } catch (Exception e) {
