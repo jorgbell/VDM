@@ -29,6 +29,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         //inicializa JFrame y crea la ventana
         _window = new JFrame(_windowName);
         _window.setSize((int)_windowSize._x,(int)_windowSize._y);
+        setAspectRatio();
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Vamos a usar renderizado activo. No queremos que Swing llame al

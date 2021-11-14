@@ -30,6 +30,7 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
         _surfaceView = new SurfaceView(_context);
         _holder = _surfaceView.getHolder();
         _context.setContentView(_surfaceView);
+        setAspectRatio();
         return true;
     }
 

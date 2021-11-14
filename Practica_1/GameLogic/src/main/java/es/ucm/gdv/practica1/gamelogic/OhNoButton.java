@@ -12,12 +12,15 @@ public class OhNoButton extends Button {
         WALL,
         BLUE
     }
-    OhNoButton(FloatPair gamePos, int r, int color, Graphics g, Tablero tab, FloatPair tabPos){
-        super(gamePos,r,color,g);
+    OhNoButton(FloatPair pos, FloatPair size,int r, int color, Graphics g, Tablero tab, FloatPair tabPos, Font f){
+        super(pos,size,r,color,g);
         _tablero = tab;
+        _font = f;
         _tableroPos = tabPos;
-        _buttonText = _tablero.getValue((int)tabPos._x, (int)tabPos._y);
-        switch (_buttonText){
+        //_buttonText = _tablero.getValue((int)tabPos._x, (int)tabPos._y);
+        _buttonText = "t";
+        _type = colorType.BLUE;
+        /*switch (_buttonText){
             case "X":
                 _type = colorType.WALL;
                 _buttonText =" ";
@@ -29,7 +32,7 @@ public class OhNoButton extends Button {
             default:
                 _type = colorType.BLUE;
                 break;
-        }
+        }*/
     }
     public void render(){
         switch (_type){
@@ -48,7 +51,7 @@ public class OhNoButton extends Button {
         int aux = _myGraphics.getActualColor();
         _myGraphics.setColor(0xFFFFFFFF);
         _myGraphics.setFont(_font);
-        _myGraphics.drawText(_buttonText,(int)getCenter()._x, (int)getCenter()._y);
+        _myGraphics.drawText(_buttonText,(int) _pos._x + (int)(_rect._width/2), (int)_pos._y +(int)(_rect._height/2));
         _myGraphics.setColor(aux);
     }
 

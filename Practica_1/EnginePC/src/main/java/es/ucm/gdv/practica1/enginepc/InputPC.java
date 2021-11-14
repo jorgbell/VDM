@@ -36,7 +36,7 @@ public class InputPC implements Input, MouseListener/*, MouseMotionListener*/ {
     //en caso de que nos de problemas esto
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        newEvent(mouseEvent, TouchEvent.InputType.ARRASTRAR);
+        newEvent(mouseEvent, TouchEvent.InputType.PULSAR);
     }
 
     @Override

@@ -4,15 +4,14 @@ package es.ucm.gdv.practica1.engine;
 public abstract class AbstractGraphics implements Graphics{
 
     public void reScale(){
-        FloatPair gameAspectRatio = new FloatPair(getWindowWidth()/_gameSize._x,
-                                                getWindowHeight() / _gameSize._y);
+        setAspectRatio();
         //Comprobamos hacia dónde debemos hacer las bandas para compensar el tamano, en caso de que sea necesario
         //Si hay que meter bandas, el ancho o alto del juego no será el indicado, sino uno reescalado, dependiendo de por donde haya que reescalar
-        if(gameAspectRatio._x <= gameAspectRatio._y){
-            _scaleFactor = gameAspectRatio._x; //calculamos el factor de reescalado con el ANCHO
+        if(_gameAspectRatio._x <= _gameAspectRatio._y){
+            _scaleFactor = _gameAspectRatio._x; //calculamos el factor de reescalado con el ANCHO
         }
         else{
-            _scaleFactor = gameAspectRatio._y; //calculamos el factor de reescalado con el ALTO
+            _scaleFactor = _gameAspectRatio._y; //calculamos el factor de reescalado con el ALTO
         }
 
         FloatPair offset= new FloatPair(0,0); //default
@@ -33,6 +32,23 @@ public abstract class AbstractGraphics implements Graphics{
     @Override
     public int getGameHeight(){return (int)_gameSize._y;}
 
+    @Override
+    public FloatPair gameToWindowPos(FloatPair pos){
+        FloatPair scaled = new FloatPair(pos._x *_scaleFactor, pos._y*_scaleFactor);
+        if(_gameAspectRatio._x > _gameAspectRatio._y){
+            scaled._x += (getWindowWidth() - (_gameSize._x*_scaleFactor))/2; //calculamos el factor de reescalado con el ANCHO
+        }
+        else{
+            scaled._y += (getWindowHeight() - (_gameSize._y*_scaleFactor))/2;; //calculamos el factor de reescalado con el ALTO
+        }
+        return scaled;
+
+    }
+
+    public void setAspectRatio(){
+        _gameAspectRatio = new FloatPair(getWindowWidth()/_gameSize._x,
+                getWindowHeight() / _gameSize._y);
+    }
     //VARIABLES PRIVADAS
     //tamanos de ventana y relacion de aspecto
     protected FloatPair _windowSize;//tamano real de la ventana
@@ -42,4 +58,5 @@ public abstract class AbstractGraphics implements Graphics{
     protected float _scaleFactor;
     protected int _bgColor = 0xFFFFFFFF;
     protected int _actualColor;
+    FloatPair _gameAspectRatio;
 }

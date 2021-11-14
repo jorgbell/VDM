@@ -44,6 +44,8 @@ public class GameLogic implements Game {
         //_myPistas = new Pistas(); //inicializar luego
         //Menu
         _startGamePos = new FloatPair(_myGraphics.getGameWidth()/2-40, _myGraphics.getGameHeight()/2 - 40);
+        _b = new OhNoButton(_startGamePos, new FloatPair(70,70),70, 0xFFFFFFFF, _myGraphics, _tablero, new FloatPair(0,0), _textFont);
+
         return true;
     }
 
@@ -77,6 +79,7 @@ public class GameLogic implements Game {
                 _myGraphics.setColor(0xFF808080);
                 _myGraphics.drawText("Un juego copiado a Q42", _myGraphics.getGameWidth()/3, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/3);
                 _myGraphics.drawImage(_q42Sprite, _myGraphics.getGameWidth()/2, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/4, 0.1f,0.1f);
+                _b.render();
                 break;
             case CONFIG_STATE:
                 break;
@@ -103,6 +106,25 @@ public class GameLogic implements Game {
 
         switch (_actualState){
             case MENU_STATE:
+                switch (input.get_type()){
+                    case PULSAR:
+                        if(!input.isRightClick()){
+                            System.out.print("Pulsaste click izq\n");
+                            if(_b._rect.checkCollision(input.get_posX(), input.get_posY()));
+                                System.out.print("JODEEEEEEEEEEEEEER\n");
+                        }
+                        else
+                            System.out.print("Pulsaste click derecho\n");
+                        break;
+                    case SOLTAR:
+                        if(!input.isRightClick())
+                            System.out.print("Soltaste el click izquierdo\n");
+                        else
+                            System.out.print("Soltaste el click derecho\n");
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case CONFIG_STATE:
                 break;
@@ -112,23 +134,6 @@ public class GameLogic implements Game {
                 break;
         }
 
-        switch (input.get_type()){
-            case PULSAR:
-                if(!input.isRightClick()){
-                    System.out.print("Pulsaste click izquierdo\n");
-                }
-                else
-                    System.out.print("Pulsaste click derecho\n");
-                break;
-            case SOLTAR:
-                if(!input.isRightClick())
-                    System.out.print("Soltaste el click izquierdo\n");
-                else
-                    System.out.print("Soltaste el click derecho\n");
-                break;
-            default:
-                break;
-        }
     }
 
     public Tablero getTablero(){
@@ -149,6 +154,7 @@ public class GameLogic implements Game {
     private Tablero _tablero;
     //private Pistas _myPistas;
     private GameState _actualState;
+    private OhNoButton _b;
     FloatPair _startGamePos;
     //resources
     private Font _textFont;

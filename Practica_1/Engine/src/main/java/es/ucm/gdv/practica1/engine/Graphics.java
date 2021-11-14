@@ -34,6 +34,7 @@ public interface Graphics {
     public void fillRect(int x, int y, int w, int h);
     public void changeBGColor(int c);
     public int getActualColor();
+    public FloatPair gameToWindowPos(FloatPair pos);
 
     public int getWindowWidth();
     public int getWindowHeight();

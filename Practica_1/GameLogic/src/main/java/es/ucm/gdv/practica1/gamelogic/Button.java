@@ -2,10 +2,30 @@ package es.ucm.gdv.practica1.gamelogic;
 
 import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Graphics;
-import es.ucm.gdv.practica1.engine.Rect;
+
 
 public abstract class Button {
-    Button(FloatPair pos, int r, int color, Graphics g){
+    public class Rect {
+        public Rect(float x, float y, float width, float height) {
+            //gameLogic values
+            _x = x;
+            _y = y;
+            _width = width;
+            _height = height;
+        }
+
+        public boolean checkCollision(float mouseX, float mouseY) {
+            return ((mouseX>_x && mouseX <_x + _width) && (mouseY> _y && mouseY < _y+_height));
+        }
+
+        public FloatPair getCenter(){
+            FloatPair center = new FloatPair((_x+_width)/2, (_y+_height)/2);
+            return center;
+        }
+        float _x; float _y; float _width; float _height;
+    } //Rect
+        Button(FloatPair pos, FloatPair size, int r, int color, Graphics g){
+        _rect = new Rect(pos._x, pos._y, size._x, size._y);
         _myGraphics = g;
         _pos = pos;
         _radius = r;
@@ -18,36 +38,10 @@ public abstract class Button {
         _myGraphics.setColor(prevColor);
     }
 
-    public boolean checkCollision(float mouseX, float mouseY){
-        //calculamos el cuadrado inscrito
-        float lado = (float)Math.sqrt((Math.pow(_radius,2))*2);
-        //x1 y x2 son vertices de arriba, y1 y2 son vertices de abajo
-        float x1 = _pos._x; float y1 = _pos._y;
-        float x2 = _pos._x+lado; float y2 = _pos._y+lado;
-        _inscrito = new Rect(x1,x2,y1,y2);
-        boolean col = false;
-        //Comparamos las posiciones del raton con las del cuadrado
-        if(mouseX >= x1 && mouseX <= x2){ //si está en la misma posicion en x
-            if(mouseY >= y1 && mouseY <= x2){//y tambien en Y
-                col = true;
-            }
-        }
-        if(!col && mouseY >= y1 && mouseY <= x2){
-            if(mouseX >= x1 && mouseX <= x2){
-                col = true;
-            }
-        }
-        return col;
-    }
-
-    public FloatPair getCenter(){
-        return _inscrito.getCenterPos();
-    }
-
     protected int _radius;
+    protected Rect _rect;
     protected FloatPair _pos;
     protected Graphics _myGraphics;
     protected int _color;
     protected boolean isVisible;
-    protected Rect _inscrito;
 }
