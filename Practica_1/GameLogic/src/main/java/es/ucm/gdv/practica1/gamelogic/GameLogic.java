@@ -23,7 +23,7 @@ public class GameLogic implements Game {
 
         // Cargamos la fuente del fichero .ttf.
         _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",90,true);
-
+        b = false;
 
         return true;
     }
@@ -57,7 +57,7 @@ public class GameLogic implements Game {
 
 
         //EJEMPLO
-        if(_babababangers != null){
+        if(_babababangers != null && !b){
             _myGraphics.setColor(0XFFFFFFFF);
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
@@ -83,8 +83,10 @@ public class GameLogic implements Game {
                 //PROBLEMA: Pulsar nunca lo detecta porque por usar Arrastrar, arrastrar lo pisa.
                 //Al igual habria que quitar la libreria que usa arrastrar porque no nos interesa en este juego creo y es opcional
                 //en caso de que nos de problemas esto
-                if(!input.isRightClick())
+                if(!input.isRightClick()){
+                    b = true;
                     System.out.print("Pulsaste click izquierdo\n");
+                }
                 else
                     System.out.print("Pulsaste click derecho\n");
                 break;
@@ -118,5 +120,6 @@ public class GameLogic implements Game {
      * Velocidad de desplazamiento en píxeles por segundo.
      */
     protected int _incX = 50;
+    boolean b;
 
 }
