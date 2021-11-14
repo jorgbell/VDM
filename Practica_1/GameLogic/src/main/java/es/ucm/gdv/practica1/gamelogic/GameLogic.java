@@ -39,7 +39,7 @@ public class GameLogic implements Game {
 
         //INICIALIZACIÓN DE LA LÓGICA
         _actualState = GameState.MENU_STATE;
-        _tablero = new Tablero(); //inicializar luego
+        _tablero = new Tablero(4); //inicializar luego
         //_myPistas = new Pistas(); //inicializar luego
         //Menu
         return true;

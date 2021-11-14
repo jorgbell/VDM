@@ -17,7 +17,7 @@ public class Pistas
     //“cerrar”, es decir, poner paredes en los extremos.
     Boolean PistaUno(NBlue b)
     {
-        return b.visibleBlues.get(0) == b.value;
+        return _myTablero.checkAdjacentBlues((int)b.pos._x, (int)b.pos._y).get(0) == b.value;
     }
 
     //Si pusiéramos un punto azul en una celda vacía, superaríamos el número de visibles
@@ -38,7 +38,7 @@ public class Pistas
     }
 
     //Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el número.
-    int PistaTres(NBlue b)
+    Boolean PistaTres(NBlue b)
     {
         if(b.visibleBlues.get(0) < b.value)
         {
@@ -51,11 +51,10 @@ public class Pistas
                 else i++;
             }
 
-            if (found) return i;
-            else return 0;
+            return found;
         }
 
-        else return 0;
+        else return false;
     }
 
     //Un número tiene más casillas azules visibles de las que debería.
