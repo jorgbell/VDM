@@ -9,6 +9,8 @@ import java.io.InputStream;
 
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import java.awt.Color;
+
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Image;
@@ -16,19 +18,17 @@ import es.ucm.gdv.practica1.engine.Image;
 import javax.swing.JFrame;
 
 public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1.engine.Graphics {
-    public GraphicsPC(String title, int width, int height){
-        super();
+    public GraphicsPC(String title, FloatPair wSize, FloatPair gSize){
         _windowName = title;
-        _windowHeight = height;
-        _windowWidth = width;
+        _windowSize = wSize;
+        setGameSize(gSize);
     }
 
     @Override
     public boolean init() {
-        super.init();
         //inicializa JFrame y crea la ventana
         _window = new JFrame(_windowName);
-        _window.setSize(_windowWidth,_windowHeight);
+        _window.setSize((int)_windowSize._x,(int)_windowSize._y);
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Vamos a usar renderizado activo. No queremos que Swing llame al
@@ -144,6 +144,11 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     }
 
     @Override
+    public void fillRect(int x, int y, int w, int h) {
+        _graphics.fillRect(x,y,w,h);
+    }
+
+    @Override
     public void translate(int x, int y) {
         _graphics.translate(x,y);
     }
@@ -166,13 +171,16 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
 
     @Override
     public int getWindowWidth() {
-        return _windowWidth;
+        return _window.getWidth();
     }
 
     @Override
     public int getWindowHeight() {
-        return _windowHeight;
+        return _window.getHeight();
     }
+
+    //TODO Componentlistener: cuando detecte movimiento, cambiar el valor de _windowSize y recalcular en abstractGraphics
+
 
     @Override
     public void render(Game myPCGame) {
@@ -181,7 +189,10 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
                 Graphics g = _strategy.getDrawGraphics();
                 _graphics = g;
                 try {
+                    clear(_bgColor); //en caso de querer pintar el fondo de un color diferente al predeterminado, lo indicamos en Render de la app llamando desde ahí a Clear()
                     myPCGame.render(); //pinta lo que el juego vaya a pintar en ese frame
+                    createWindowAdjustments(); //colocado después por si se quiere cambiar el color de fondo a diferencia del color de las bandas
+
                 }
                 finally {
                     g.dispose();
@@ -191,10 +202,11 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         } while(_strategy.contentsLost());
     }
 
+
+
     public BufferStrategy getStrategy() { return _strategy; }
     public JFrame getWindow(){return _window;}
-    protected int _windowWidth;
-    protected int _windowHeight;
+
     protected Font _actualFont;
     protected Color _actualColor;
     private String _windowName;

@@ -30,7 +30,8 @@ public interface Graphics {
     public void fillCircle(int cx,int cy,int r);
     //escribe el texto con la fuente y color activos.
     public void drawText(String text,int x,int y);
-    //TODO fillrect()?
+    //Rellena un rectangulo del color actual del tamaño indicado por parametro
+    public void fillRect(int x, int y, int w, int h);
 
 
 

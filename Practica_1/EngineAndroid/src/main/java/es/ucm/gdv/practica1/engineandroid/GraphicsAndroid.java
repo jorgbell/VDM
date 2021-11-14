@@ -16,14 +16,12 @@ import es.ucm.gdv.practica1.engine.Image;
 
 public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     GraphicsAndroid(AppCompatActivity context){
-        super();
         _context = context;
         init();
     };
 
     @Override
     public boolean init() {
-        super.init();
         _paint = new Paint();
         _surfaceView = new SurfaceView(_context);
         _holder = _surfaceView.getHolder();
@@ -63,6 +61,11 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     @Override
     public void fillCircle(int cx, int cy, int r) {
         _canvas.drawCircle(cx,cy,r,_paint);
+    }
+
+    @Override
+    public void fillRect(int x, int y, int w, int h) {
+        _canvas.drawRect(x,y,w,h, _paint);
     }
 
     @Override
