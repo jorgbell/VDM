@@ -95,7 +95,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     public void setColor(int c) {
         Color jc = new Color(c);
         _graphics.setColor(jc);
-        _actualColor = jc;
+        _actualColor = c;
     }
 
 
@@ -207,7 +207,6 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     public JFrame getWindow(){return _window;}
 
     protected Font _actualFont;
-    protected Color _actualColor;
     private String _windowName;
     private JFrame _window;
     private java.awt.image.BufferStrategy _strategy;

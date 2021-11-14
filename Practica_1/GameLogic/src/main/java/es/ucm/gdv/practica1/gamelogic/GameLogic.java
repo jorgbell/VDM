@@ -4,6 +4,7 @@ package es.ucm.gdv.practica1.gamelogic;
 import java.util.List;
 
 import es.ucm.gdv.practica1.engine.Engine;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
@@ -42,6 +43,7 @@ public class GameLogic implements Game {
         _tablero = new Tablero(); //inicializar luego
         //_myPistas = new Pistas(); //inicializar luego
         //Menu
+        _startGamePos = new FloatPair(_myGraphics.getGameWidth()/2-40, _myGraphics.getGameHeight()/2 - 40);
         return true;
     }
 
@@ -71,7 +73,7 @@ public class GameLogic implements Game {
                 _myGraphics.setFont(_titleFont);
                 _myGraphics.drawText("Oh no", _myGraphics.getGameWidth()/2 -50, _myGraphics.getGameHeight()/12);
                 _myGraphics.setFont(_textFont);
-                _myGraphics.drawText("Jugar", _myGraphics.getGameWidth()/2-40, _myGraphics.getGameHeight()/2 - 40);
+                _myGraphics.drawText("Jugar", (int)_startGamePos._x, (int)_startGamePos._y);
                 _myGraphics.setColor(0xFF808080);
                 _myGraphics.drawText("Un juego copiado a Q42", _myGraphics.getGameWidth()/3, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/3);
                 _myGraphics.drawImage(_q42Sprite, _myGraphics.getGameWidth()/2, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/4, 0.1f,0.1f);
@@ -147,6 +149,7 @@ public class GameLogic implements Game {
     private Tablero _tablero;
     //private Pistas _myPistas;
     private GameState _actualState;
+    FloatPair _startGamePos;
     //resources
     private Font _textFont;
     private Font _titleFont;
@@ -155,6 +158,7 @@ public class GameLogic implements Game {
     private Image _historySprite;
     private Image _lockSprite;
     private Image _q42Sprite;
+
 
 
 

@@ -33,7 +33,7 @@ public interface Graphics {
     //Rellena un rectangulo del color actual del tamaño indicado por parametro
     public void fillRect(int x, int y, int w, int h);
     public void changeBGColor(int c);
-
+    public int getActualColor();
 
     public int getWindowWidth();
     public int getWindowHeight();

@@ -27,6 +27,7 @@ public abstract class AbstractGraphics implements Graphics{
         _bgColor = c;
     }
 
+    public int getActualColor(){return _actualColor;}
     @Override
     public int getGameWidth(){return (int)_gameSize._x;}
     @Override
@@ -40,4 +41,5 @@ public abstract class AbstractGraphics implements Graphics{
     //valores para el calculo del escalado y transformaciones varias
     protected float _scaleFactor;
     protected int _bgColor = 0xFFFFFFFF;
+    protected int _actualColor;
 }

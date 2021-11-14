@@ -152,5 +152,4 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     private Paint _paint;
     private Canvas _canvas;
     private FontAndroid _actualFont;
-    private int _actualColor;
 }
