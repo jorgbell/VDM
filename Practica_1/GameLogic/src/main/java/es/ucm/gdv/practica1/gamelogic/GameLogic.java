@@ -40,7 +40,7 @@ public class GameLogic implements Game {
 
         //INICIALIZACIÓN DE LA LÓGICA
         _actualState = GameState.MENU_STATE;
-        _tablero = new Tablero(); //inicializar luego
+        _tablero = new Tablero(4); //inicializar luego
         //_myPistas = new Pistas(); //inicializar luego
         //Menu
         _startGamePos = new FloatPair(_myGraphics.getGameWidth()/2-40, _myGraphics.getGameHeight()/2 - 40);
