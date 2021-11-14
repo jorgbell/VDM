@@ -113,6 +113,9 @@ public class GameLogic implements Game {
         }
     }
 
+    public Tablero getTablero(){
+        return _tablero;
+    }
     private Engine _myEngine; //podrá ser de tipo Android o PC.
     private Graphics _myGraphics;
     //cosas del juego
@@ -130,5 +133,8 @@ public class GameLogic implements Game {
      */
     protected int _incX = 50;
     boolean b;
+
+    Tablero _tablero;
+    Pistas _myPistas;
 
 }

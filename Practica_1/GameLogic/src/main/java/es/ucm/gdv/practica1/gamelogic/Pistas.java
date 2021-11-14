@@ -1,12 +1,20 @@
 package es.ucm.gdv.practica1.gamelogic;
 
+
 public class Pistas
 {
+
+    public Pistas(){}
+    public Pistas(Tablero t){
+        _myTablero = t;
+    }
+    public void setTablero(Tablero t){_myTablero = t;}
+
     //Si un número tiene ya visibles el número de celdas que dice, entonces se puede
     //“cerrar”, es decir, poner paredes en los extremos.
     Boolean PistaUno()
     {
-        return seenBlues[0] == value;
+        return seenBlues.get(0) == value;
     }
 
     //Si pusiéramos un punto azul en una celda vacía, superaríamos el número de visibles
@@ -18,7 +26,7 @@ public class Pistas
 
             while(i <= 4 && !found)
             {
-                if(countPossibleBlues(i) > value) found = true;
+                if(_myTablero.countPossibleBlues(i) > value) found = true;
 
                 else i++;
             }
@@ -30,13 +38,13 @@ public class Pistas
     //Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el número.
     int PistaTres()
     {
-        if(seenBlues[0] < value)
+        if(seenBlues.get(0) < value)
         {
             Boolean found = false;
             int i = 1;
             while(i <= 4 && !found)
             {
-                if(seenBlues[i] < space[i]) found = true;
+                if(seenBlues.get(i) < space(i)) found = true;
 
                 else i++;
             }
@@ -125,4 +133,9 @@ public class Pistas
     {
         return space[0] < value;
     }
+
+
+
+    //VARIABLES PRIVADAS
+    Tablero _myTablero;
 }

@@ -2,6 +2,8 @@ package es.ucm.gdv.practica1.gamelogic;
 
 import java.util.Vector;
 import java.util.Random;
+import es.ucm.gdv.practica1.engine.FloatPair;
+
 
 public class Tablero
 {
@@ -51,7 +53,7 @@ public class Tablero
                 else
                 {
                     tablero.get(i).add(" ");
-                    freeSpace.add({ j, i });
+                    freeSpace.add(new FloatPair(j, i));
                 }
             }
 
@@ -68,62 +70,64 @@ public class Tablero
     //el espacio disponible y el tamaño del tablero.
     private void generateBlues()
     {
-        Vector<FloatPair>::Iterator it = freeSpace.begin();
+        //Vector<FloatPair>::Iterator it = freeSpace.begin();
         Random rand = new Random();
 
+        int i = 0;
+
         //Recorremos las casillas que no tienen barreras
-        while (it != freeSpace.end())
+        while (i<freeSpace.size()/*it != freeSpace.end()*/)
         {
-            int y = (*it).y;
-            int x = (*it).x;
-            Vector<int> space = checkSpace(x, y);
+            //int y = (*it).y;
+            //int x = (*it).x;
+            FloatPair pos = new FloatPair((int)freeSpace.get(i)._y, (int)freeSpace.get(i)._x);
+
+            Vector<Integer> space = checkSpace((int)pos._x, (int)pos._y);
 
             //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
             if (space.get(0) > 0 && rand.nextInt(size) == 0)
             {
                 //El valor maximo es el menor entre el espacio y el tamaño del tablero
-                tablero.get(y).get(x) = String.valueOf(1 + rand.nextInt(Math.min(size, space.get(0))));
-                numberedBlues.push_back({x, y, space.get(0)});
-                it = freeSpace.erase(it);
+                String s =String.valueOf(1 + rand.nextInt(Math.min(size, space.get(0))));
+                tablero.get((int)pos._y).set((int)pos._x,s);
+                numberedBlues.add(new NBlue(pos, space));
+                //it = freeSpace.erase(it);
+                freeSpace.remove(i);
             }
-
-            else it++;
+            else
+                i++;
         }
     }
 
     //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
     private void fillGaps()
     {
-        Vector<FloatPair>::Iterator it = freeSpace.begin();
 
+        int i = 0;
         //Recorremos las casillas que no tienen barreras
-        while (it != freeSpace.end())
+        while (i<freeSpace.size())
         {
-            int y = (*it).y;
-            int x = (*it).x;
+            FloatPair pos = new FloatPair((int)freeSpace.get(i)._y, (int)freeSpace.get(i)._x);
 
             //Si no hay espacio significa que estan encerradas y que deben ser barreras
-            if (checkSpace(x, y).get(0) == 0)
+            if (checkSpace((int)pos._x, (int)pos._y).get(0) == 0)
             {
-                tablero.get(y).get(x) = 'X';
-                it = freeSpace.erase(it);
+                tablero.get((int)pos._y).set((int)pos._x, "X");
+                freeSpace.remove(i);
             }
-
-            else it++;
+            else i++;
         }
     }
 
     //Comprueba el espacio disponible desde esta posicion, tanto el numero total como en cada direccion
     //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
-    private Vector<int> checkSpace(int x, int y)
+    private Vector<Integer> checkSpace(int x, int y)
     {
-        Vector<int> space = new Vector<int>(0);
+        Vector<Integer> space = new Vector<Integer>(0);
         int directionSpace;
         int totalSpace = 0;
         int sign, j;
         Boolean barrier = false;
-
-        space.add(0);
 
         //Recorremos las dos direcciones verticales
         for (int i = 0; i < 4; i++)
@@ -151,22 +155,19 @@ public class Tablero
             space.get(directionSpace);
             totalSpace += directionSpace;
         }
-
-        space.get(0) = totalSpace;
+        space.add(0,totalSpace);
         return space;
     }
 
     //Comprueba el numero de casillas azules que se ven desde esta posicion, tanto el numero total como en cada direccion
     //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
-    private Vector<int> checkBlues(int x, int y)
+    private Vector<Integer> checkBlues(int x, int y)
     {
-        Vector<int> blues;
+        Vector<Integer> blues = new Vector<Integer>(0);
         int directionBlues;
         int totalBlues = 0;
         int sign, j;
         Boolean barrier = false;
-
-        blues.add(0);
 
         //Recorremos las cuatro direcciones
         for (int i = 0; i < 4; i++)
@@ -196,12 +197,12 @@ public class Tablero
             barrier = false;
         }
 
-        blues.get(0) = totalBlues;
+        blues.add(0,totalBlues);
         return blues;
     }
 
     //Utilizado en la pista dos, cuenta el numero de azules posibles si la primera casilla vacia en una dirección fuera azul
-    public int countPossibleBlues(int direction)
+    public int countPossibleBlues(int direction, int x, int y)
     {
         int empties = 0;
         int blues = 0;
@@ -228,7 +229,7 @@ public class Tablero
         int i = 0;
         while (i < freeSpace.size() && !found)
         {
-            if(freeSpace.get(i).x == x && freeSpace.get(i).y == y) found = true;
+            if(freeSpace.get(i)._x == x && freeSpace.get(i)._y == y) found = true;
             else i++;
         }
 
@@ -244,7 +245,7 @@ public class Tablero
     //Cambia el valor de una casilla
     public void setValue(int x, int y, String s)
     {
-        tablero.get(y).get(x) = s;
+        tablero.get(y).set(x, s);
     }
 
     private int size;
