@@ -8,16 +8,19 @@ import android.graphics.Canvas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.gdv.practica1.engine.Engine;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Input;
 
 public class EngineAndroid implements Engine, Runnable {
 
-    public EngineAndroid(AppCompatActivity context, Game game){
+    public EngineAndroid(AppCompatActivity context, Game game, int gW, int gH){
         _myAndroidGame = game;
         _myAndroidGame.setEngine(this);
         _myAppCompactActivity = context;
+        FloatPair gameSize = new FloatPair(gW,gH);
+        _myAndroidGraphics = new GraphicsAndroid(_myAppCompactActivity, gameSize);
         init();
     };
 
@@ -45,7 +48,6 @@ public class EngineAndroid implements Engine, Runnable {
     @Override
     public boolean init() {
         _lastFrameTime = System.nanoTime();
-        _myAndroidGraphics = new GraphicsAndroid(_myAppCompactActivity);
         if(!_myAndroidGraphics.init() || !_myAndroidGame.init())
             return false;
         _myAndroidInput = new InputAndroid(_myAndroidGraphics);
@@ -115,6 +117,7 @@ public class EngineAndroid implements Engine, Runnable {
             ;
 
         while(_running){
+            _myAndroidGame.getInput();
             _myAndroidGame.update(getDeltaTime());
             _myAndroidGraphics.render(_myAndroidGame);
             //INPUT

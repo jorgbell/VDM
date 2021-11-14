@@ -24,7 +24,7 @@ public class GameAndroid extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameLogic g = new GameLogic();
-        _myEngine = new EngineAndroid(this, g);
+        _myEngine = new EngineAndroid(this, g, 400,600);
     }
 
     /**

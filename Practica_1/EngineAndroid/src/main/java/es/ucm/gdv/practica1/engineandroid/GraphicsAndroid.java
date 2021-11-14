@@ -9,14 +9,16 @@ import android.view.SurfaceView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Image;
 
 public class GraphicsAndroid extends AbstractGraphics implements Graphics {
-    GraphicsAndroid(AppCompatActivity context){
+    GraphicsAndroid(AppCompatActivity context, FloatPair gameSize){
         _context = context;
+        _gameSize = gameSize;
         init();
     };
 
@@ -35,13 +37,15 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
             ;
         _canvas = _holder.lockCanvas();
         clearWindow();
+        reScale();
         myGame.render();
         _holder.unlockCanvasAndPost(_canvas);
     }
 
     @Override
     public void clearGame(int color) {
-        _canvas.drawColor(color);
+        setColor(color);
+        _canvas.drawRect(0,0,getWindowWidth(),getWindowHeight(), _paint);
     }
     public void clearWindow(){
         _canvas.drawColor(_bgColor);
