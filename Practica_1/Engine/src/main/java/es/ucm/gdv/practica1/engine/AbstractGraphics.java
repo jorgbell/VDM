@@ -19,48 +19,9 @@ public abstract class AbstractGraphics implements Graphics{
         offset._x = (getWindowWidth() - (int)(_gameSize._x*_scaleFactor))/2;
         offset._y = (getWindowHeight() - (int)(_gameSize._y*_scaleFactor))/2;
 
-        scale(1,1); //resetear el escalado para que al trasladar no utilice el que había guardado anteriormente
         translate(offset._x, offset._y);
         scale(_scaleFactor,_scaleFactor);
     }
-
-    //CÁLCULOS DE POSICIONES REALES Y VIRTUALES
-
-    /*
-    //Dada una posición en el Canvas del juego, queremos saber en qué posición real de la pantalla se va a pintar
-    protected FloatPair gameToWindowPos(FloatPair pos){
-        if(_adjustement == WindowAdjustement.NONE)
-            return pos;//como el factor de reescalado en este caso es 1, lo devolvemos tal cual
-
-        FloatPair newPos = new FloatPair(pos._x * _scaleFactor, pos._y * _scaleFactor);
-        //en caso de haber reescalado la pantalla, debemos recalcular según donde estén las barras colocadas
-
-        if(_adjustement == WindowAdjustement.HORIZONTAL) //Si están a los lados, debemos
-            newPos._x += (_windowSize._x - _gameSize._x)/2;
-        else
-            newPos._y += (_windowSize._y - _gameSize._y)/2;
-        return newPos;
-    }
-    */
-
-    /*
-    //Dada una posición en la pantalla real, queremos saber en qué posición con respecto al canvas se encuentra
-    protected FloatPair windowToGamePos(FloatPair pos){
-        FloatPair newPos;
-        FloatPair aux = pos;
-        if(_adjustement == WindowAdjustement.NONE){
-            ;
-        }
-        //en caso de haber reescalado la pantalla, debemos recalcular según donde estén las barras colocadas
-        else if(_adjustement == WindowAdjustement.HORIZONTAL)  //Si están a los lados, debemos
-            aux._x -= (_windowSize._x-_gameSize._x)/2;
-        else
-            aux._y -= (_windowSize._y-_gameSize._y)/2;
-
-        newPos = new FloatPair((aux._x / _scaleFactor)/_gameSize._x,
-                (aux._y / _scaleFactor)/_gameSize._y);
-        return newPos;
-    }*/
 
     public void changeBGColor(int c){
         _bgColor = c;
@@ -77,6 +38,6 @@ public abstract class AbstractGraphics implements Graphics{
     protected FloatPair _gameSize;//tamano con el que trabaja un canvas y que después ajustaremos a la pantalla real
 
     //valores para el calculo del escalado y transformaciones varias
-    protected float _scaleFactor = 1.0f;
+    protected float _scaleFactor;
     protected int _bgColor = 0xFFFFFFFF;
 }
