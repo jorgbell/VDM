@@ -34,6 +34,7 @@ public class EnginePC implements Engine {
         if(!_myPCGraphics.init() || !_myPCGame.init())
             return false;
         _myPCInput = new InputPC(_myPCGraphics);
+        _running = true;
         return true;
     }
 
@@ -54,9 +55,15 @@ public class EnginePC implements Engine {
         return elapsedTime;
     }
 
+    @Override
+    public void stop() {
+        _running = false;
+    }
+
     private GraphicsPC _myPCGraphics;
     private InputPC _myPCInput;
     private Game _myPCGame;
     private long _lastFrameTime;
+    boolean _running;
 
 }

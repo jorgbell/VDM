@@ -4,7 +4,6 @@ package es.ucm.gdv.practica1.gamelogic;
 import java.util.List;
 
 import es.ucm.gdv.practica1.engine.Engine;
-import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
@@ -16,57 +15,73 @@ import es.ucm.gdv.practica1.engine.TouchEvent;
 public class GameLogic implements Game {
     public GameLogic(){}
 
+    public enum GameState{
+        MENU_STATE,
+        CONFIG_STATE,
+        GAME_STATE,
+        END_STATE
+    }
+
     @Override
     public void setEngine(Engine e){_myEngine = e;}
 
     @Override
     public boolean init(){
         _myGraphics = _myEngine.getGraphics();
+        // CARGA DE RECURSOS
+        _textFont = _myGraphics.newFont("fonts/JosefinSans-Bold.ttf",90,true);
+        _titleFont = _myGraphics.newFont("fonts/Molle-Regular.ttf",150,true);
+        _closeSprite = _myGraphics.newImage("sprites/close.png");
+        _eyeSprite = _myGraphics.newImage("sprites/eye.png");
+        _historySprite = _myGraphics.newImage("sprites/history.png");
+        _lockSprite = _myGraphics.newImage("sprites/lock.png");
+        _q42Sprite = _myGraphics.newImage("sprites/q42.png");
 
-        // Cargamos la fuente del fichero .ttf.
-        _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",90,true);
-        b = false;
-        _aznar = _myGraphics.newImage("aznar.jpg");
-
+        //INICIALIZACIÓN DE LA LÓGICA
+        _actualState = GameState.MENU_STATE;
+        _tablero = new Tablero(); //inicializar luego
+        //_myPistas = new Pistas(); //inicializar luego
+        //Menu
         return true;
     }
 
 
     @Override
     public void update(double deltaTime) {
-        //EJEMPLO
-        int maxX = _myGraphics.getGameWidth()-200; // 300 : longitud estimada en píxeles del rótulo
-
-        _x += _incX * deltaTime;
-        while(_x < 0 || _x > maxX) {
-            // Vamos a pintar fuera de la pantalla. Rectificamos.
-            if (_x < 0) {
-                // Nos salimos por la izquierda. Rebotamos.
-                _x = -_x;
-                _incX *= -1;
-            }
-            else if (_x > maxX) {
-                // Nos salimos por la derecha. Rebotamos
-                _x = 2*maxX - _x;
-                _incX *= -1;
-            }
-        } // while
+        switch (_actualState){
+            case MENU_STATE:
+                break;
+            case CONFIG_STATE:
+                break;
+            case GAME_STATE:
+                break;
+            case END_STATE:
+                break;
+        }
     }
 
     @Override
     public void render() {
         // Borramos el fondo.
-        _myGraphics.clearGame(0XFF806A00);
-
-
-        //EJEMPLO
-        if(_babababangers != null && !b){
-            _myGraphics.setColor(0XFFFFFFFF);
-            _myGraphics.setFont(_babababangers);
-            _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
-        }
-        if(_aznar !=null && b){
-            _myGraphics.drawImage(_aznar,(int)_x,0, new FloatPair(0.3f,0.3f));
+        _myGraphics.clearGame(0xFFFFFFFF);
+        _myGraphics.clearGame(0xFF804736);
+        switch (_actualState){
+            case MENU_STATE:
+                _myGraphics.setColor(0xFF000000);
+                _myGraphics.setFont(_titleFont);
+                _myGraphics.drawText("Oh no", _myGraphics.getGameWidth()/2 -50, _myGraphics.getGameHeight()/12);
+                _myGraphics.setFont(_textFont);
+                _myGraphics.drawText("Jugar", _myGraphics.getGameWidth()/2-40, _myGraphics.getGameHeight()/2 - 40);
+                _myGraphics.setColor(0xFF808080);
+                _myGraphics.drawText("Un juego copiado a Q42", _myGraphics.getGameWidth()/3, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/3);
+                _myGraphics.drawImage(_q42Sprite, _myGraphics.getGameWidth()/2, _myGraphics.getGameHeight() - _myGraphics.getGameHeight()/4, 0.1f,0.1f);
+                break;
+            case CONFIG_STATE:
+                break;
+            case GAME_STATE:
+                break;
+            case END_STATE:
+                break;
         }
 
     }
@@ -83,14 +98,21 @@ public class GameLogic implements Game {
 
     //Método para implementar la lógica del input
     private void processInput(TouchEvent input){
-        //switch input.type.... etc hacer cosas en general
+
+        switch (_actualState){
+            case MENU_STATE:
+                break;
+            case CONFIG_STATE:
+                break;
+            case GAME_STATE:
+                break;
+            case END_STATE:
+                break;
+        }
+
         switch (input.get_type()){
             case PULSAR:
-                //PROBLEMA: Pulsar nunca lo detecta porque por usar Arrastrar, arrastrar lo pisa.
-                //Al igual habria que quitar la libreria que usa arrastrar porque no nos interesa en este juego creo y es opcional
-                //en caso de que nos de problemas esto
                 if(!input.isRightClick()){
-                    b = !b;
                     System.out.print("Pulsaste click izquierdo\n");
                 }
                 else
@@ -102,13 +124,7 @@ public class GameLogic implements Game {
                 else
                     System.out.print("Soltaste el click derecho\n");
                 break;
-            case ARRASTRAR:
-                if(!input.isRightClick()){
-                    System.out.print("Arrastraste con el click izquierdo\n");
-                    b = !b;
-                }
-                else
-                    System.out.print("Arrastraste con el click derecho\n");
+            default:
                 break;
         }
     }
@@ -116,25 +132,31 @@ public class GameLogic implements Game {
     public Tablero getTablero(){
         return _tablero;
     }
+
+    public GameState getGameState(){
+        return _actualState;
+    }
+    public void setGameState(GameState s){
+        _actualState = s;
+    }
+
+    //VARIABLES PRIVADAS
+
     private Engine _myEngine; //podrá ser de tipo Android o PC.
     private Graphics _myGraphics;
-    //cosas del juego
-    private Font _babababangers;
-    private Image _aznar;
-    /**
-     * Posición x actual del texto (lado izquierdo). Es importante
-     * que sea un número real, para acumular cambios por debajo del píxel si
-     * la velocidad de actualización es mayor que la del desplazamiento.
-     */
-    protected double _x = 0;
+    private Tablero _tablero;
+    //private Pistas _myPistas;
+    private GameState _actualState;
+    //resources
+    private Font _textFont;
+    private Font _titleFont;
+    private Image _closeSprite;
+    private Image _eyeSprite;
+    private Image _historySprite;
+    private Image _lockSprite;
+    private Image _q42Sprite;
 
-    /**
-     * Velocidad de desplazamiento en píxeles por segundo.
-     */
-    protected int _incX = 50;
-    boolean b;
 
-    Tablero _tablero;
-    Pistas _myPistas;
+
 
 }

@@ -7,15 +7,12 @@ import es.ucm.gdv.practica1.engine.FloatPair;
 
 public class Tablero
 {
-    Tablero(int s)
+    Tablero(){};
+
+    public void init(int s)
     {
         size = s;
         N_CASILLAS = s*s;
-        init();
-    };
-
-    public void init()
-    {
         //Las barreras se marcan con una X
         generateBarriers();
 

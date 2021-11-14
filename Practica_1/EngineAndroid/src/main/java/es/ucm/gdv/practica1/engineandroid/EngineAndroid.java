@@ -52,6 +52,10 @@ public class EngineAndroid implements Engine, Runnable {
         return true;
     }
 
+    @Override
+    public void stop() {
+        _running = false;
+    }
 
     /**
      * Método llamado cuando el active rendering debe ser detenido.

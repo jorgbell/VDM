@@ -11,11 +11,11 @@ import java.util.List;
 
 
 
-public class InputPC implements Input, MouseListener, MouseMotionListener {
+public class InputPC implements Input, MouseListener/*, MouseMotionListener*/ {
     public InputPC(GraphicsPC g){
         _myGraphics = g;
         _myGraphics.getWindow().addMouseListener(this);
-        _myGraphics.getWindow().addMouseMotionListener(this);
+        //_myGraphics.getWindow().addMouseMotionListener(this);
         _myTouchEvents = new ArrayList<TouchEvent>();
     }
 
@@ -44,10 +44,11 @@ public class InputPC implements Input, MouseListener, MouseMotionListener {
         newEvent(mouseEvent, TouchEvent.InputType.SOLTAR);
     }
 
+    /*
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         newEvent(mouseEvent, TouchEvent.InputType.ARRASTRAR);
-    }
+    }*/
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
@@ -64,10 +65,11 @@ public class InputPC implements Input, MouseListener, MouseMotionListener {
         ;
     }
 
+    /*
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
         ;
-    }
+    }*/
 
     private List<TouchEvent> _myTouchEvents;
     private GraphicsPC _myGraphics; //para sacar la ventana y futuros calculos de reescalado

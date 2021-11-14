@@ -11,6 +11,6 @@ public interface Engine{
     public Input getInput();
     public boolean init();
     public double getDeltaTime();
-
+    public void stop();
 
 }

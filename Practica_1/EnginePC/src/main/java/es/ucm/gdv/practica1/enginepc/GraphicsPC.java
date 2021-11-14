@@ -101,8 +101,9 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
 
     //TODO las diferentes versiones de este método, mirar referencia de java.awt.drawImage()
     @Override
-    public void drawImage(Image image, int x, int y, FloatPair scale) {
+    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
         ImagePC ipc = (ImagePC)image;
+        FloatPair scale = new FloatPair(scaleX, scaleY);
         if (ipc.getPCImage()!=null){
             //cálculo de ancho y alto de la imagen
             int w = (int)(ipc.getPCImage().getWidth(null)*scale._x);

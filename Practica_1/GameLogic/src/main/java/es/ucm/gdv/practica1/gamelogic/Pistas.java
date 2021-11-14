@@ -1,5 +1,5 @@
+/*
 package es.ucm.gdv.practica1.gamelogic;
-
 
 public class Pistas
 {
@@ -8,7 +8,7 @@ public class Pistas
     public Pistas(Tablero t){
         _myTablero = t;
     }
-    public void setTablero(Tablero t){_myTablero = t;}
+    public void init(Tablero t){_myTablero = t;}
 
     //Si un número tiene ya visibles el número de celdas que dice, entonces se puede
     //“cerrar”, es decir, poner paredes en los extremos.
@@ -138,4 +138,4 @@ public class Pistas
 
     //VARIABLES PRIVADAS
     Tablero _myTablero;
-}
+}*/

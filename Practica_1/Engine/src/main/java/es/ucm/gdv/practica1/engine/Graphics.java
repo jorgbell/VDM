@@ -19,7 +19,7 @@ public interface Graphics {
     //recibe una imagen y la muestra en la pantalla. Se pueden necesitar diferentes versiones de este método dependiendo
     //de si se permite o no escalar la imagen, si se permite elegir qué porción de la
     //imagen original se muestra, etcétera.
-    public void drawImage(Image image, int x, int y, FloatPair scale); //, ...
+    public void drawImage(Image image, int x, int y, float scaleX, float scaleY); //, ...
     //establece el color a utilizar en las operaciones de
     //dibujado posteriores.
     public void setColor(int color);

@@ -54,11 +54,12 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void drawImage(Image image, int x, int y, FloatPair scale) {
+    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
         if(image !=null){
             ImageAndroid aI = (ImageAndroid)image;
             if(aI.getAndroidImage()!=null){
-                aI.resizeAndroidImage(scale);
+                FloatPair fp = new FloatPair(scaleX, scaleY);
+                aI.resizeAndroidImage(fp);
                 _canvas.drawBitmap(aI.getAndroidImage(),x,y,_paint);
             }
         }
