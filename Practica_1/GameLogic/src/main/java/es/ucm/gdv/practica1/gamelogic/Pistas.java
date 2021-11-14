@@ -1,8 +1,10 @@
-public class Pistas 
+package es.ucm.gdv.practica1.gamelogic;
+
+public class Pistas
 {
     //Si un número tiene ya visibles el número de celdas que dice, entonces se puede
     //“cerrar”, es decir, poner paredes en los extremos.
-    Bool PistaUno()
+    Boolean PistaUno()
     {
         return seenBlues[0] == value;
     }
@@ -11,7 +13,7 @@ public class Pistas
     //del número, y por tanto, debe ser una pared.
     int PistaDos()
     {
-        Bool found = false;
+        Boolean found = false;
             int i = 1;
 
             while(i <= 4 && !found)
@@ -30,7 +32,7 @@ public class Pistas
     {
         if(seenBlues[0] < value)
         {
-            Bool found = false;
+            Boolean found = false;
             int i = 1;
             while(i <= 4 && !found)
             {
@@ -47,18 +49,18 @@ public class Pistas
     }
 
     //Un número tiene más casillas azules visibles de las que debería.
-    Bool PistaCuatro()
+    Boolean PistaCuatro()
     {
         return seenBlues[0] > value;
     }
 
     //Un número tiene una cantidad insuficiente de casillas azules visibles y sin embargo
     //ya está “cerrada” (no puede ampliarse más por culpa de paredes).
-    Bool PistaCinco()
+    Boolean PistaCinco()
     {
         if(seenBlues[0] < value)
         {
-            Bool found = false;
+            Boolean found = false;
             int i = 1;
             while(i <= 4 && !found)
             {
@@ -75,14 +77,14 @@ public class Pistas
 
     //Si una celda está vacía y cerrada y no ve ninguna celda azul, entonces es pared (todos
     //los puntos azules deben ver al menos a otro).
-    Bool PistaSeis()
+    Boolean PistaSeis()
     {
         return space[0] == 0;
     }
 
     //En sentido opuesto, si hay una celda punto puesta por el usuario que está cerrada
     //y no ve a ninguna otra, entonces se trata de un error por el mismo motivo.
-    Bool PistaSiete()
+    Boolean PistaSiete()
     {
         return (seenBlues[0] == 0 && space[0] == 0); 
     }
@@ -106,7 +108,7 @@ public class Pistas
     //Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
     //valor que hay que conseguir. Basta con llenar el resto de celdas vacías para resolverlo.
     //Está también cubierta por la pista 3.
-    Bool PistaNueve()
+    Boolean PistaNueve()
     {
         if(seenBlues[0] < value) 
         {
@@ -119,7 +121,7 @@ public class Pistas
     //En sentido opuesto, una celda de tipo número no está cerrada pero si se ponen en
     //punto el resto de celdas vacías que tiene alcanzables no llegará a su valor, por lo
     //que es un futuro error
-    Bool PistaDiez()
+    Boolean PistaDiez()
     {
         return space[0] < value;
     }
