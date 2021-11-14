@@ -119,11 +119,11 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void translate(int x, int y) {
+    public void translate(float x, float y) {
         _canvas.translate(x,y);
     }
     @Override
-    public void scale(int x, int y) {
+    public void scale(float x, float y) {
         _canvas.scale(x,y);
     }
 

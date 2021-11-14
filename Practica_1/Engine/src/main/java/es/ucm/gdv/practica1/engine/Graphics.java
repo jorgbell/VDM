@@ -10,8 +10,8 @@ public interface Graphics {
     public void clear(int color);
 
     //MÉTODOS DE CONTROL DE TRANSFORMACIÓN SOBRE EL CANVAS
-    void translate(int x, int y);
-    void scale(int x, int y);
+    void translate(float x, float y);
+    void scale(float x, float y);
     void save();
     void restore();
 
@@ -32,7 +32,7 @@ public interface Graphics {
     public void drawText(String text,int x,int y);
     //Rellena un rectangulo del color actual del tamaño indicado por parametro
     public void fillRect(int x, int y, int w, int h);
-
+    public void changeBGColor(int c);
 
 
     public int getWindowWidth();

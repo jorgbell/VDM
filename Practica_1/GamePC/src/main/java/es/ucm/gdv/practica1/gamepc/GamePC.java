@@ -8,7 +8,7 @@ public class GamePC {
     GamePC(){
         //inicializamos el motor y el juego
         GameLogic g = new GameLogic();
-        _engine = new EnginePC(g, 1920,1080,400,600);
+        _engine = new EnginePC(g, 400,600,400,600);
     }
 
     //métodos estáticos

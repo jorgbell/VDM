@@ -21,7 +21,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     public GraphicsPC(String title, FloatPair wSize, FloatPair gSize){
         _windowName = title;
         _windowSize = wSize;
-        setGameSize(gSize);
+        _gameSize = gSize;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         // Obtenemos el Buffer Strategy que se supone que acaba de crearse.
         _strategy = _window.getBufferStrategy();
         _graphics = _strategy.getDrawGraphics();
+
         return true;
     }
 
@@ -103,7 +104,7 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     public void clear(int c) {
         setColor(c);
         _graphics.fillRect(0,0,getWindowWidth(), getWindowHeight());
-        _graphics.translate(0,0);
+        //_graphics.translate(0,0);
     }
 
     @Override
@@ -149,12 +150,12 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
     }
 
     @Override
-    public void translate(int x, int y) {
-        _graphics.translate(x,y);
+    public void translate(float x, float y) {
+        _graphics.translate((int)x,(int)y);
     }
 
     @Override
-    public void scale(int x, int y) {
+    public void scale(float x, float y) {
         ((Graphics2D)_graphics).scale(x,y);
     }
 
@@ -189,10 +190,9 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
                 Graphics g = _strategy.getDrawGraphics();
                 _graphics = g;
                 try {
-                    clear(_bgColor); //en caso de querer pintar el fondo de un color diferente al predeterminado, lo indicamos en Render de la app llamando desde ahí a Clear()
+                    clear(_bgColor);
+                    reScale(); //hace clear para crear las bandas del color bg
                     myPCGame.render(); //pinta lo que el juego vaya a pintar en ese frame
-                    createWindowAdjustments(); //colocado después por si se quiere cambiar el color de fondo a diferencia del color de las bandas
-
                 }
                 finally {
                     g.dispose();
