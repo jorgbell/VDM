@@ -1,8 +1,15 @@
 package es.ucm.gdv.practica1.gamelogic;
 
-public class Tablero 
+import java.util.List;
+import es.ucm.gdv.practica1.engine.FloatPair;
+
+public class Tablero
 {
-    Tablero(int s) : size(s), N_CASILLAS(s*s) { init(); };
+    Tablero(int s) {
+        size = s;
+        N_CASILLAS = s*s;
+        init();
+    };
 
     public void init()
     {
@@ -21,38 +28,39 @@ public class Tablero
     public void generateBarriers()
     {
         //Generamos el limite horizontal superior del tablero
+
         Vector<String> v1;
-        tablero.push_back(v1);
-        for (int j = 0; j < size + 2; j++) tablero[0].push_back("X");
+        _tablero.push_back(v1);
+        for (int j = 0; j < size + 2; j++) _tablero[0].push_back("X");
 
         //Generamos barreras de forma aleatoria
         for (int i = 1; i < size + 1; i++)
         {
             Vector<String> v2;
-            tablero.push_back(v2);
+            _tablero.push_back(v2);
 
-            tablero[i].push_back("X");
+            _tablero[i].push_back("X");
 
             for (int j = 1; j < size + 1; j++)
             {
                 if (rand() % (size / 2) == 0)
                 {
-                    tablero[i].push_back("X");
+                    _tablero[i].push_back("X");
                 }
 
                 else
                 {
-                    tablero[i].push_back(" ");
-                    freeSpace.push_back({ j, i });
+                    _tablero[i].push_back(" ");
+                    _freeSpace.push_back({ j, i });
                 }
             }
 
-            tablero[i].push_back("X");
+            _tablero[i].push_back("X");
         }
 
         //Generamos el limite horizontal inferior del tablero
-        tablero.push_back(v1);
-        for (int j = 0; j < size + 2; j++) tablero[size + 1].push_back("X");
+        _tablero.push_back(v1);
+        for (int j = 0; j < size + 2; j++) _tablero[size + 1].push_back("X");
     }
 
     //Genera casillas azules numeradas en casillas vacias con espacio suficiente
@@ -60,10 +68,10 @@ public class Tablero
     //el espacio disponible y el tamaño del tablero. 
     private void generateBlues()
     {
-        Vector<POS>::Iterator it = freeSpace.begin();
+        Vector<POS>::Iterator it = _freeSpace.begin();
 
         //Recorremos las casillas que no tienen barreras
-        while (it != freeSpace.end())
+        while (it != _freeSpace.end())
         {
             int y = (*it).y;
             int x = (*it).x;
@@ -73,9 +81,9 @@ public class Tablero
             if (space[0] > 0 && rand() % size == 0)
             {
                 //El valor maximo es el menor entre el espacio y el tamaño del tablero
-                tablero[y][x] = std::to_string(1 + rand() % (min(size, space))); 
+                _tablero[y][x] = std::to_string(1 + rand() % (min(size, space)));
                 numberedBlues.push_back({x, y, space});
-                it = freeSpace.erase(it);
+                it = _freeSpace.erase(it);
             }
 
             else it++;
@@ -85,10 +93,10 @@ public class Tablero
     //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
     private void fillGaps()
     {
-        Vector<POS>::Iterator it = freeSpace.begin();
+        Vector<POS>::Iterator it = _freeSpace.begin();
 
         //Recorremos las casillas que no tienen barreras
-        while (it != freeSpace.end())
+        while (it != _freeSpace.end())
         {
             int y = (*it).y;
             int x = (*it).x;
@@ -96,8 +104,8 @@ public class Tablero
             //Si no hay espacio significa que estan encerradas y que deben ser barreras
             if (checkSpace(x, y)[0] == 0)
             {
-                tablero[y][x] = 'X';
-                it = freeSpace.erase(it);
+                _tablero[y][x] = 'X';
+                it = _freeSpace.erase(it);
             }
 
             else it++;
@@ -125,8 +133,8 @@ public class Tablero
 
             while (!barrier)
             {
-                if (i < 2) String value = tablero[y + j * sign][x];
-                else String value = tablero[y][x + j * sign];
+                if (i < 2) String value = _tablero[y + j * sign][x];
+                else String value = _tablero[y][x + j * sign];
 
                 if (value == "X") barrier = true;
                 else
@@ -167,8 +175,8 @@ public class Tablero
 
             while (!barrier)
             {
-                if (i < 2) String value = tablero[y + j * sign][x];
-                else String value = tablero[y][x + j * sign];
+                if (i < 2) String value = _tablero[y + j * sign][x];
+                else String value = _tablero[y][x + j * sign];
 
                 if (value == "X") barrier = true;
 
@@ -199,8 +207,8 @@ public class Tablero
 
         while(empties < 2 && !barrier)
         {
-                if (direction < 2) String value = tablero[y + blues * sign][x];
-                else String value = tablero[y][x + blues * sign];
+                if (direction < 2) String value = _tablero[y + blues * sign][x];
+                else String value = _tablero[y][x + blues * sign];
                 if(value == "X") barrier = true;
                 else if(value == " ") empties++;
                 blues++;
@@ -214,9 +222,9 @@ public class Tablero
     {
         Bool found = false;
         int i = 0;
-        while (i < freeSpace.size() && !found) 
+        while (i < _freeSpace.size() && !found)
         {
-            if(freeSpace[i].x == x && freeSpace[i].y == y) found = true;
+            if(_freeSpace[i].x == x && _freeSpace[i].y == y) found = true;
             else i++;
         }
 
@@ -226,20 +234,20 @@ public class Tablero
     //Devuelve el valor de una casilla
     public String getValue(int x, int y)
     {
-        return tablero[y][x];
+        return _tablero[y][x];
     }
 
     //Cambia el valor de una casilla
     public void setValue(int x, int y, String s)
     {
-        tablero[y][x] = s;
+        _tablero[y][x] = s;
     }
 
     private int size;
 	private int N_CASILLAS;
-	Vector<Vector<string>> tablero;
-	Vector<POS> freeSpace;
-	Vector<NBLUE> numberedBlues;
+	List<List<String>> _tablero;
+	List<FloatPair> _freeSpace;
+	List<NBLUE> numberedBlues;
 
     //Struct posicion que guarda la posicion de una casilla en el array tablero
     private Struct POS
@@ -247,13 +255,5 @@ public class Tablero
         int x, y;
     };
 
-    //Informacion de las casillas azules numeradas, con la posicion, el espacio libre y el numero de casillas azules visibles
-    //(Tanto total como en cada direccion)
 
-    private Struct NBLUE
-    {
-        POS pos;
-        Vector<int> space;
-        Vector<int> visibleBlues;
-    };
 }
