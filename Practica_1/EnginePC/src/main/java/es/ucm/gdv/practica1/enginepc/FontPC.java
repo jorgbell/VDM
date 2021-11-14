@@ -1,11 +1,13 @@
 package es.ucm.gdv.practica1.enginepc;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 import es.ucm.gdv.practica1.engine.Font;
 
 public class FontPC implements Font {
-    public FontPC(String f, int s, boolean b){ _filename = f; _size = s; _bold = b;}
-    public FontPC(String f, int s, boolean b,java.awt.Font pcf){
-        _filename = f; _size = s; _bold = b; setPCFont(pcf);
+    public FontPC(String f, int s, boolean b){
+        _filename = f; _size = s; _bold = b; _pcFont = null; load();
     }
     @Override
     public String getFileName() {
@@ -32,7 +34,18 @@ public class FontPC implements Font {
         _bold = b;
     }
 
-    public void setPCFont(java.awt.Font f){_pcFont = f;}
+    @Override
+    public void load(){
+        java.awt.Font baseFont;
+        try (InputStream is = new FileInputStream(_filename)) {
+            baseFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
+            _pcFont = baseFont.deriveFont(java.awt.Font.BOLD, 40);
+        }
+        catch (Exception e) {
+            // Ouch. No está.
+            System.err.println("Error cargando la fuente: " + e);
+        }
+    }
     public java.awt.Font getPCFont(){return _pcFont;}
 
     private java.awt.Font _pcFont;

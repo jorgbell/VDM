@@ -65,38 +65,13 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
 
     @Override
     public Image newImage(String name) {
-
-        //crea la imagen según la libreria de Java
-        ImagePC i;
-        try {
-            java.awt.Image pci = javax.imageio.ImageIO.read(new java.io.File(name));
-            i = new ImagePC(name,pci);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        ImagePC i = new ImagePC(name);
         return i;
     }
 
     @Override
     public Font newFont(String filename, int size, boolean isBold) {
-        java.awt.Font baseFont;
-        Font f;
-        try (InputStream is = new FileInputStream(filename)) {
-            baseFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
-            f = new FontPC(filename,size,isBold,
-                    // baseFont contiene el tipo de letra base en tamaño 1. La
-                    // usamos como punto de partida para crear la nuestra, más
-                    // grande y en negrita.
-                    baseFont.deriveFont(java.awt.Font.BOLD, 40));
-        }
-        catch (Exception e) {
-            // Ouch. No está.
-            System.err.println("Error cargando la fuente: " + e);
-            return null;
-        }
-
+        FontPC f = new FontPC(filename, size, isBold);
         return f;
     }
 
@@ -126,11 +101,33 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
 
     //TODO las diferentes versiones de este método, mirar referencia de java.awt.drawImage()
     @Override
-    public void drawImage(Image image, int x, int y) {
+    public void drawImage(Image image, int x, int y, FloatPair scale) {
         ImagePC ipc = (ImagePC)image;
-        if (ipc.getPCImage()!=null)
-            _graphics.drawImage(ipc.getPCImage(),x,y,null);
+        if (ipc.getPCImage()!=null){
+            //cálculo de ancho y alto de la imagen
+            int w = (int)(ipc.getPCImage().getWidth(null)*scale._x);
+            int h = (int)(ipc.getPCImage().getHeight(null)*scale._y);
+
+            _graphics.drawImage(ipc.getPCImage(),x,y,w,h,null);
+            /*
+            //inicialización del recorte de la imagen
+            int dx1 = x; int dy1 = y;
+            int dx2 = x+w; int dy2 = y+h;
+            //comprobamos si la imagen se puede dibujar entera en el espacio del canvas del juego
+            if(dy2 > y+getGameHeight()){//Si la imagen se sale por abajo, hay que recortar en altura
+                int diffy = h - getGameHeight();
+                dy2 = h-diffy;
+            }
+            if(dx2 > x+getGameWidth()){//Si la imagen se sale por la derecha, hay que recortar en tamano
+                int diffx =  w- getGameWidth();
+                dx2 = w-diffx;
+            }
+
+            _graphics.drawImage(ipc.getPCImage(), dx1, dy1, dx2, dy2, 0, getGameHeight(), getGameWidth(), getGameHeight()+get, null);
+             */
+        }
     }
+
 
     @Override
     public void setFont(Font f) {
@@ -141,7 +138,6 @@ public class GraphicsPC extends AbstractGraphics implements es.ucm.gdv.practica1
         }
     }
 
-    //TODO
     @Override
     public void fillCircle(int cx, int cy, int r) {
         _graphics.drawOval(cx,cy,r,r);

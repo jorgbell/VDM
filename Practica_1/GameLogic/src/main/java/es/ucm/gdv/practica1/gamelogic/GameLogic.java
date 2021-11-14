@@ -4,9 +4,11 @@ package es.ucm.gdv.practica1.gamelogic;
 import java.util.List;
 
 import es.ucm.gdv.practica1.engine.Engine;
+import es.ucm.gdv.practica1.engine.FloatPair;
 import es.ucm.gdv.practica1.engine.Game;
 import es.ucm.gdv.practica1.engine.Graphics;
 import es.ucm.gdv.practica1.engine.Font;
+import es.ucm.gdv.practica1.engine.Image;
 import es.ucm.gdv.practica1.engine.TouchEvent;
 
 
@@ -24,6 +26,7 @@ public class GameLogic implements Game {
         // Cargamos la fuente del fichero .ttf.
         _babababangers = _myGraphics.newFont("Bangers-Regular.ttf",90,true);
         b = false;
+        _aznar = _myGraphics.newImage("aznar.jpg");
 
         return true;
     }
@@ -62,6 +65,9 @@ public class GameLogic implements Game {
             _myGraphics.setFont(_babababangers);
             _myGraphics.drawText("BABABABANGERS", (int)_x, 100);
         }
+        if(_aznar !=null && b){
+            _myGraphics.drawImage(_aznar,(int)_x,0, new FloatPair(0.3f,0.3f));
+        }
 
     }
 
@@ -97,8 +103,10 @@ public class GameLogic implements Game {
                     System.out.print("Soltaste el click derecho\n");
                 break;
             case ARRASTRAR:
-                if(!input.isRightClick())
+                if(!input.isRightClick()){
                     System.out.print("Arrastraste con el click izquierdo\n");
+                    b = !b;
+                }
                 else
                     System.out.print("Arrastraste con el click derecho\n");
                 break;
@@ -109,6 +117,7 @@ public class GameLogic implements Game {
     private Graphics _myGraphics;
     //cosas del juego
     private Font _babababangers;
+    private Image _aznar;
     /**
      * Posición x actual del texto (lado izquierdo). Es importante
      * que sea un número real, para acumular cambios por debajo del píxel si

@@ -3,6 +3,7 @@ package es.ucm.gdv.practica1.engineandroid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -25,6 +26,7 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     @Override
     public boolean init() {
         _paint = new Paint();
+        _paint.setTextAlign(Paint.Align.LEFT);
         _surfaceView = new SurfaceView(_context);
         _holder = _surfaceView.getHolder();
         _context.setContentView(_surfaceView);
@@ -52,10 +54,11 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void drawImage(Image image, int x, int y) {
+    public void drawImage(Image image, int x, int y, FloatPair scale) {
         if(image !=null){
             ImageAndroid aI = (ImageAndroid)image;
             if(aI.getAndroidImage()!=null){
+                aI.resizeAndroidImage(scale);
                 _canvas.drawBitmap(aI.getAndroidImage(),x,y,_paint);
             }
         }
@@ -78,12 +81,12 @@ public class GraphicsAndroid extends AbstractGraphics implements Graphics {
 
     @Override
     public int getWindowHeight() {
-        return _surfaceView.getWidth();
+        return _surfaceView.getHeight();
     }
 
     @Override
     public int getWindowWidth() {
-        return _surfaceView.getHeight();
+        return _surfaceView.getWidth();
     }
 
     @Override

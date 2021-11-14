@@ -1,6 +1,5 @@
 package es.ucm.gdv.practica1.engine;
 
-//TODO separar en TouchEventAndroid y PC??
 public class TouchEvent {
 
     public enum InputType{

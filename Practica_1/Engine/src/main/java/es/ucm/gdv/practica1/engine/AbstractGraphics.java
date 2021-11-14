@@ -16,8 +16,8 @@ public abstract class AbstractGraphics implements Graphics{
         }
 
         FloatPair offset= new FloatPair(0,0); //default
-        offset._x = (getWindowWidth() - (int)(_gameSize._x*_scaleFactor))/2;
-        offset._y = (getWindowHeight() - (int)(_gameSize._y*_scaleFactor))/2;
+        offset._x = (getWindowWidth() - (_gameSize._x*_scaleFactor))/2;
+        offset._y = (getWindowHeight() - (_gameSize._y*_scaleFactor))/2;
 
         translate(offset._x, offset._y);
         scale(_scaleFactor,_scaleFactor);

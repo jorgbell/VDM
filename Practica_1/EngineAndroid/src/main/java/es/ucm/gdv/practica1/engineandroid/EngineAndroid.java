@@ -1,7 +1,5 @@
  package es.ucm.gdv.practica1.engineandroid;
 
-
-
 import android.content.Context;
 import android.graphics.Canvas;
 

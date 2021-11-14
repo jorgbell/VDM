@@ -8,5 +8,6 @@ public interface Font {
     public boolean isBold();
     public void setSize(int s);
     public void setBold(boolean b);
+    public void load();
 
 }
