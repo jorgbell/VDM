@@ -85,9 +85,10 @@ public class Tablero
             if (space.get(0) > 0 && rand.nextInt(size) == 0)
             {
                 //El valor maximo es el menor entre el espacio y el tamaño del tablero
-                String s =String.valueOf(1 + rand.nextInt(Math.min(size, space.get(0))));
+                Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
+                String s = String.valueOf(value);
                 tablero.get((int)pos._y).set((int)pos._x,s);
-                numberedBlues.add(new NBlue(pos, space));
+                numberedBlues.add(new NBlue(pos, value, space));
                 //it = freeSpace.erase(it);
                 freeSpace.remove(i);
             }
@@ -118,7 +119,7 @@ public class Tablero
 
     //Comprueba el espacio disponible desde esta posicion, tanto el numero total como en cada direccion
     //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
-    private Vector<Integer> checkSpace(int x, int y)
+    public Vector<Integer> checkSpace(int x, int y)
     {
         Vector<Integer> space = new Vector<Integer>(0);
         int directionSpace;
@@ -158,7 +159,7 @@ public class Tablero
 
     //Comprueba el numero de casillas azules que se ven desde esta posicion, tanto el numero total como en cada direccion
     //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
-    private Vector<Integer> checkBlues(int x, int y)
+    public Vector<Integer> checkBlues(int x, int y)
     {
         Vector<Integer> blues = new Vector<Integer>(0);
         int directionBlues;
@@ -245,10 +246,15 @@ public class Tablero
         tablero.get(y).set(x, s);
     }
 
+    public Vector<NBlue> getNumberedBlues()
+    {
+        return numberedBlues;
+    }
+
     private int size;
     private int N_CASILLAS;
-    Vector<Vector<String>> tablero;
-    Vector<FloatPair> freeSpace;
-    Vector<NBlue> numberedBlues;
+    private Vector<Vector<String>> tablero;
+    private Vector<FloatPair> freeSpace;
+    private Vector<NBlue> numberedBlues;
 }
 

@@ -6,10 +6,23 @@ import es.ucm.gdv.practica1.engine.FloatPair;
 //(Tanto total como en cada direccion)
 
 public class NBlue {
-    public NBlue(FloatPair p, Vector<Integer> s){
+    public NBlue(FloatPair p, Integer v, Vector<Integer> s){
+        value = v;
         pos = p;
         space = s;
     }
+
+    public void setSpace(Vector<Integer> s)
+    {
+        space = s;
+    }
+
+    public void setBlues(Vector<Integer> b)
+    {
+        visibleBlues = b;
+    }
+
+    Integer value;
     FloatPair pos;
     Vector<Integer> space;
     Vector<Integer> visibleBlues;
