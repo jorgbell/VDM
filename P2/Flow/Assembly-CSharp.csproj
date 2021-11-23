@@ -53,11 +53,17 @@
     <UnityVersion>2020.3.13f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Src\Tile.cs" />
     <Compile Include="Assets\Src\BoardManager.cs" />
-    <Compile Include="Assets\Src\GameManager.cs" />
-    <Compile Include="Assets\Src\LevelManager.cs" />
     <Compile Include="Assets\Src\Map.cs" />
+    <Compile Include="Assets\Src\LevelManager.cs" />
+    <Compile Include="Assets\Src\GameManager.cs" />
+    <Compile Include="Assets\Src\Tile.cs" />
+    <Compile Include="Assets\Src\SO\LevelPack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Data\Levels\Levelpackage_2.txt" />
+    <None Include="Assets\Data\Levels\Levelpackage_1.txt" />
+    <None Include="Assets\Data\Levels\Levelpackage_3.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -660,6 +666,9 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.IK.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
     </Reference>
@@ -708,6 +717,9 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Monetization">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Monetization.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
@@ -716,6 +728,9 @@
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements.Editor">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
