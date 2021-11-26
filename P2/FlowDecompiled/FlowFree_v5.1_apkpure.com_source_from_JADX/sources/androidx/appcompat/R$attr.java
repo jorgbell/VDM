@@ -1,0 +1,44 @@
+package androidx.appcompat;
+
+public final class R$attr {
+    public static final int actionBarPopupTheme = 2130903042;
+    public static final int actionBarSize = 2130903043;
+    public static final int actionBarStyle = 2130903045;
+    public static final int actionBarTabStyle = 2130903047;
+    public static final int actionBarTabTextStyle = 2130903048;
+    public static final int actionBarTheme = 2130903049;
+    public static final int actionBarWidgetTheme = 2130903050;
+    public static final int actionDropDownStyle = 2130903052;
+    public static final int actionModePopupWindowStyle = 2130903063;
+    public static final int actionModeStyle = 2130903067;
+    public static final int actionOverflowButtonStyle = 2130903069;
+    public static final int actionOverflowMenuStyle = 2130903070;
+    public static final int alertDialogCenterButtons = 2130903078;
+    public static final int alertDialogStyle = 2130903079;
+    public static final int alertDialogTheme = 2130903080;
+    public static final int autoCompleteTextViewStyle = 2130903086;
+    public static final int buttonStyle = 2130903109;
+    public static final int checkboxStyle = 2130903113;
+    public static final int colorAccent = 2130903121;
+    public static final int colorButtonNormal = 2130903123;
+    public static final int colorControlActivated = 2130903124;
+    public static final int colorControlHighlight = 2130903125;
+    public static final int colorControlNormal = 2130903126;
+    public static final int colorSwitchThumbNormal = 2130903131;
+    public static final int dialogTheme = 2130903146;
+    public static final int dropDownListViewStyle = 2130903162;
+    public static final int editTextStyle = 2130903166;
+    public static final int imageButtonStyle = 2130903194;
+    public static final int listMenuViewStyle = 2130903215;
+    public static final int listPopupWindowStyle = 2130903216;
+    public static final int panelMenuListTheme = 2130903242;
+    public static final int radioButtonStyle = 2130903252;
+    public static final int ratingBarStyle = 2130903253;
+    public static final int searchViewStyle = 2130903259;
+    public static final int seekBarStyle = 2130903260;
+    public static final int spinnerStyle = 2130903271;
+    public static final int switchStyle = 2130903285;
+    public static final int textColorSearchUrl = 2130903297;
+    public static final int toolbarNavigationButtonStyle = 2130903319;
+    public static final int toolbarStyle = 2130903320;
+}

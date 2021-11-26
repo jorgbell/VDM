@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" xmlns:max="http://schemas.applovin.com/android/1.0" android:orientation="vertical" android:id="@+id/layout_main" android:layout_width="match_parent" android:layout_height="match_parent">
+    <EditText android:id="@+id/textField" android:background="@null" android:layout_width="match_parent" android:layout_height="wrap_content" android:editable="false" android:inputType="none" android:imeOptions="flagNoFullscreen"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <org.cocos2dx.lib.Cocos2dxGLSurfaceView android:id="@+id/game_gl_surfaceview" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <FrameLayout android:id="@+id/adFrame" android:layout_width="0dp" android:layout_height="0dp" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</FrameLayout>

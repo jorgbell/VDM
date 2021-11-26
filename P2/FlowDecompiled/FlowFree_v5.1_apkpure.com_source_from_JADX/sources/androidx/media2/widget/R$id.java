@@ -1,0 +1,43 @@
+package androidx.media2.widget;
+
+public final class R$id {
+    public static final int ad_external_link = 2131230786;
+    public static final int ad_remaining = 2131230789;
+    public static final int ad_skip_time = 2131230790;
+    public static final int album = 2131230795;
+    public static final int artist = 2131230799;
+    public static final int basic_controls = 2131230806;
+    public static final int bottom_bar_background = 2131230810;
+    public static final int bottom_bar_left = 2131230811;
+    public static final int center_view = 2131230822;
+    public static final int center_view_background = 2131230823;
+    public static final int check = 2131230824;
+    public static final int embedded_transport_controls = 2131230842;
+    public static final int extra_controls = 2131230847;
+    public static final int ffwd = 2131230848;
+    public static final int full_transport_controls = 2131230853;
+    public static final int fullscreen = 2131230854;
+    public static final int icon = 2131230863;
+    public static final int main_text = 2131230882;
+    public static final int minimal_fullscreen = 2131230887;
+    public static final int minimal_fullscreen_view = 2131230888;
+    public static final int minimal_transport_controls = 2131230889;
+    public static final int next = 2131230904;
+    public static final int overflow_hide = 2131230913;
+    public static final int overflow_show = 2131230914;
+    public static final int pause = 2131230916;
+    public static final int prev = 2131230917;
+    public static final int progress = 2131230918;
+    public static final int progress_bar = 2131230919;
+    public static final int rew = 2131230923;
+    public static final int settings = 2131230946;
+    public static final int sub_text = 2131230960;
+    public static final int subtitle = 2131230963;
+    public static final int text = 2131230974;
+    public static final int time = 2131230980;
+    public static final int time_current = 2131230981;
+    public static final int time_end = 2131230982;
+    public static final int title = 2131230984;
+    public static final int title_bar = 2131230986;
+    public static final int title_text = 2131230990;
+}

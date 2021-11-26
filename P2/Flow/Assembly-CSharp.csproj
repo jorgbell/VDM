@@ -53,17 +53,27 @@
     <UnityVersion>2020.3.13f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Src\SO\LevelPack.cs" />
     <Compile Include="Assets\Src\BoardManager.cs" />
     <Compile Include="Assets\Src\Map.cs" />
     <Compile Include="Assets\Src\LevelManager.cs" />
     <Compile Include="Assets\Src\GameManager.cs" />
     <Compile Include="Assets\Src\Tile.cs" />
-    <Compile Include="Assets\Src\SO\LevelPack.cs" />
+    <Compile Include="Assets\Src\SO\Categories.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Data\Levels\Levelpackage_2.txt" />
-    <None Include="Assets\Data\Levels\Levelpackage_1.txt" />
-    <None Include="Assets\Data\Levels\Levelpackage_3.txt" />
+    <None Include="Assets\Data\Levels\Intro\classicPack.txt" />
+    <None Include="Assets\Data\Levels\Intro\bluePack.txt" />
+    <None Include="Assets\Data\Levels\Rectangles\rectangles.txt" />
+    <None Include="Assets\Data\Levels\Intro\greenPack.txt" />
+    <None Include="Assets\Data\Levels\Manias\9x9manias.txt" />
+    <None Include="Assets\Data\Levels\Manias\10x10manias.txt" />
+    <None Include="Assets\Data\Levels\Rectangles\hourglass.txt" />
+    <None Include="Assets\Data\Levels\Rectangles\tower.txt" />
+    <None Include="Assets\Data\Levels\Manias\8x8manias.txt" />
+    <None Include="Assets\Data\Levels\Manias\7x7manias.txt" />
+    <None Include="Assets\Data\Levels\Intro\bonusPack.txt" />
+    <None Include="Assets\Data\Levels\Manias\6x6manias.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
