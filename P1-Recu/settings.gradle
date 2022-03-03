@@ -1,0 +1,7 @@
+rootProject.name = "OhNo_Recuperacion"
+include ':GameLogic'
+include ':Engine'
+include ':EnginePC'
+include ':EngineAndroid'
+include ':GameAndroid'
+include ':GamePC'
