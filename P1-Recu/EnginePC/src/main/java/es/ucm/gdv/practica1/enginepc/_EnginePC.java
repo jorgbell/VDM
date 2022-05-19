@@ -6,8 +6,8 @@ import es.ucm.gdv.practica1.engine.AbstractEngine;
 import es.ucm.gdv.practica1.engine._Game;
 
 public class _EnginePC extends AbstractEngine {
-    public _EnginePC(_Game g){
-        super(g, new _GraphicsPC(), new _InputPC());
+    public _EnginePC(_Game g, String title, int w, int h){
+        super(g, new _GraphicsPC(title, w, h), new _InputPC());
         _myGame.setEngine(this);
         init();
     }

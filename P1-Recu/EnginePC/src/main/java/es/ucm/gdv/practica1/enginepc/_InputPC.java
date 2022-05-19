@@ -9,23 +9,20 @@ public class _InputPC extends AbstractInput implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        TouchEvent tE = new TouchEvent(TouchEvent.InputType.PULSAR,
-                (mouseEvent.getButton()!=MouseEvent.BUTTON1),
-                mouseEvent.getX(),mouseEvent.getY(),
-                mouseEvent.getID());
-        newEvent(tE);
-
+        newEvent(createEvent(mouseEvent, TouchEvent.InputType.PULSAR));
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        TouchEvent tE = new TouchEvent(TouchEvent.InputType.SOLTAR,
+        newEvent(createEvent(mouseEvent, TouchEvent.InputType.SOLTAR));
+    }
+
+    TouchEvent createEvent(MouseEvent mouseEvent, TouchEvent.InputType type){
+        return new TouchEvent(type,
                 (mouseEvent.getButton()!=MouseEvent.BUTTON1),
                 mouseEvent.getX(),mouseEvent.getY(),
                 mouseEvent.getID());
-        newEvent(tE);
     }
-
 
     //------------------------//
 

@@ -10,7 +10,7 @@ import es.ucm.gdv.practica1.engine._Graphics;
 public class _EngineAndroid extends AbstractEngine implements Runnable {
 
     public _EngineAndroid(_Game game, AppCompatActivity context){ //quizas se le podria pasar el w-h
-        super(game, new _GraphicsAndroid(), new _InputAndroid());
+        super(game, new _GraphicsAndroid(context), new _InputAndroid());
         _myGame.setEngine(this);
         init();
     }
@@ -34,13 +34,13 @@ public class _EngineAndroid extends AbstractEngine implements Runnable {
 
             //ESTO ANTES LO METIA EN UN METODO RENDER DE ANDROIDGRAPCHIS.
             //NO SE SI DEBERIA IR AQUI
-            while (!_myGraphics._holder.getSurface().isValid())
+            while (!((_GraphicsAndroid)_myGraphics)._surfaceHolder.getSurface().isValid())
                 ;
-            _myGraphics._canvas = _myGraphics._holder.lockCanvas();
-            _myGraphics.clearWindow();
-            _myGraphics.reScale();
+            ((_GraphicsAndroid)_myGraphics)._canvas = ((_GraphicsAndroid)_myGraphics)._surfaceHolder.lockCanvas();
+            //((_GraphicsAndroid)_myGraphics).clearWindow();
+            //((_GraphicsAndroid)_myGraphics).reScale();
             _myGame.run(); //input, update, render
-            _myGraphics._holder.unlockCanvasAndPost(_myGraphics._canvas);
+            ((_GraphicsAndroid)_myGraphics)._surfaceHolder.unlockCanvasAndPost(((_GraphicsAndroid)_myGraphics)._canvas);
 
 
             //INPUT

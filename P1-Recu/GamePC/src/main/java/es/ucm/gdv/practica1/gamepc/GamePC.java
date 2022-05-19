@@ -7,7 +7,7 @@ public class GamePC {
     GamePC(){
         //inicializamos el motor y el juego
         GameLogic g = new GameLogic();
-        _engine = new _EnginePC(g);
+        _engine = new _EnginePC(g, "OhNo", 480, 480);
 
     }
 
