@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import es.ucm.gdv.practica1.engine.AbstractEngine;
 import es.ucm.gdv.practica1.engineandroid._EngineAndroid;
 import es.ucm.gdv.practica1.gamelogic.GameLogic;
 
@@ -22,7 +23,8 @@ public class GameAndroid extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameLogic g = new GameLogic();
-        _myEngine = new _EngineAndroid(g, this);
+        AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("./data/", "./data/images/", "./data/fonts/");
+        _myEngine = new _EngineAndroid(g, this, paths);
     }
 
     /**

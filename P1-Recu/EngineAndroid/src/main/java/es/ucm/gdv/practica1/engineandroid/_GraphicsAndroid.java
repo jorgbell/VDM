@@ -2,12 +2,14 @@ package es.ucm.gdv.practica1.engineandroid;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.speech.tts.TextToSpeech;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import es.ucm.gdv.practica1.engine.AbstractEngine;
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Image;
@@ -15,7 +17,8 @@ import es.ucm.gdv.practica1.engine.Input;
 
 public class _GraphicsAndroid extends AbstractGraphics{
 
-    _GraphicsAndroid(AppCompatActivity context){
+    _GraphicsAndroid(AppCompatActivity context, AbstractEngine.EnginePaths p){
+        super(p);
         _context = context;
         init();
     }
@@ -77,22 +80,41 @@ public class _GraphicsAndroid extends AbstractGraphics{
     //TODO
     @Override
     public Image newImage(String name) {
-        ImageAndroid i = new ImageAndroid(name, _context.getAssets());
+        ImageAndroid i = new ImageAndroid(_paths._imagesPath + name, _context.getAssets());
         return i;
     }
 
     //TODO
     @Override
     public Font newFont(String filename, int size, boolean isBold) {
-        FontAndroid f = new FontAndroid(filename,size,isBold, _context.getAssets());
+        FontAndroid f = new FontAndroid(_paths._fontsPath + filename,size,isBold, _context.getAssets());
         return f;
         //TODO setFont()
     }
 
+    @Override
+    public void setActiveFont(Font f) {
+        FontAndroid fa = (FontAndroid) f;
+        if(fa.get_font()!=null){
+            _paint.setTypeface(fa.get_font());
+            _paint.setFakeBoldText(fa.is_bold());
+            _paint.setTextSize(fa.get_size());
+        }
+    }
+
+
     //TODO
     @Override
-    public void drawImage(Image image) {
-
+    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
+        if(image !=null){
+            ImageAndroid aI = (ImageAndroid)image;
+            if(aI.get_image()!=null){
+                int scaledW = (int)(aI.getWidth()*scaleX);
+                int scaledH = (int)(aI.getHeight()*scaleY);
+                aI.scaleImage(scaledW,scaledH);
+                _canvas.drawBitmap(aI.get_image(),x,y,_paint);
+            }
+        }
     }
 
     @Override

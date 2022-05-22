@@ -8,7 +8,7 @@ public interface _Graphics {
     Image newImage(String name);
     //crea una nueva fuente del tamaño especificado a partir del .ttf y se indica si se desea o no en negrita
     Font newFont(String filename, int size, boolean isBold);
-
+    void setActiveFont(Font f);
     //borra el contenido completo de la ventana rellenandolo con un color recibido como parametro
     void clear(int color);
 
@@ -20,7 +20,7 @@ public interface _Graphics {
     void restore();
 
     //recibe una imagen y la muestra en la pantalla.
-    void drawImage(Image image); //diferentes versiones según se permita: escalar, que porción mostrar, etc
+    void drawImage(Image image, int x, int y, float scaleX, float scaleY); //diferentes versiones según se permita: escalar, que porción mostrar, etc
 
     //establece el color activo para las operaciones posteriores
     void setColor(int color);

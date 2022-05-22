@@ -1,5 +1,7 @@
 package es.ucm.gdv.practica1.engineandroid;
 
+import android.speech.tts.TextToSpeech;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.gdv.practica1.engine.AbstractEngine;
@@ -9,8 +11,8 @@ import es.ucm.gdv.practica1.engine._Graphics;
 
 public class _EngineAndroid extends AbstractEngine implements Runnable {
 
-    public _EngineAndroid(_Game game, AppCompatActivity context){ //quizas se le podria pasar el w-h
-        super(game, new _GraphicsAndroid(context), new _InputAndroid());
+    public _EngineAndroid(_Game game, AppCompatActivity context, EnginePaths p){ //quizas se le podria pasar el w-h
+        super(game, new _GraphicsAndroid(context,p), new _InputAndroid(), p);
         _myGame.setEngine(this);
         init();
     }

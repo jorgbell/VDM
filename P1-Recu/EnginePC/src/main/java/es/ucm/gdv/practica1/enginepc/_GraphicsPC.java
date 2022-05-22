@@ -9,6 +9,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+import es.ucm.gdv.practica1.engine.AbstractEngine;
 import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Image;
@@ -16,7 +17,8 @@ import es.ucm.gdv.practica1.engine.Input;
 
 
 public class _GraphicsPC extends AbstractGraphics {
-    public _GraphicsPC(String title, int wWidth, int wHeight){
+    public _GraphicsPC(String title, int wWidth, int wHeight, AbstractEngine.EnginePaths p){
+        super(p);
         _windowName = title;
         _wWidth = wWidth;
         _wHeight = wHeight;
@@ -113,22 +115,38 @@ public class _GraphicsPC extends AbstractGraphics {
     //TODO
     @Override
     public Image newImage(String name) {
-        ImagePC i = new ImagePC(name);
+        ImagePC i = new ImagePC(_paths._imagesPath + name);
         return i;
     }
 
     //TODO
     @Override
     public Font newFont(String filename, int size, boolean isBold) {
-        FontPC f = new FontPC(filename, size, isBold);
+        FontPC f = new FontPC(_paths._fontsPath + filename, size, isBold);
         return f;
-        //TODO setFont()
+    }
+
+    @Override
+    public void setActiveFont(Font f) {
+        FontPC fpc = (FontPC)f;
+        if(fpc.get_font()!=null){
+            _jGraphics.setFont(fpc.get_font());
+            _actualFont = fpc;
+        }
     }
 
     //TODO
     @Override
-    public void drawImage(Image image) {
-
+    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
+        ImagePC ipc = (ImagePC)image;
+        if(ipc.get_image() != null){
+            int drawWidth = (int)(image.getWidth()*scaleX);
+            int drawHeight = (int)(image.getHeight()*scaleY);
+            _jGraphics.drawImage(ipc.get_image(),
+                    x, y,
+                    drawWidth, drawHeight,
+                    null);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package es.ucm.gdv.practica1.gamepc;
 
+import es.ucm.gdv.practica1.engine.AbstractEngine;
 import es.ucm.gdv.practica1.enginepc._EnginePC;
 import es.ucm.gdv.practica1.gamelogic.GameLogic;
 
@@ -7,7 +8,8 @@ public class GamePC {
     GamePC(){
         //inicializamos el motor y el juego
         GameLogic g = new GameLogic();
-        _engine = new _EnginePC(g, "OhNo", 480, 480);
+        AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("./data/", "./data/images", "./data/fonts");
+        _engine = new _EnginePC(g, "OhNo", 480, 480, paths);
 
     }
 

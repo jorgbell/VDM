@@ -2,10 +2,22 @@ package es.ucm.gdv.practica1.engine;
 //implementación común del motor independiente de la plataforma
 public abstract class AbstractEngine implements _Engine{
 
-    protected AbstractEngine(_Game game, _Graphics g, Input i){
+    public static class EnginePaths{
+        public EnginePaths(String r, String i, String f){
+            _rootPath = r;
+            _imagesPath = i;
+            _fontsPath = f;
+        }
+        public String _rootPath;
+        public String _imagesPath;
+        public String _fontsPath;
+    }
+
+    protected AbstractEngine(_Game game, _Graphics g, Input i, EnginePaths p){
         _myGame = game;
         _myGraphics = g;
         _myInput = i;
+        _myPaths = p;
     }
 
     @Override
@@ -41,10 +53,15 @@ public abstract class AbstractEngine implements _Engine{
         return _myInput;
     }
 
+    public EnginePaths paths(){
+        return _myPaths;
+    }
+
     //variables
     protected _Graphics _myGraphics; //o abstractGraphics
     protected _Game _myGame;
     protected Input _myInput;
+    protected EnginePaths _myPaths;
     protected long _lastFrameTime;
     protected volatile boolean _running = false;
 }

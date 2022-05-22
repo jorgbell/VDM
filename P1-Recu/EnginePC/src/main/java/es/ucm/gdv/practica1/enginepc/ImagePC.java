@@ -1,15 +1,32 @@
 package es.ucm.gdv.practica1.enginepc;
 
-import es.ucm.gdv.practica1.engine.Image;
+import java.awt.Image;
+import java.io.IOException;
 
-public class ImagePC implements Image {
-    @Override
-    public int getWidth() {
-        return 0;
+import es.ucm.gdv.practica1.engine.AbstractImage;
+
+public class ImagePC extends AbstractImage {
+
+    ImagePC(String f){
+        super(f);
+        load();
     }
 
+
     @Override
-    public int getHeight() {
-        return 0;
+    public void load() {
+        try {
+            _image = javax.imageio.ImageIO.read(new java.io.File(_filename));
+            _width = _image.getWidth(null);
+            _height = _image.getHeight(null);
+        } catch (IOException e) {
+            System.err.println("No se puede cargar la imagen: " + e);
+        }
     }
+
+    public Image get_image() {
+        return _image;
+    }
+
+    java.awt.Image _image;
 }
