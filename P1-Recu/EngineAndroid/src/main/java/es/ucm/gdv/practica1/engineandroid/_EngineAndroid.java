@@ -33,18 +33,9 @@ public class _EngineAndroid extends AbstractEngine implements Runnable {
             ;
 
         while(_running){
-
-            //ESTO ANTES LO METIA EN UN METODO RENDER DE ANDROIDGRAPCHIS.
-            //NO SE SI DEBERIA IR AQUI
-            while (!((_GraphicsAndroid)_myGraphics)._surfaceHolder.getSurface().isValid())
-                ;
-            ((_GraphicsAndroid)_myGraphics)._canvas = ((_GraphicsAndroid)_myGraphics)._surfaceHolder.lockCanvas();
-            //((_GraphicsAndroid)_myGraphics).clearWindow();
-            //((_GraphicsAndroid)_myGraphics).reScale();
-            _myGame.run(); //input, update, render
-            ((_GraphicsAndroid)_myGraphics)._surfaceHolder.unlockCanvasAndPost(((_GraphicsAndroid)_myGraphics)._canvas);
-
-
+            _myGame.getInput();
+            _myGame.update(getDeltaTime());
+            _myGraphics.render(_myGame);
             //INPUT
             /*
                 // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...

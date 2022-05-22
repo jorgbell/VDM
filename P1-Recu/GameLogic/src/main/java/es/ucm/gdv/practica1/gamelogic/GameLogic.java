@@ -24,7 +24,9 @@ public class GameLogic implements _Game {
         render();
     }
 
-    void getInput(){
+
+    @Override
+    public void getInput() {
         List<Input.TouchEvent> inputList = _myEngine.getInput().getTouchEvents();
         while(inputList.size()>0){//mientras haya input que procesar
             Input.TouchEvent aux = inputList.get(0); //cogemos el primero a procesar
@@ -33,17 +35,21 @@ public class GameLogic implements _Game {
         }
     }
 
-    void processInput(Input.TouchEvent input){
-
+    @Override
+    public void processInput(Input.TouchEvent input) {
+;
     }
 
 
-    void update(double deltaTime){
-
+    @Override
+    public void update(double deltaTime) {
+ ;
     }
 
-    void render(){
 
+    @Override
+    public void render() {
+  ;
     }
 
     //VARIABLES PRIVADAS

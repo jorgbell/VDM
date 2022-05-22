@@ -4,6 +4,7 @@ public interface _Graphics {
 
     public boolean init();
     public boolean setInputListener(Input listener);
+    public void render(_Game game);
     //carga una imagen almacenada en el contenedor de recursos de la aplicacion a partir de su nombre
     Image newImage(String name);
     //crea una nueva fuente del tamaño especificado a partir del .ttf y se indica si se desea o no en negrita

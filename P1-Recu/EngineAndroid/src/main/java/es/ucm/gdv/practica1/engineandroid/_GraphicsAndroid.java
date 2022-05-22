@@ -14,6 +14,7 @@ import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Image;
 import es.ucm.gdv.practica1.engine.Input;
+import es.ucm.gdv.practica1.engine._Game;
 
 public class _GraphicsAndroid extends AbstractGraphics{
 
@@ -41,6 +42,19 @@ public class _GraphicsAndroid extends AbstractGraphics{
         return true;
     }
 
+
+    @Override
+    public void render(_Game game) {
+
+        while (!_surfaceHolder.getSurface().isValid())
+            ;
+
+        _canvas = _surfaceHolder.lockCanvas();
+        clear(0xFFFFFFFF);
+        //((_GraphicsAndroid)_myGraphics).reScale();
+        game.run(); //input, update, render
+        _surfaceHolder.unlockCanvasAndPost(_canvas);
+    }
 
     @Override
     public void setColor(int color) {

@@ -14,6 +14,7 @@ import es.ucm.gdv.practica1.engine.AbstractGraphics;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Image;
 import es.ucm.gdv.practica1.engine.Input;
+import es.ucm.gdv.practica1.engine._Game;
 
 
 public class _GraphicsPC extends AbstractGraphics {
@@ -64,11 +65,31 @@ public class _GraphicsPC extends AbstractGraphics {
         return true;
     }
 
+
     @Override
     public boolean setInputListener(Input listener) {
         _InputPC cast = (_InputPC) listener;
         _jframeWindow.addMouseListener(cast);
         return true;
+    }
+
+    @Override
+    public void render(_Game game) {
+        do {
+            do {
+                Graphics g = _bufferStrategy.getDrawGraphics();
+                _jGraphics = g; //variable en PCGraphics
+                try {
+                    clear(0xFFFFFFFF);
+                    //_myGraphics.reScale(); //hace clear para crear las bandas del color bg
+                    game.render(); //input, update, render
+                }
+                finally {
+                    g.dispose();
+                }
+            } while(_bufferStrategy.contentsRestored());
+            _bufferStrategy.show();
+        } while(_bufferStrategy.contentsLost());
     }
 
     @Override
