@@ -29,6 +29,6 @@ public abstract class AbstractGame implements _Game {
 
     //VARIABLES PRIVADAS
     protected _Engine _myEngine;
-    int _gameWidth;
-    int _gameHeight;
+    public int _gameWidth;
+    public int _gameHeight;
 }
