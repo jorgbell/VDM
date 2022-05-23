@@ -7,9 +7,9 @@ import es.ucm.gdv.practica1.gamelogic.GameLogic;
 public class GamePC {
     GamePC(){
         //inicializamos el motor y el juego
-        GameLogic g = new GameLogic();
+        GameLogic g = new GameLogic(400,600);
         AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("./data/", "./data/images/", "./data/fonts/");
-        _engine = new _EnginePC(g, "OhNo", 900, 900, paths);
+        _engine = new _EnginePC(g, "OhNo", 400, 600, paths);
 
     }
 

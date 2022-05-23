@@ -30,7 +30,6 @@ public class _GraphicsPC extends AbstractGraphics {
         //inicializa JFrame y crea la ventana
         _jframeWindow = new JFrame(_windowName);
         _jframeWindow.setSize(_wWidth, _wHeight);
-        //setAspectRatio();
         _jframeWindow.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
         // Vamos a usar renderizado activo. No queremos que Swing llame al
@@ -80,8 +79,8 @@ public class _GraphicsPC extends AbstractGraphics {
                 Graphics g = _bufferStrategy.getDrawGraphics();
                 _jGraphics = g; //variable en PCGraphics
                 try {
-                    clear(0xFFFFFFFF);
-                    //_myGraphics.reScale(); //hace clear para crear las bandas del color bg
+                    clear(0xFFFFFF00);
+                    reScale();
                     game.render(); //input, update, render
                 }
                 finally {
@@ -123,7 +122,7 @@ public class _GraphicsPC extends AbstractGraphics {
     }
 
     @Override
-    public void scale(float x, float y) {
+    public void scale(double x, double y) {
         ((Graphics2D)_jGraphics).scale(x,y);
     }
 

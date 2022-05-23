@@ -22,7 +22,7 @@ public class GameAndroid extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GameLogic g = new GameLogic();
+        GameLogic g = new GameLogic(400,400);
         AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("", "images/", "fonts/");
         _myEngine = new _EngineAndroid(g, this, paths);
 

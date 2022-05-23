@@ -2,13 +2,17 @@ package es.ucm.gdv.practica1.gamelogic;
 
 import java.util.List;
 
+import es.ucm.gdv.practica1.engine.AbstractGame;
 import es.ucm.gdv.practica1.engine.Font;
 import es.ucm.gdv.practica1.engine.Image;
 import es.ucm.gdv.practica1.engine.Input;
-import es.ucm.gdv.practica1.engine._Engine;
-import es.ucm.gdv.practica1.engine._Game;
 
-public class GameLogic implements _Game {
+public class GameLogic extends AbstractGame {
+
+    public GameLogic(int gameW, int gameH){
+        super(gameW, gameH);
+    }
+
     @Override
     public boolean init() {
         //carga de recursos
@@ -19,21 +23,6 @@ public class GameLogic implements _Game {
         return true;
     }
 
-    @Override
-    public void setEngine(_Engine e) {
-        _myEngine = e;
-    }
-
-
-    @Override
-    public void getInput() {
-        List<Input.TouchEvent> inputList = _myEngine.getInput().getTouchEvents();
-        while(inputList.size()>0){//mientras haya input que procesar
-            Input.TouchEvent aux = inputList.get(0); //cogemos el primero a procesar
-            inputList.remove(0); //lo borramos de la lista
-            processInput(aux); //lo procesamos
-        }
-    }
 
     @Override
     public void processInput(Input.TouchEvent input) {
@@ -54,36 +43,35 @@ public class GameLogic implements _Game {
 
     @Override
     public void update(double deltaTime) {
-        if(!prueba){
-        x = (float)(x+0.1);
-        y = (float)(y+0.1);}
+       /* if(!prueba){
+        x = (float)(x+1);
+        y = (float)(y+1);}
         else{
-            x = (float)(x-0.1);
-            y = (float)(y-0.1);
-        }
+            x = (float)(x-1);
+            y = (float)(y-1);
+        }*/
     }
 
 
     @Override
     public void render() {
-        _myEngine.getGraphics().setColor(0x817135);
-        _myEngine.getGraphics().fillRect(x,y,100,100);
+
+        _myEngine.getGraphics().setColor(0xFFFF00FF);
+        _myEngine.getGraphics().fillCircle(x,y,40);
 
         _myEngine.getGraphics().setActiveFont(f);
         _myEngine.getGraphics().drawText("hola",x,y);
-        _myEngine.getGraphics().setColor(color);
         _myEngine.getGraphics().setActiveFont(f2);
-        _myEngine.getGraphics().drawText("que tal",x,y);
+        _myEngine.getGraphics().drawText("que tal",x+20,y+20);
 
-        _myEngine.getGraphics().drawImage(i,x,y,1,1);
+        _myEngine.getGraphics().drawImage(i,x+30,y+30,1,1);
     }
 
-    //VARIABLES PRIVADAS
-    _Engine _myEngine;
+
     //VARIABLES DE PRUEBAS
     boolean prueba = false;
-    float x = 30; float y = 30;
-    int color = 0x956842;
+    float x = 0; float y = 100;
+    int color = 0xFF956842;
     Font f, f2;
     Image i, i2;
 }

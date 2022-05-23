@@ -50,11 +50,9 @@ public class _GraphicsAndroid extends AbstractGraphics{
         while (!_surfaceHolder.getSurface().isValid())
             ;
 
-        _canvas = _surfaceHolder.lockCanvas();
-        setColor(0x817135);
-        fillRect(0,0,100,100);
-        //_canvas.drawColor(0xFFFFFFFF);
-        //((_GraphicsAndroid)_myGraphics).reScale();
+        _canvas =_surfaceHolder.lockCanvas();
+        clear(0xFFFFFFFF);
+        reScale();
         game.render();
         _surfaceHolder.unlockCanvasAndPost(_canvas);
     }
@@ -67,11 +65,7 @@ public class _GraphicsAndroid extends AbstractGraphics{
 
     @Override
     public void clear(int color) {
-        //Este metodo no cambia el color actual. Limpia a lo bruto
-        //Para cambiar el color actual usar el metodo anterior
-        _paint.setColor(color);
-        _canvas.drawRect(0,0,getWidth(),getHeight(), _paint);
-        _paint.setColor(_actualColor);
+        _canvas.drawColor(color);
     }
 
     @Override
@@ -85,8 +79,8 @@ public class _GraphicsAndroid extends AbstractGraphics{
     }
 
     @Override
-    public void scale(float x, float y) {
-        _canvas.scale(x,y);
+    public void scale(double x, double y) {
+        _canvas.scale((float)x,(float)y);
     }
 
     @Override

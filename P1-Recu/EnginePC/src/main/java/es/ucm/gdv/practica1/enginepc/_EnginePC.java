@@ -17,8 +17,9 @@ public class _EnginePC extends AbstractEngine {
         if(!_running)
             _running = true;
         while(_running){
+            double deltaTime = getDeltaTime();
+            _myGame.update(deltaTime);
             _myGame.getInput();
-            _myGame.update(getDeltaTime());
             _myGraphics.render(_myGame);
         }
     }

@@ -37,9 +37,8 @@ public abstract class AbstractEngine implements _Engine{
     @Override
     public double getDeltaTime() {
         long currentTime = System.nanoTime();
-        long nanoElapsedTime = currentTime - _lastFrameTime;
+        double elapsedTime = (double)(currentTime - _lastFrameTime) / 1.0E9;
         _lastFrameTime = currentTime;
-        double elapsedTime = (double) nanoElapsedTime / 1.0E9;
         return elapsedTime;
     }
 

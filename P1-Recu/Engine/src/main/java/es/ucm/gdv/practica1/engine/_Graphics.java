@@ -5,6 +5,8 @@ public interface _Graphics {
     public boolean init();
     public boolean setInputListener(Input listener);
     public void render(_Game game);
+    public void reScale();
+    public void setGameSize(int x, int y);
     //carga una imagen almacenada en el contenedor de recursos de la aplicacion a partir de su nombre
     Image newImage(String name);
     //crea una nueva fuente del tamaño especificado a partir del .ttf y se indica si se desea o no en negrita
@@ -16,7 +18,7 @@ public interface _Graphics {
     //métodos de control de la transformación sobre el canvas
     //las operaciones de dinbujado posteriores se verán afectadas por la transformación establecida
     void translate(int x, int y);
-    void scale(float x, float y);
+    void scale(double x, double y);
     void save();
     void restore();
 

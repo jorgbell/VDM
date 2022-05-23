@@ -1,13 +1,8 @@
 package es.ucm.gdv.practica1.engineandroid;
 
-import android.speech.tts.TextToSpeech;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import es.ucm.gdv.practica1.engine.AbstractEngine;
-import es.ucm.gdv.practica1.engine.Input;
 import es.ucm.gdv.practica1.engine._Game;
-import es.ucm.gdv.practica1.engine._Graphics;
 
 public class _EngineAndroid extends AbstractEngine implements Runnable {
 
@@ -33,8 +28,9 @@ public class _EngineAndroid extends AbstractEngine implements Runnable {
             ;
 
         while(_running){
+            double deltaTime = getDeltaTime();
+            _myGame.update(deltaTime);
             _myGame.getInput();
-            _myGame.update(getDeltaTime());
             _myGraphics.render(_myGame);
             //INPUT
             /*
