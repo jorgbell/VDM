@@ -23,7 +23,7 @@ public abstract class AbstractEngine implements _Engine{
     @Override
     public boolean init() {
         _lastFrameTime = System.nanoTime();
-        if(!_myGraphics.init() || !_myGame.init() || !_myGraphics.setInputListener(_myInput))
+        if(!_myGraphics.init() || !_myGraphics.setInputListener(_myInput) || !_myGame.init() )
             return false;
         return true;
     }

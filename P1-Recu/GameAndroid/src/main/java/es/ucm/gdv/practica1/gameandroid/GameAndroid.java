@@ -23,8 +23,9 @@ public class GameAndroid extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameLogic g = new GameLogic();
-        AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("./data/", "./data/images/", "./data/fonts/");
+        AbstractEngine.EnginePaths paths = new AbstractEngine.EnginePaths("", "images/", "fonts/");
         _myEngine = new _EngineAndroid(g, this, paths);
+
     }
 
     /**

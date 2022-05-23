@@ -158,33 +158,33 @@ public class _GraphicsPC extends AbstractGraphics {
 
     //TODO
     @Override
-    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
+    public void drawImage(Image image, float x, float y, float scaleX, float scaleY) {
         ImagePC ipc = (ImagePC)image;
         if(ipc.get_image() != null){
             int drawWidth = (int)(image.getWidth()*scaleX);
             int drawHeight = (int)(image.getHeight()*scaleY);
             _jGraphics.drawImage(ipc.get_image(),
-                    x, y,
+                    (int)x, (int)y,
                     drawWidth, drawHeight,
                     null);
         }
     }
 
     @Override
-    public void drawText(String text, int x, int y) {
-        _jGraphics.drawString(text,x,y);
+    public void drawText(String text, float x, float y) {
+        _jGraphics.drawString(text,(int)x,(int)y);
 
     }
 
     @Override
-    public void fillCircle(int cx, int cy, int r) {
-        _jGraphics.drawOval(cx,cy,r,r);
-        _jGraphics.fillOval(cx,cy,r,r);
+    public void fillCircle(float cx, float cy, int r) {
+        _jGraphics.drawOval((int)cx,(int)cy,r,r);
+        _jGraphics.fillOval((int)cx,(int)cy,r,r);
     }
 
     @Override
-    public void fillRect(int x, int y, int w, int h) {
-        _jGraphics.fillRect(x,y,w,h);
+    public void fillRect(float x, float y, float w, float h) {
+        _jGraphics.fillRect((int)x,(int)y,(int)w,(int)h);
     }
 
 

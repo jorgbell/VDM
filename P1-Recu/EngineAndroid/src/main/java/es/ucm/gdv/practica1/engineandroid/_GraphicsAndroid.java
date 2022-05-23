@@ -21,7 +21,6 @@ public class _GraphicsAndroid extends AbstractGraphics{
     _GraphicsAndroid(AppCompatActivity context, AbstractEngine.EnginePaths p){
         super(p);
         _context = context;
-        init();
     }
 
     @Override
@@ -32,6 +31,8 @@ public class _GraphicsAndroid extends AbstractGraphics{
         _surfaceHolder = _surfaceView.getHolder();
         _context.setContentView(_surfaceView);
         //setAspectRatio();
+        _wWidth = _surfaceView.getWidth();
+        _wHeight = _surfaceView.getHeight();
         return true;
     }
 
@@ -50,9 +51,11 @@ public class _GraphicsAndroid extends AbstractGraphics{
             ;
 
         _canvas = _surfaceHolder.lockCanvas();
-        clear(0xFFFFFFFF);
+        setColor(0x817135);
+        fillRect(0,0,100,100);
+        //_canvas.drawColor(0xFFFFFFFF);
         //((_GraphicsAndroid)_myGraphics).reScale();
-        game.run(); //input, update, render
+        game.render();
         _surfaceHolder.unlockCanvasAndPost(_canvas);
     }
 
@@ -119,7 +122,7 @@ public class _GraphicsAndroid extends AbstractGraphics{
 
     //TODO
     @Override
-    public void drawImage(Image image, int x, int y, float scaleX, float scaleY) {
+    public void drawImage(Image image, float x, float y, float scaleX, float scaleY) {
         if(image !=null){
             ImageAndroid aI = (ImageAndroid)image;
             if(aI.get_image()!=null){
@@ -132,22 +135,29 @@ public class _GraphicsAndroid extends AbstractGraphics{
     }
 
     @Override
-    public void drawText(String text, int x, int y) {
+    public void drawText(String text, float x, float y) {
         _canvas.drawText(text, x, y, _paint);
     }
 
     @Override
-    public void fillCircle(int cx, int cy, int r) {
+    public void fillCircle(float cx, float cy, int r) {
         _canvas.drawCircle(cx,cy,r,_paint);
     }
 
     @Override
-    public void fillRect(int x, int y, int w, int h) {
+    public void fillRect(float x, float y, float w, float h) {
         _canvas.drawRect(x,y,w,h, _paint);
     }
 
+    @Override
+    public int getWidth() {
+        return _surfaceView.getWidth();
+    }
 
-
+    @Override
+    public int getHeight() {
+        return _surfaceView.getHeight();
+    }
 
     //VARIABLES
     AppCompatActivity _context;

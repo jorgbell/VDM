@@ -21,7 +21,7 @@ public interface _Graphics {
     void restore();
 
     //recibe una imagen y la muestra en la pantalla.
-    void drawImage(Image image, int x, int y, float scaleX, float scaleY); //diferentes versiones según se permita: escalar, que porción mostrar, etc
+    void drawImage(Image image, float x, float y, float scaleX, float scaleY); //diferentes versiones según se permita: escalar, que porción mostrar, etc
 
     //establece el color activo para las operaciones posteriores
     void setColor(int color);
@@ -29,10 +29,10 @@ public interface _Graphics {
     int getColor();
 
     //dibuja un circulo relleno con el color activo
-    void fillCircle(int cx, int cy, int r);
-    void fillRect(int x, int y, int w, int h);
+    void fillCircle(float cx, float cy, int r);
+    void fillRect(float x, float y, float w, float h);
     // escribe el texto con la fuente y color activos.
-    void drawText(String text, int x, int y);
+    void drawText(String text, float x, float y);
 
     //tamaño de la ventana
     int getWidth(); //window width vs game width?¿?

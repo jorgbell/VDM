@@ -18,7 +18,7 @@ public class FontAndroid extends AbstractFont {
 
     @Override
     public void load() {
-        try (InputStream is = new FileInputStream(_filename)) {
+        try{
             _font = Typeface.createFromAsset(_assetManager, _filename);
         }
         catch (Exception e) {
