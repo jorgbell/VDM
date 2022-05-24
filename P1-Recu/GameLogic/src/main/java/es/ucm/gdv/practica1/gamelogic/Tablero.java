@@ -48,6 +48,8 @@ public class Tablero
     {
         size = s;
         N_CASILLAS = s*s;
+        minBarriers= N_CASILLAS - (int)(N_CASILLAS*0.95);
+        maxBarriers = N_CASILLAS/3;
         Boolean solvable = false;
 
         //generacion de un tablero hasta que pueda ser resuelto
@@ -60,7 +62,9 @@ public class Tablero
             //Las barreras se marcan con una X
             generateBarriers();
             //Llenamos con barreras las casillas cercadas
+            print();
             fillGaps();
+            System.out.print("MinBarriers: " + minBarriers + "\nMaxBarriers: "+ maxBarriers + "\nMinNBLues: "+minBlues+"\nMaxNBlues: "+maxBlues);
             print();
             //Generamos casillas azules numeradas de forma aleatoria, siendo el maximo del numero el espacio disponible
             generateBlues();
@@ -83,9 +87,6 @@ public class Tablero
 
         int nBarriers = 0;
         //numero minimo requerido de barreras = minimo un 5% del total tienen que ser barreras
-        int minBarriers = N_CASILLAS - (int)(N_CASILLAS*0.95);
-        //numero maximo de barreras = como maximo puede haber un tercio del total
-        int maxBarriers = N_CASILLAS/3;
         //creamos unos contenedores provisionales en los que meteremos el tablero que estamos creando.
         //si el numero de barreras llega a ser el que queremos, lo aniadiremos al final. Si no, repetiremos.
         Vector<Vector<String>> interiorProvisional = new Vector<Vector<String>>(0);
@@ -109,7 +110,7 @@ public class Tablero
                 int j = 1;
                 while(j<size+1){//debe recorrer toda la linea
                     //si puede aniadir muros, mira a ver si lo mete. Si no, tiene que meter si o si un espacio en blanco
-                    if(nBarriers <= maxBarriers){
+                    if(nBarriers < maxBarriers){
                         int prob = rand.nextInt(10);
                         //aniade o no segun el factor aleatorio un muro o un espacio en blanco
                         if (prob<2) //20% de probabilidad de crear un muro
@@ -155,15 +156,7 @@ public class Tablero
     {
         Random rand = new Random();
 
-        //numero minimo requerido de azules iniciales = minimo un 5% del total de espacios libres
-        int minBlues = freeSpace.size() - (int)(freeSpace.size()*0.95);
-        //numero maximo de azules iniciales = como maximo puede haber un tercio del total de espacios libres
-        int maxBlues = freeSpace.size()/3;
         int nBlues = 0;
-
-        System.out.print(minBlues + "\n");
-        System.out.print(maxBlues + "\n");
-
 
         //contenedor del resultado provisional
         Vector<NBlue> provisionalNBlues = new Vector<NBlue>();
@@ -180,14 +173,14 @@ public class Tablero
             //Recorremos las casillas que no tienen barreras
             while (i<freeSpace.size() && nBlues < maxBlues) //mientras aun queden espacios por recorrer Y no se haya superado el maximo de azules requerido
             {
-                pair<Integer> pos = new pair<Integer>(freeSpace.get(i)._sec, (int)freeSpace.get(i)._first);
+                pair<Integer> pos = new pair<Integer>(freeSpace.get(i)._sec, freeSpace.get(i)._first);
                 //FloatPair pos = new FloatPair((int)freeSpace.get(i)._y, (int)freeSpace.get(i)._x);
 
                 Vector<Integer> space = checkSpace(pos._first, pos._sec);
 
                 //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
                 int prob = rand.nextInt(10);
-                if (space.get(0) > 0 && prob < 2) //10% de probabilidades de crear un numero inicial
+                if (space.get(0) > 0 && prob < 1) //10% de probabilidades de crear un numero inicial
                 {
                     //El valor maximo es el menor entre el espacio y el tamaño del tablero
                     Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
@@ -203,7 +196,7 @@ public class Tablero
 
 
         for (NBlue nblue: provisionalNBlues) {
-            tablero.get(nblue.pos._sec).set(nblue.pos._first,String.valueOf(nblue.value));
+            tablero.get(nblue.pos._first).set(nblue.pos._sec,String.valueOf(nblue.value));
         }
     }
 
@@ -226,6 +219,9 @@ public class Tablero
             }
             else i++;
         }
+        minBlues = freeSpace.size() - (int)(freeSpace.size()*0.95);
+        //numero maximo de azules iniciales = como maximo puede haber un tercio del total de espacios libres
+        maxBlues = freeSpace.size()/3;
     }
 
     private Boolean solveTablero()
@@ -535,5 +531,13 @@ public class Tablero
     private Vector<pair<Integer>> freeSpace = new Vector<pair<Integer>>();
     private Vector<NBlue> numberedBlues = new Vector<NBlue>() ;
     private Pistas _pistas;
+    int minBarriers;
+    //numero maximo de barreras = como maximo puede haber un tercio del total
+    int maxBarriers;
+    //numero minimo requerido de azules iniciales = minimo un 5% del total de espacios libres
+    int minBlues;
+    //numero maximo de azules iniciales = como maximo puede haber un tercio del total de espacios libres
+    int maxBlues;
+
 }
 
