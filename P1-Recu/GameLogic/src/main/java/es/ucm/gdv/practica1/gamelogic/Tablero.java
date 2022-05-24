@@ -1,5 +1,6 @@
 package es.ucm.gdv.practica1.gamelogic;
 
+import java.util.Collections;
 import java.util.Vector;
 import java.util.Random;
 import es.ucm.gdv.practica1.engine.pair;
@@ -60,12 +61,13 @@ public class Tablero
             generateBarriers();
             //Llenamos con barreras las casillas cercadas
             fillGaps();
+            print();
             //Generamos casillas azules numeradas de forma aleatoria, siendo el maximo del numero el espacio disponible
             generateBlues();
-
             print();
             //Resolvemos el tablero usando las pistas
             solvable = solveTablero();
+            print();
         }
 
     }
@@ -153,29 +155,55 @@ public class Tablero
     {
         Random rand = new Random();
 
-        int i = 0;
+        //numero minimo requerido de azules iniciales = minimo un 5% del total de espacios libres
+        int minBlues = freeSpace.size() - (int)(freeSpace.size()*0.95);
+        //numero maximo de azules iniciales = como maximo puede haber un tercio del total de espacios libres
+        int maxBlues = freeSpace.size()/3;
+        int nBlues = 0;
 
-        //Recorremos las casillas que no tienen barreras
-        while (i<freeSpace.size())
-        {
-            pair<Integer> pos = new pair<Integer>(freeSpace.get(i)._sec, (int)freeSpace.get(i)._first);
-            //FloatPair pos = new FloatPair((int)freeSpace.get(i)._y, (int)freeSpace.get(i)._x);
+        System.out.print(minBlues + "\n");
+        System.out.print(maxBlues + "\n");
 
-            Vector<Integer> space = checkSpace(pos._first, pos._sec);
 
-            //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
-            int prob = rand.nextInt(10);
-            if (space.get(0) > 0 && prob < 1) //10% de probabilidades de crear un numero inicial
+        //contenedor del resultado provisional
+        Vector<NBlue> provisionalNBlues = new Vector<NBlue>();
+        //copia de seguridad de los espacios vacios
+        Vector<pair<Integer>> freeSpaceCopy = new Vector<pair<Integer>>();
+        freeSpaceCopy.addAll(freeSpace);
+
+        while(nBlues < minBlues){ //mientras no se haya superado el minimo de azules iniciales requerido, hace una interacion hasta conseguirlo
+            provisionalNBlues.clear();
+            freeSpace.clear();
+            freeSpace.addAll(freeSpaceCopy);
+            nBlues = 0;
+            int i = 0;
+            //Recorremos las casillas que no tienen barreras
+            while (i<freeSpace.size() && nBlues < maxBlues) //mientras aun queden espacios por recorrer Y no se haya superado el maximo de azules requerido
             {
-                //El valor maximo es el menor entre el espacio y el tamaño del tablero
-                Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
-                String s = String.valueOf(value);
-                tablero.get(pos._sec).set(pos._first,s);
-                numberedBlues.add(new NBlue(pos, value, space)); //aniadimos una casilla azul al vector que cuenta las casillas azules que hay
-                freeSpace.remove(i);
+                pair<Integer> pos = new pair<Integer>(freeSpace.get(i)._sec, (int)freeSpace.get(i)._first);
+                //FloatPair pos = new FloatPair((int)freeSpace.get(i)._y, (int)freeSpace.get(i)._x);
+
+                Vector<Integer> space = checkSpace(pos._first, pos._sec);
+
+                //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
+                int prob = rand.nextInt(10);
+                if (space.get(0) > 0 && prob < 2) //10% de probabilidades de crear un numero inicial
+                {
+                    //El valor maximo es el menor entre el espacio y el tamaño del tablero
+                    Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
+                    String s = String.valueOf(value);
+                    provisionalNBlues.add(new NBlue(pos, value, space)); //aniadimos una casilla azul al vector que cuenta las casillas azules que hay
+                    freeSpace.remove(i); //no pasa nada si este bucle da un tablero incorrecto, porque al inicio del siguiente recuperaremos la copia de seguridad de los espacios vacios
+                    nBlues++;
+                }
+                else
+                    i++;
             }
-            else
-                i++;
+        }
+
+
+        for (NBlue nblue: provisionalNBlues) {
+            tablero.get(nblue.pos._sec).set(nblue.pos._first,String.valueOf(nblue.value));
         }
     }
 
