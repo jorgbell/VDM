@@ -1,2 +1,2 @@
-PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.26.28801:TargetPlatformVersion=10.0.18362.0:
-Debug|Win32|C:\Users\Tomás López\Desktop\Universidad\Cuarto\VDM\VDM\VDM_Test\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
+Debug|Win32|C:\Users\jorge\Desktop\ESTUDIOS\21-22\1\VDM\P1\VDM_Test\|

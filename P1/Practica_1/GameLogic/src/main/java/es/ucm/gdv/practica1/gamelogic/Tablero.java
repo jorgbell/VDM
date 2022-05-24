@@ -1,7 +1,5 @@
 package es.ucm.gdv.practica1.gamelogic;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Vector;
 import java.util.Random;
 import es.ucm.gdv.practica1.engine.FloatPair;
@@ -20,6 +18,7 @@ public class Tablero
         N_CASILLAS = s*s;
         Boolean solvable = false;
 
+        //generacion de un tablero hasta que pueda ser resuelto
         while(!solvable)
         {
             tablero.clear();
