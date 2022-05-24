@@ -73,41 +73,77 @@ public class Tablero
     public void generateBarriers()
     {
         //Generamos el limite horizontal superior del tablero
-        Vector<String> v1 = new Vector<String>(0);
-        tablero.add(v1);
-        for (int j = 0; j < size + 2; j++) tablero.get(0).add("X");
+        Vector<String> limiteH = new Vector<String>(0);
+        //tablero.add(limiteH);
+        for (int j = 0; j < size + 2; j++) limiteH.add("X");
 
         Random rand = new Random();
 
-        //Generamos barreras de forma aleatoria
-        for (int i = 1; i < size + 1; i++)
-        {
-            Vector<String> v2 = new Vector<String>(0);
-            tablero.add(v2);
+        int nBarriers = 0;
+        //numero minimo requerido de barreras = minimo un 5% del total tienen que ser barreras
+        int minBarriers = N_CASILLAS - (int)(N_CASILLAS*0.95);
+        //numero maximo de barreras = como maximo puede haber un tercio del total
+        int maxBarriers = N_CASILLAS/3;
+        //creamos unos contenedores provisionales en los que meteremos el tablero que estamos creando.
+        //si el numero de barreras llega a ser el que queremos, lo aniadiremos al final. Si no, repetiremos.
+        Vector<Vector<String>> interiorProvisional = new Vector<Vector<String>>(0);
+        Vector<pair<Integer>> freeSpaceProvisional = new Vector<pair<Integer>>(0);
 
-            tablero.get(i).add("X"); //borde lateral izq (pared invisible)
+        while(nBarriers < minBarriers) { //si al acabar de hacer el bucle no cumple el minimo de barreras que se piden, vuelve a intentarlo
+            //reseteamos valores
+            nBarriers = 0;
+            interiorProvisional.clear();
+            interiorProvisional.add(limiteH);
+            freeSpaceProvisional.clear();
 
-            for (int j = 1; j < size + 1; j++) //a partir del borde invisible
-            {
-                //aniade o no segun el factor aleatorio un muro o un espacio en blanco
-                if (rand.nextInt(size / 2) == 0)
-                {
-                    tablero.get(i).add("X");
+            //empezamos a crear las barreras
+            int i = 1;
+            while(i < size+1){ //debe hacer todas las lineas
+                Vector<String> linea = new Vector<String>(0);
+
+                interiorProvisional.add(linea);
+                interiorProvisional.get(i).add("X"); //borde lateral izq (pared invisible)
+
+                int j = 1;
+                while(j<size+1){//debe recorrer toda la linea
+                    //si puede aniadir muros, mira a ver si lo mete. Si no, tiene que meter si o si un espacio en blanco
+                    if(nBarriers <= maxBarriers){
+                        int prob = rand.nextInt(10);
+                        //aniade o no segun el factor aleatorio un muro o un espacio en blanco
+                        if (prob<2) //20% de probabilidad de crear un muro
+                        {
+                            interiorProvisional.get(i).add("X");
+                            nBarriers++; //sumamos unicamente aqui ya que el resto de barreras aniadidas son las invisibles
+                        }
+                        else{//puede meter mas muros, pero no dio la casualidad por el aleatorio, asi que mete un espacio en blanco
+                            interiorProvisional.get(i).add(" ");
+                            freeSpaceProvisional.add(new pair<Integer>(j, i)); //marcamos en el vector de los espacios vacios donde esta colocado en el tablero
+                        }
+                    }
+                    else {//mete un espacio en blanco por no poder meter mas muros
+                        interiorProvisional.get(i).add(" ");
+                        freeSpaceProvisional.add(new pair<Integer>(j, i)); //marcamos en el vector de los espacios vacios donde esta colocado en el tablero
+                    }
+                    j++;
                 }
 
-                else
-                {
-                    tablero.get(i).add(" ");
-                    freeSpace.add(new pair<Integer>(j, i)); //marcamos en el vector de los espacios vacios donde esta colocado en el tablero
-                }
+                interiorProvisional.get(i).add("X"); //borde lateral der (pared invisible)
+                i++;
             }
+        }
 
-            tablero.get(i).add("X"); //borde lateral der (pared invisible)
+        //Una vez se sale del bucle, significa que ha conseguido crear un tablero correcto. En ese caso, aniadimos:
+
+        for (Vector<String> linea: interiorProvisional) {
+            tablero.add(linea);
+        }
+        for (pair<Integer> space: freeSpaceProvisional) {
+            freeSpace.add(space);
         }
 
         //Generamos el limite horizontal inferior del tablero
-        tablero.add(v1);
-        for (int j = 0; j < size + 2; j++) tablero.get(size + 1).add("X");
+        tablero.add(limiteH);
+        //for (int j = 0; j < size + 2; j++) tablero.get(size + 1).add("X");
     }
 
     //Genera casillas azules numeradas en casillas vacias con espacio suficiente
@@ -128,7 +164,8 @@ public class Tablero
             Vector<Integer> space = checkSpace(pos._first, pos._sec);
 
             //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
-            if (space.get(0) > 0 && rand.nextInt(size) == 0)
+            int prob = rand.nextInt(10);
+            if (space.get(0) > 0 && prob < 1) //10% de probabilidades de crear un numero inicial
             {
                 //El valor maximo es el menor entre el espacio y el tamaño del tablero
                 Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
