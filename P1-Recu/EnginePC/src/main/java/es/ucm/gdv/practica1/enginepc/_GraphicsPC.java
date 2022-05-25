@@ -79,7 +79,7 @@ public class _GraphicsPC extends AbstractGraphics {
                 Graphics g = _bufferStrategy.getDrawGraphics();
                 _jGraphics = g; //variable en PCGraphics
                 try {
-                    clear(0xFFFFFF00);
+                    clear(0xFFFFFFFF);
                     reScale();
                     game.render(); //input, update, render
                 }

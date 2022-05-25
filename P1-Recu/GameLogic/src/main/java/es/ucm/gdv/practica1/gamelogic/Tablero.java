@@ -17,9 +17,9 @@ public class Tablero
 
         String bar = "";
 
-        for (int i = 0; i < size * 2; i++)
-            System.out.print("\n");
-            //cout << "\n";
+        System.out.print("\n");
+        System.out.print("\n");
+
 
         for (int i = 0; i < size; i++)
         {
@@ -51,7 +51,7 @@ public class Tablero
         minBarriers= N_CASILLAS - (int)(N_CASILLAS*0.95);
         maxBarriers = N_CASILLAS/3;
         Boolean solvable = false;
-
+        int nIntentos = 0;
         //generacion de un tablero hasta que pueda ser resuelto
         while(!solvable)
         {
@@ -62,17 +62,14 @@ public class Tablero
             //Las barreras se marcan con una X
             generateBarriers();
             //Llenamos con barreras las casillas cercadas
-            print();
             fillGaps();
-            System.out.print("MinBarriers: " + minBarriers + "\nMaxBarriers: "+ maxBarriers + "\nMinNBLues: "+minBlues+"\nMaxNBlues: "+maxBlues);
-            print();
             //Generamos casillas azules numeradas de forma aleatoria, siendo el maximo del numero el espacio disponible
             generateBlues();
-            print();
             //Resolvemos el tablero usando las pistas
-            solvable = solveTablero();
-            print();
+            solvable = isSolvable();
+            nIntentos++;
         }
+        System.out.print("Tablero creado despues de "+nIntentos+" intentos.");
 
     }
 
@@ -192,11 +189,13 @@ public class Tablero
                 else
                     i++;
             }
+
         }
 
-
+        //casillas fijas correctas. Procedemos a añadirlas al tablero.
         for (NBlue nblue: provisionalNBlues) {
             tablero.get(nblue.pos._first).set(nblue.pos._sec,String.valueOf(nblue.value));
+            numberedBlues.add(nblue);
         }
     }
 
@@ -224,6 +223,30 @@ public class Tablero
         maxBlues = freeSpace.size()/3;
     }
 
+    private boolean isSolvable(){
+
+        //PRIMERA COMPROBACION: Mirar si las casillas fijas se han añadido mal.
+        //Añadirse mal = que el numero requerido de una de las casillas fijas sea menor que el numero de casillas fijas que ve
+        //(aka siempre verá más de las que necesita y no se pueden modificar por ser fijas)
+
+        for (NBlue nBlue:numberedBlues) {
+            //el numero de azules que la casilla vea en este momento será el numero de casillas fijas azules, pues aun no se han añadido mediante input.
+            int nFijas = checkBlues(nBlue.pos._first, nBlue.pos._sec).get(0);
+            if(nFijas > nBlue.value){
+                //si se genera con unos numeros imposibles, sale del bucle y vuelve a intentar crear un tablero
+                return false;
+            }
+            //SEGUNDA COMPROBACIÓN: Los espacios fijos + los posibles permiten completar cada nBlue?
+            //En caso negativo, salimos y volvemos a hacer otro tablero
+            int nEspacios = checkSpace(nBlue.pos._first, nBlue.pos._sec).get(0);
+            if(nEspacios < nBlue.value)
+                return false;
+        }
+        //en caso de superar este bucle, se entiende que es un tablero resoluble,
+        return true;
+
+    }
+
     private Boolean solveTablero()
     {
 
@@ -232,6 +255,7 @@ public class Tablero
 
         while (solvable && !solved)
         {
+            System.out.print("solving...");
             updateBlues();
             int i = 0;
             Boolean flag = true;
@@ -254,9 +278,12 @@ public class Tablero
                 if(_pistas.PistaTres(b))
                 {
                     int dir = _pistas.PistaOcho(b);
-                    if(dir != 0)fillDirectionBlue(b, dir);
+                    if(dir != 0)
+                        fillDirectionBlue(b, dir);
 
-                    else if(_pistas.PistaNueve(b)) fillAllDirections(b);
+                    else if
+                        (_pistas.PistaNueve(b)) fillAllDirections(b);
+
                     flag = false;
                 }
 
@@ -277,38 +304,37 @@ public class Tablero
 
     private Boolean isSolved()
     {
-        Boolean flag = false;
         int i = 0;
-        while(i < freeSpace.size() && !flag)
+        //comprueba que las casillas modificables NO sean vacias. Solo se puede terminar si las casillas son AZULES O ROJAS.
+        while(i < freeSpace.size())
         {
-            if(tablero.get(freeSpace.get(i)._sec).get(freeSpace.get(i)._first) == " ") flag = true;
+            if(tablero.get(freeSpace.get(i)._sec).get(freeSpace.get(i)._first) == " ")
+                return false;
             else i++;
         }
-
-        if(flag) return false;
 
         i = 0;
-        flag = false;
-
-        while(i < numberedBlues.size() && !flag)
+        while(i < numberedBlues.size())
         {
-            if(numberedBlues.get(i).value == numberedBlues.get(i).visibleBlues.get(0)) flag = true;
+            if(numberedBlues.get(i).value == numberedBlues.get(i).visibleBlues.get(0))
+                return false;
             else i++;
         }
 
-        return (!flag);
+        return true;
     }
 
     private void fillSidesBarrier(NBlue b)
     {
         int x = b.pos._first;
         int y = b.pos._sec;
-        Vector<Integer> adjacent = checkAdjacentBlues(x, y);
+        Vector<Integer> adjacent = checkBlues(x, y);
 
         tablero.get(y - (adjacent.get(1) + 1)).set(x, "X");
         tablero.get(y + (adjacent.get(2) + 1)).set(x, "X");
         tablero.get(y).set(x - (adjacent.get(3) + 1), "X");
         tablero.get(y).set(x + (adjacent.get(4) + 1), "X");
+        print();
     }
 
     private void fillDirectionBlue(NBlue b, int dir)
@@ -316,10 +342,12 @@ public class Tablero
         int sign = -1 + 2 * (dir % 2);
         int x = b.pos._first;
         int y = b.pos._sec;
-        Vector<Integer> adjacent = checkAdjacentBlues(x, y);
+        Vector<Integer> adjacent = checkBlues(x, y);
 
         if(dir < 2) tablero.get(y + ((adjacent.get(1) + 1) * sign)).set(x, ".");
         else tablero.get(y).set(x + ((adjacent.get(4) + 1) * sign), ".");
+        print();
+        System.out.print("FILLED DIRECTION BLUE");
     }
 
     private void fillAllDirections(NBlue b)
@@ -338,6 +366,8 @@ public class Tablero
                 else if (tablero.get(y).get(x + j * sign) == " ") tablero.get(y).set(x + j * sign, ".");
             }
         }
+        print();
+        System.out.print("FILLED ALL DIRECTIONS");
     }
 
     public void updateBlues()
@@ -351,7 +381,7 @@ public class Tablero
         }
     }
 
-    //Comprueba el espacio disponible desde esta posicion, tanto el numero total como en cada direccion
+    //Comprueba el espacio disponible desde esta posicion (contando azules numeradas tambien), tanto el numero total como en cada direccion
     //El indice [0] es el total, [1] Arriba, [2] Abajo, [3] Izquierda y [4] Derecha
     public Vector<Integer> checkSpace(int x, int y)
     {
@@ -371,15 +401,18 @@ public class Tablero
             while (!barrier)
             {
                 String value;
-                if (i < 2){ value = tablero.get(y + j * sign).get(x);}
-                else { value = tablero.get(y).get(x + j * sign);}
+                if (i < 2){
+                    value = tablero.get(x + j * sign).get(y);}
+                else {
+                    value = tablero.get(x).get(y + j * sign);}
 
-                if (value == "X") barrier = true;
+                if (value == "X")
+                    barrier = true;
                 else
-                {
                     directionSpace++;
-                    j++;
-                }
+
+                j++;
+
             }
 
             barrier = false;
@@ -411,12 +444,16 @@ public class Tablero
             while (!barrier)
             {
                 String value;
-                if (i < 2) value = tablero.get(y + j * sign).get(x);
-                else value = tablero.get(y).get(x + j * sign);
+                if (i < 2)
+                    value = tablero.get(x + j * sign).get(y);
+                else
+                    value = tablero.get(x).get(y + j * sign);
 
-                if (value == "X") barrier = true;
+                if (value == "X" || value == " ") //cualquier cosa que no sea una seguidilla de azules no debe sumar el numero de visibles.
+                                                // Aka: casilla-azul-espacio-azul = 1 visible, no dos (el espacio del medio no es nada)
+                    barrier = true;
 
-                else if (value != " ")
+                else
                 {
                     directionBlues++;
                     totalBlues++;
@@ -432,6 +469,7 @@ public class Tablero
         blues.add(0,totalBlues);
         return blues;
     }
+/*
 
     public Vector<Integer> checkAdjacentBlues(int x, int y)
     {
@@ -451,8 +489,8 @@ public class Tablero
             while (!flag)
             {
                 String value;
-                if (i < 2) value = tablero.get(y + j * sign).get(x);
-                else value = tablero.get(y).get(x + j * sign);
+                if (i < 2) value = tablero.get(x + j * sign).get(y);
+                else value = tablero.get(x).get(y + j * sign);
 
                 if (value == "X" || value == " ") flag = true;
 
@@ -472,6 +510,7 @@ public class Tablero
         blues.add(0,totalBlues);
         return blues;
     }
+*/
 
     //Utilizado en la pista dos, cuenta el numero de azules posibles si la primera casilla vacia en una dirección fuera azul
     public int countPossibleBlues(int direction, int x, int y)

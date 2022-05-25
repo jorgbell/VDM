@@ -16,7 +16,7 @@ public class Pistas
     //“cerrar”, es decir, poner paredes en los extremos.
     Boolean PistaUno(NBlue b)
     {
-        return _myTablero.checkAdjacentBlues(b.pos._first, b.pos._sec).get(0) == b.value;
+        return _myTablero.checkBlues(b.pos._first, b.pos._sec).get(0) == b.value;
     }
 
     //Si pusiéramos un punto azul en una celda vacía, superaríamos el número de visibles
@@ -131,7 +131,7 @@ public class Pistas
     //que es un futuro error
     Boolean PistaDiez(NBlue b)
     {
-        return b.space.get(0) < b.value;
+        return (b.space.get(0) + b.visibleBlues.get(0)) < b.value;
     }
 
     //VARIABLES PRIVADAS
