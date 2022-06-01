@@ -157,12 +157,56 @@ public class Tablero
 
         //contenedor del resultado provisional
         Vector<NBlue> provisionalNBlues = new Vector<NBlue>();
+        Vector<pair<Integer>> provisionalBlues = new Vector<pair<Integer>>();
         //copia de seguridad de los espacios vacios
         Vector<pair<Integer>> freeSpaceCopy = new Vector<pair<Integer>>();
         freeSpaceCopy.addAll(freeSpace);
 
         while(nBlues < minBlues){ //mientras no se haya superado el minimo de azules iniciales requerido, hace una interacion hasta conseguirlo
+            //NUEVO METODO PARA CREAR AZULES:
+            //Cuando pilla una vacía (segun la probabilidad) la mete a fija
+            //Mira cuanto espacio tiene disponible que no sean azules y mete un numero aleatorio en esos limites
+            // Quita de las vacías las que tenga adyacentes (las pone como azules)
+            //Mira la siguiente vacia
+            //Repetir hasta que se acaben las vacias
+
             provisionalNBlues.clear();
+            freeSpace.clear();
+            freeSpace.addAll(freeSpaceCopy);
+            nBlues = 0;
+            int i = 0;
+            //Recorremos las casillas que no tienen barreras
+            while (i<freeSpace.size()) //mientras aun queden espacios por recorrer Y no se haya superado el maximo de azules requerido
+            {
+                pair<Integer> pos = new pair<Integer>(freeSpace.get(i)._sec, freeSpace.get(i)._first);
+                //ELIMINA DE LA LISTA DE POSIBLES TODOS LOS MARCADOS COMO AZULES NO FIJOS
+                if(tablero.get(pos._first).get(pos._sec) == ".") {
+                    freeSpace.remove(i);
+                }
+                else{
+                    Vector<Integer> space = checkSpace(pos._first, pos._sec);
+
+                    //Comprobamos que haya espacio, y si es asi hay una probabilidad de poner una casilla numerada
+                    int prob = rand.nextInt(10);
+                    if (space.get(0) > 0) /*&& prob < 1) //10% de probabilidades de crear un numero inicial*/
+                    {
+                        //El valor maximo es el menor entre el espacio y el tamaño del tablero
+                        Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
+                        String s = String.valueOf(value);
+                        NBlue casilla = new NBlue(pos, value, space);
+                        provisionalNBlues.add(casilla); //aniadimos una casilla azul al vector que cuenta las casillas azules que hay
+                        //MARCA COMO AZULES NO FIJOS TODOS LOS QUE VEA
+                        fillAllDirections(casilla);
+                        freeSpace.remove(i); //no pasa nada si este bucle da un tablero incorrecto, porque al inicio del siguiente recuperaremos la copia de seguridad de los espacios vacios
+                        nBlues++;
+                    }//if(space...
+                    else
+                        i++;
+                }//else
+            }//while (i<freeSpace....
+        } //while( nBlues<minBl...
+/************************************************************************************************************/
+            /*provisionalNBlues.clear();
             freeSpace.clear();
             freeSpace.addAll(freeSpaceCopy);
             nBlues = 0;
@@ -183,6 +227,7 @@ public class Tablero
                     Integer value = 1 + rand.nextInt(Math.min(size, space.get(0)));
                     String s = String.valueOf(value);
                     provisionalNBlues.add(new NBlue(pos, value, space)); //aniadimos una casilla azul al vector que cuenta las casillas azules que hay
+                    //cambia a un puntito todas las adyacentes hasta llegar a un muro
                     freeSpace.remove(i); //no pasa nada si este bucle da un tablero incorrecto, porque al inicio del siguiente recuperaremos la copia de seguridad de los espacios vacios
                     nBlues++;
                 }
@@ -190,14 +235,29 @@ public class Tablero
                     i++;
             }
 
-        }
+        }*/
 
         //casillas fijas correctas. Procedemos a añadirlas al tablero.
         for (NBlue nblue: provisionalNBlues) {
             tablero.get(nblue.pos._first).set(nblue.pos._sec,String.valueOf(nblue.value));
             numberedBlues.add(nblue);
         }
+        undoTablero();
     }
+
+    //Borra todas las casillas que no sean fijas, las deja en vacias.
+    void undoTablero(){
+        for (int i = 1; i < size + 1; i++) //fila
+        {
+            for (int j = 1; j < size + 1; j++) //columna
+            {
+                String value = tablero.get(i).get(j);
+                if(value == "." || value == "-")
+                    tablero.get(i).set(j," ");
+            }
+        }
+    }
+
 
     //Marca como barreras los espacios encerrados y los elimina de la lista de espacios
     private void fillGaps()
@@ -218,7 +278,7 @@ public class Tablero
             }
             else i++;
         }
-        minBlues = freeSpace.size() - (int)(freeSpace.size()*0.95);
+        minBlues = freeSpace.size() - (int)(freeSpace.size()*0.85);
         //numero maximo de azules iniciales = como maximo puede haber un tercio del total de espacios libres
         maxBlues = freeSpace.size()/3;
     }

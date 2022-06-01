@@ -16,7 +16,7 @@ public class GameLogic extends AbstractGame {
     @Override
     public boolean init() {
         //carga de recursos
-        _myTablero = new Tablero(10);
+        _myTablero = new Tablero(7);
         _myTablero.print();
         return true;
     }
